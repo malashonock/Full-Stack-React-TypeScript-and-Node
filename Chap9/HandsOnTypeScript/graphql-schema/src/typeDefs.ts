@@ -19,6 +19,10 @@ const typeDefs = `#graphql
   type Mutation {
     addTodo(title: String!, description: String): Todo
   }
+
+  type Subscription {
+    newTodo: Todo!
+  }
 `;
 
 export default typeDefs;

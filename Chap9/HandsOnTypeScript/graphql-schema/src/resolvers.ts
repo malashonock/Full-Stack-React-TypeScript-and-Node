@@ -1,7 +1,7 @@
 import { IResolvers } from '@graphql-tools/utils';
 import * as uuid from 'uuid';
 
-import { GqlContext, Todo, User } from './types/index.js';
+import { GqlContext, Todo, User, Subscriptions } from './types/index.js';
 import { todos } from './db.js';
 
 const resolvers: IResolvers = {
@@ -50,17 +50,31 @@ const resolvers: IResolvers = {
         title: string,
         description?: string,
       },
-      context: GqlContext,
+      { pubsub }: GqlContext,
       info: any,
     ): Promise<Todo> => {
-      todos.push({
+      const newTodo: Todo = {
         id: uuid.v4(),
         title: args.title,
         description: args.description,
-      });
-      return todos.at(-1)!;
+      };
+      todos.push(newTodo);
+      pubsub.publish(Subscriptions.NEW_TODO, { newTodo });
+      return newTodo;
     },
   },
+  Subscription: {
+    newTodo: {
+      subscribe: (
+        parent: any,
+        args: null,
+        { pubsub }: GqlContext,
+        info: any,
+      ) => {
+        return pubsub.asyncIterator(Subscriptions.NEW_TODO);
+      },
+    }
+  }
 };
 
 export default resolvers;
