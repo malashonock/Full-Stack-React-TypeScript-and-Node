@@ -1,15 +1,15 @@
 import { IResolvers } from '@graphql-tools/utils';
 import * as uuid from 'uuid';
 
-import { GqlContext, Todo, User, Subscriptions } from './types/index.js';
-import { todos } from './db.js';
+import { GqlContext, Todo, User, Subscriptions } from './types';
+import { todos } from './db';
 
 const resolvers: IResolvers = {
   Query: {
     getUser: async (
       parent: any,
       args: {
-        id: string,
+        id: string;
       },
       context: GqlContext,
       info: any,
@@ -47,8 +47,8 @@ const resolvers: IResolvers = {
     addTodo: async (
       parent: any,
       args: {
-        title: string,
-        description?: string,
+        title: string;
+        description?: string;
       },
       { pubsub }: GqlContext,
       info: any,
@@ -73,8 +73,8 @@ const resolvers: IResolvers = {
       ) => {
         return pubsub.asyncIterator(Subscriptions.NEW_TODO);
       },
-    }
-  }
+    },
+  },
 };
 
 export default resolvers;

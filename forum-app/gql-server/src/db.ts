@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
 
-import { Todo } from './types/index.js';
+import { Todo } from './types';
 
 export const todos: Todo[] = [
   {
