@@ -25,6 +25,7 @@ const resolvers: IResolvers = {
       context: GqlContext,
       info: any,
     ): Promise<Todo[]> => {
+      console.log('Running getTodos resolver');
       return Promise.resolve([
         {
           id: uuid.v4(),

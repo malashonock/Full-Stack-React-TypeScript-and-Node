@@ -11,8 +11,10 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import { PubSub } from 'graphql-subscriptions';
 
 import resolvers from './resolvers';
+import { log } from './Logger';
 import typeDefs from './typeDefs';
 import { GqlContext } from './types';
+import { applyMiddleware } from 'graphql-middleware';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -21,6 +23,8 @@ const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
+
+const schemaWithMiddleware = applyMiddleware(schema, log);
 
 export const pubsub = new PubSub();
 
@@ -31,14 +35,14 @@ const wsServer = new WebSocketServer({
 
 const serverCleanup = useServer(
   {
-    schema,
+    schema: schemaWithMiddleware,
     context: async (): Promise<GqlContext> => ({ pubsub }),
   },
   wsServer,
 );
 
 const apolloServer = new ApolloServer({
-  schema,
+  schema: schemaWithMiddleware,
   context: (): GqlContext => ({ pubsub }),
   plugins: [
     // Proper shutdown for the HTTP server.
