@@ -23,7 +23,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write --ignore-unknown .",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "husky:prepare": "cd ../.. && husky install ./forum-app/client/.husky"
   },
   "eslintConfig": {
     "extends": [
@@ -42,5 +47,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "prettier": "^2.8.6",
+    "sass": "^1.59.3"
+  },
+  "lint-staged": {
+    "**/*": "npm run format:fix",
+    "*.{ts,tsx}": "npm run lint:fix"
   }
 }
