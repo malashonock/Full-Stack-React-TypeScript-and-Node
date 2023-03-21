@@ -4,8 +4,6 @@ import { useWindowDimensions } from 'hooks';
 import { Category } from 'model';
 import { getCategories } from 'services';
 
-import './LeftMenu.scss';
-
 export const LeftMenu = () => {
   const [categories, setCategories] = useState<Category[] | null>(null);
   const { width } = useWindowDimensions();

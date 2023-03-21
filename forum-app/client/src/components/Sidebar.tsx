@@ -1,3 +1,4 @@
+import { Menu } from 'components';
 import { useWindowDimensions } from 'hooks';
 
 export const Sidebar = () => {
@@ -7,5 +8,9 @@ export const Sidebar = () => {
     return null;
   }
 
-  return <aside className="sidebar">Sidebar</aside>;
+  return (
+    <aside className="sidebar">
+      <Menu />
+    </aside>
+  );
 };
