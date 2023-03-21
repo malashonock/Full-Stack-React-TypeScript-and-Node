@@ -25,9 +25,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format:check": "prettier --check .",
-    "format:fix": "prettier --write --ignore-unknown .",
+    "format:fix": "prettier --write --ignore-unknown",
     "lint:check": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint:fix": "eslint --fix",
     "husky:prepare": "cd ../.. && husky install ./forum-app/client/.husky"
   },
   "eslintConfig": {
