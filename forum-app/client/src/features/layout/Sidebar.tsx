@@ -1,4 +1,4 @@
-import { Menu } from 'components';
+import { Menu } from 'features/layout';
 import { useWindowDimensions } from 'hooks';
 
 export const Sidebar = () => {

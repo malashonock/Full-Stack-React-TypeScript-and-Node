@@ -1,7 +1,7 @@
-import { MobileMenu } from 'components/MobileMenu';
-import { useWindowDimensions } from 'hooks';
 import { useState } from 'react';
-import { BurgerButton } from '../BurgerButton/BurgerButton';
+
+import { MobileMenu, BurgerButton } from 'features/layout';
+import { useWindowDimensions } from 'hooks';
 
 import './Nav.scss';
 

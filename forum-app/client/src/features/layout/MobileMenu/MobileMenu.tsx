@@ -1,5 +1,6 @@
-import { Menu } from 'components/Menu';
 import ReactModal from 'react-modal';
+
+import { Menu } from 'features/layout';
 
 interface MobileMenuProps {
   isOpen: boolean;

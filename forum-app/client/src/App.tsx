@@ -1,4 +1,4 @@
-import { LeftMenu, Main, Nav, RightMenu, Sidebar } from 'components';
+import { LeftMenu, Main, Nav, RightMenu, Sidebar } from 'features/layout';
 
 import './App.scss';
 
