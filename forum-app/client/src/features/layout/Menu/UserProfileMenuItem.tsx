@@ -19,7 +19,7 @@ export const UserProfileMenuItem = () => {
   }, [dispatch, logIn]);
 
   return (
-    <MenuItem icon={faUser} key="menu-user-profile">
+    <MenuItem icon={faUser} name="menu-user-profile">
       {loggedUser?.name}
     </MenuItem>
   );

@@ -1,22 +1,25 @@
 import ReactModal from 'react-modal';
 
-import { Menu } from 'features/layout';
+import { RegistrationForm } from './RegistrationForm';
 
-interface MobileMenuProps {
+interface RegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
+export const RegistrationModal = ({
+  isOpen,
+  onClose,
+}: RegistrationModalProps) => {
   return (
     <ReactModal
       isOpen={isOpen}
       onRequestClose={onClose}
-      shouldCloseOnOverlayClick
       shouldCloseOnEsc
+      shouldCloseOnOverlayClick
       appElement={document.querySelector('#root') as HTMLElement}
     >
-      <Menu />
+      <RegistrationForm />
     </ReactModal>
   );
 };
