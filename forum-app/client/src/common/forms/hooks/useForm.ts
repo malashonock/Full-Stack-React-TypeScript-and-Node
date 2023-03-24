@@ -65,8 +65,7 @@ export const useForm = <TFields extends FormFields>({
 
   const registerForm = (): ControlledFormProps<TFields> => {
     return {
-      values,
-      validators: validationSchema ? validationSchema.form : undefined,
+      state,
       dispatch,
       onSubmit: handleSubmit,
     };

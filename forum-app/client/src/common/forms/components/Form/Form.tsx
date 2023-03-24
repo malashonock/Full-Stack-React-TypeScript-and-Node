@@ -1,7 +1,12 @@
 import { PropsWithChildren, useEffect } from 'react';
 import cn from 'classnames';
 
-import { ControlledFormProps, FormActionType, FormFields } from '../../types';
+import {
+  ControlledFormProps,
+  FormActionType,
+  FormFields,
+  FormState,
+} from 'common/forms/types';
 import { ValidationResult } from 'common/validation/types';
 
 import './Form.scss';
@@ -11,20 +16,21 @@ type FormProps<TFields extends FormFields> = ControlledFormProps<TFields> & {
 };
 
 export const Form = <TFields extends FormFields>({
-  values,
-  validators,
+  state,
   dispatch,
   onSubmit,
   classNames,
   children,
 }: PropsWithChildren<FormProps<TFields>>) => {
+  const validators = state.validationSchema?.form;
+
   const runFormLevelValidators = (): void => {
     const hasValidators = !!validators && validators.length > 0;
 
     if (hasValidators) {
-      let validationResult: ValidationResult<TFields> = {
+      let validationResult: ValidationResult<FormState<TFields>> = {
         isValid: true,
-        value: values,
+        value: state,
       };
 
       let i = 0;
@@ -44,7 +50,7 @@ export const Form = <TFields extends FormFields>({
 
   useEffect(() => {
     runFormLevelValidators();
-  }, [values]);
+  }, [state.values]);
 
   return (
     <form

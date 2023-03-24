@@ -1,9 +1,7 @@
-import { FormFields, FormDispatch } from '.';
-import { FormValidator } from 'common/validation/types';
+import { FormFields, FormDispatch, FormState } from '.';
 
 export type ControlledFormProps<TFields extends FormFields> = {
-  values: TFields;
-  validators?: Array<FormValidator<TFields>>;
+  state: FormState<TFields>;
   dispatch: FormDispatch<TFields>;
   onSubmit: React.FormEventHandler<HTMLFormElement>;
 };

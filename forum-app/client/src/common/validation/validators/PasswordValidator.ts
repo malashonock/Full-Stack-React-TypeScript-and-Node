@@ -1,4 +1,4 @@
-import { FormFields } from 'common/forms';
+import { FormFields, FormState } from 'common/forms';
 import { FieldValidator, FormValidator, ValidationResult } from '../types';
 
 export const isLongEnough: FieldValidator<string> = (fieldLabel, password) => {
@@ -87,19 +87,18 @@ export const doPasswordsMatch = <TFields extends FormFields>(
   pwdFieldName1: keyof TFields,
   pwdFieldName2: keyof TFields,
 ): FormValidator<TFields> => {
-  type PasswordFields = typeof pwdFieldName1 | typeof pwdFieldName2;
+  return (state: FormState<TFields>): ValidationResult<FormState<TFields>> => {
+    const { values, touched } = state;
 
-  return (values: TFields): ValidationResult<Pick<TFields, PasswordFields>> => {
-    const pwd1 = values[pwdFieldName1];
-    const pwd2 = values[pwdFieldName2];
+    const match =
+      values[pwdFieldName1] == values[pwdFieldName2] ||
+      !touched[pwdFieldName1] ||
+      !touched[pwdFieldName2];
 
-    return pwd1 === pwd2
+    return match
       ? {
           isValid: true,
-          value: {
-            [pwdFieldName1]: pwd1,
-            [pwdFieldName2]: pwd2,
-          } as Pick<TFields, PasswordFields>,
+          value: state,
         }
       : {
           isValid: false,

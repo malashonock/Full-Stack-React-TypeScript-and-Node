@@ -1,6 +1,6 @@
 import { ValidationResult } from '.';
-import { FormFields } from 'common/forms';
+import { FormFields, FormState } from 'common/forms';
 
 export type FormValidator<TFields extends FormFields> = (
-  values: TFields,
-) => ValidationResult<TFields>;
+  formState: FormState<TFields>,
+) => ValidationResult<FormState<TFields>>;
