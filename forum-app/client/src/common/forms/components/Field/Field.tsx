@@ -1,11 +1,14 @@
-import { useForm } from '../hooks';
+import cn from 'classnames';
+
 import {
   ControlledInputProps,
   FormAction,
   FormActionType,
   FormFields,
-} from '../types';
+} from '../../types';
 import { ValidationResult } from 'common/validation/types';
+
+import './Field.scss';
 
 type FormFieldProps<TFields extends FormFields> =
   ControlledInputProps<TFields> &
@@ -18,6 +21,12 @@ type FormFieldProps<TFields extends FormFields> =
           : TFields[FieldName & string] extends number | null
           ? 'number'
           : 'text' | 'email' | 'password' | 'tel';
+        classNames?: {
+          container?: string;
+          label?: string;
+          input?: string;
+          helper?: string;
+        };
       };
     }[keyof TFields];
 
@@ -29,6 +38,7 @@ export const Field = <TFields extends FormFields>({
   error,
   validators,
   dispatch,
+  classNames,
 }: FormFieldProps<TFields>) => {
   type TValue = TFields[typeof name];
 
@@ -102,21 +112,25 @@ export const Field = <TFields extends FormFields>({
   };
 
   return (
-    <div className="form__field field">
-      <label htmlFor={name} className="field__label">
+    <div className={cn('form__field', 'field', classNames?.container)}>
+      <label htmlFor={name} className={cn('field__label', classNames?.label)}>
         {label}
       </label>
       <input
         type={type}
         id={name}
         name={name}
-        className="field__input"
+        className={cn('field__input', classNames?.input, {
+          'field__input--error': error,
+        })}
         value={stringifyInputValue(value)}
         onChange={handleChange}
         onFocus={handleFocus}
         autoComplete="off"
       />
-      {error ? <p className="field__helper-text">{error}</p> : null}
+      {error ? (
+        <p className={cn('field__helper-text', classNames?.helper)}>{error}</p>
+      ) : null}
     </div>
   );
 };

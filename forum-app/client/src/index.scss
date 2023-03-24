@@ -1,7 +1,13 @@
-body {
+body,
+p {
   margin: 0;
 }
 
 ul {
   list-style: none;
+}
+
+button,
+a {
+  cursor: pointer;
 }

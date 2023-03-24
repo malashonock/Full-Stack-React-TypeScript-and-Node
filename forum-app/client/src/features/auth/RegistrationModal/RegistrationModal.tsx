@@ -1,6 +1,7 @@
 import ReactModal from 'react-modal';
 
-import { RegistrationForm } from './RegistrationForm';
+import { RegistrationForm } from '../RegistrationForm';
+import styles from './RegistrationModal.style';
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export const RegistrationModal = ({
       shouldCloseOnEsc
       shouldCloseOnOverlayClick
       appElement={document.querySelector('#root') as HTMLElement}
+      style={styles}
     >
       <RegistrationForm />
     </ReactModal>

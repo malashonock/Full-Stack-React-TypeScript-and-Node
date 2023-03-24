@@ -1,0 +1,26 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+
+  &__label {
+    font-weight: bold;
+  }
+
+  &__input {
+    padding: 0.5rem;
+    border: 2px solid gray;
+    border-radius: 0.3rem;
+    outline-color: royalblue;
+
+    &--error {
+      border-color: red;
+      outline-color: red;
+    }
+  }
+
+  &__helper-text {
+    color: red;
+    font-size: 0.9rem;
+  }
+}

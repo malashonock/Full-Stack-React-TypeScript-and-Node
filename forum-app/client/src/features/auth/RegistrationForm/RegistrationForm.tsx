@@ -5,6 +5,8 @@ import {
   validationSchema,
 } from './RegistrationFormConfig';
 
+import './RegistrationForm.scss';
+
 export const RegistrationForm = () => {
   const {
     state: { errors },
@@ -18,46 +20,51 @@ export const RegistrationForm = () => {
   });
 
   return (
-    <Form {...registerForm()}>
-      <Field
-        type="text"
-        label="User name"
-        name="userName"
-        {...registerField('userName')}
-      />
-      <Field
-        type="email"
-        label="Email"
-        name="email"
-        {...registerField('email')}
-      />
-      <Field
-        type="password"
-        label="Password"
-        name="password"
-        {...registerField('password')}
-      />
-      <Field
-        type="password"
-        label="Confirm password"
-        name="passwordConfirm"
-        {...registerField('passwordConfirm')}
-      />
-      <footer className="form__footer">
-        <div className="form__buttons">
+    <Form {...registerForm()} classNames="registration-form">
+      <main className="registration-form__inputs">
+        <Field
+          type="text"
+          label="User name"
+          name="userName"
+          {...registerField('userName')}
+        />
+        <Field
+          type="email"
+          label="Email"
+          name="email"
+          {...registerField('email')}
+        />
+        <Field
+          type="password"
+          label="Password"
+          name="password"
+          {...registerField('password')}
+        />
+        <Field
+          type="password"
+          label="Confirm password"
+          name="passwordConfirm"
+          {...registerField('passwordConfirm')}
+        />
+      </main>
+      <footer className="registration-form__footer">
+        <div className="registration-form__buttons">
           <button
             type="submit"
             disabled={!canSubmit}
-            className="form__button form__button--registerField"
+            className="registration-form__button registration-form__button--submit"
           >
             Register
           </button>
-          <button type="button" className="form__button form__button--close">
+          <button
+            type="button"
+            className="registration-form__button registration-form__button--close"
+          >
             Close
           </button>
         </div>
         {errors.form ? (
-          <div className="form__helper-text">{errors.form}</div>
+          <div className="registration-form__helper-text">{errors.form}</div>
         ) : null}
       </footer>
     </Form>
