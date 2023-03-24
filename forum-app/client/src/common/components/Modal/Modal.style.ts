@@ -1,6 +1,6 @@
 const styles: ReactModal.Styles = {
   content: {
-    maxWidth: '640px',
+    maxWidth: '500px',
     margin: '0 auto',
   },
 };

@@ -2,26 +2,26 @@ import { useState } from 'react';
 import { faRegistered } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuItem } from '../MenuItem';
-import { RegistrationModal } from 'features/auth';
+import { RegistrationForm } from 'features/auth';
 
 export const RegisterMenuItem = () => {
-  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
 
-  const openRegisterModal = () => setShowRegistrationModal(true);
-  const closeRegisterModal = () => setShowRegistrationModal(false);
+  const openRegistrationForm = () => setShowRegistrationForm(true);
+  const closeRegistrationForm = () => setShowRegistrationForm(false);
 
   return (
     <>
       <MenuItem
         icon={faRegistered}
         name="menu-register"
-        onClick={openRegisterModal}
+        onClick={openRegistrationForm}
       >
         Register
       </MenuItem>
-      <RegistrationModal
-        isOpen={showRegistrationModal}
-        onClose={closeRegisterModal}
+      <RegistrationForm
+        isOpen={showRegistrationForm}
+        onClose={closeRegistrationForm}
       />
     </>
   );

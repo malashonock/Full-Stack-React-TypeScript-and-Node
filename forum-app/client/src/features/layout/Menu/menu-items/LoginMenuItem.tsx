@@ -2,20 +2,20 @@ import { useState } from 'react';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { MenuItem } from '../MenuItem';
-import { LoginModal } from 'features/auth';
+import { LoginForm } from 'features/auth';
 
 export const LoginMenuItem = () => {
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
 
-  const openLoginModal = () => setShowLoginModal(true);
-  const closeLoginModal = () => setShowLoginModal(false);
+  const openLoginForm = () => setShowLoginForm(true);
+  const closeLoginForm = () => setShowLoginForm(false);
 
   return (
     <>
-      <MenuItem icon={faSignInAlt} name="menu-login" onClick={openLoginModal}>
+      <MenuItem icon={faSignInAlt} name="menu-login" onClick={openLoginForm}>
         Log in
       </MenuItem>
-      <LoginModal isOpen={showLoginModal} onClose={closeLoginModal} />
+      <LoginForm isOpen={showLoginForm} onClose={closeLoginForm} />
     </>
   );
 };

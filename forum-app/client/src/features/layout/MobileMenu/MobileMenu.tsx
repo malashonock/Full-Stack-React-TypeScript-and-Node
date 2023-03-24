@@ -1,5 +1,4 @@
-import ReactModal from 'react-modal';
-
+import { Modal } from 'common/components';
 import { Menu } from 'features/layout';
 
 interface MobileMenuProps {
@@ -9,14 +8,8 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={onClose}
-      shouldCloseOnOverlayClick
-      shouldCloseOnEsc
-      appElement={document.querySelector('#root') as HTMLElement}
-    >
+    <Modal isOpen={isOpen} onClose={onClose}>
       <Menu />
-    </ReactModal>
+    </Modal>
   );
 };
