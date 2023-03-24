@@ -1,20 +1,10 @@
-import ReactModal from 'react-modal';
-
-import { ModalProps } from 'common/types';
+import { Modal, ModalProps } from 'common/components';
 import { LoginForm } from '../LoginForm';
-import styles from './LoginModal.style';
 
 export const LoginModal = ({ isOpen, onClose }: ModalProps) => {
   return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={onClose}
-      shouldCloseOnEsc
-      shouldCloseOnOverlayClick
-      appElement={document.querySelector('#root') as HTMLElement}
-      style={styles}
-    >
+    <Modal isOpen={isOpen} onClose={onClose}>
       <LoginForm />
-    </ReactModal>
+    </Modal>
   );
 };
