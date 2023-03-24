@@ -17,7 +17,7 @@ export const MenuItem = ({
   children,
 }: PropsWithChildren<MenuItemProps>) => {
   return (
-    <li key={name} className="menu-item" onClick={onClick}>
+    <li key={name} className="menu__item" onClick={onClick}>
       <FontAwesomeIcon icon={icon} />
       <span className="menu-item-text">{children}</span>
     </li>

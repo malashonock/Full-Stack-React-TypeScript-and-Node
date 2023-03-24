@@ -1,17 +1,10 @@
 import ReactModal from 'react-modal';
 
+import { ModalProps } from 'common/types';
 import { RegistrationForm } from '../RegistrationForm';
 import styles from './RegistrationModal.style';
 
-interface RegistrationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const RegistrationModal = ({
-  isOpen,
-  onClose,
-}: RegistrationModalProps) => {
+export const RegistrationModal = ({ isOpen, onClose }: ModalProps) => {
   return (
     <ReactModal
       isOpen={isOpen}

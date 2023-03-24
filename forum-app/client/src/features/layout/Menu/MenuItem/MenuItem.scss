@@ -1,4 +1,7 @@
-.menu-item {
-  display: flex;
-  column-gap: 0.5rem;
+.menu {
+  &__item {
+    display: flex;
+    column-gap: 0.5rem;
+    cursor: pointer;
+  }
 }

@@ -3,7 +3,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { logIn, selectLoggedUser } from 'store/slices/authSlice';
-import { MenuItem } from './MenuItem';
+import { MenuItem } from '../MenuItem';
 
 export const UserProfileMenuItem = () => {
   const loggedUser = useAppSelector(selectLoggedUser);

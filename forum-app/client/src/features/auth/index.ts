@@ -1,2 +1,2 @@
-export * from './RegistrationForm';
-export * from './RegistrationModal';
+export * from './registration';
+export * from './login';
