@@ -12,4 +12,11 @@ export type FormAction<TFields extends FormFields> =
       type: FormActionType.Validation;
       field: keyof TFields | 'form';
       message: string;
+    }
+  | {
+      type: FormActionType.Focus | FormActionType.Blur;
+      field: keyof TFields;
+    }
+  | {
+      type: FormActionType.Reset;
     };

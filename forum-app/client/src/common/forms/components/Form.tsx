@@ -7,6 +7,7 @@ export const Form = <TFields extends FormFields>({
   values,
   validators,
   dispatch,
+  onSubmit,
   children,
 }: PropsWithChildren<ControlledFormProps<TFields>>) => {
   const runFormLevelValidators = (): void => {
@@ -38,7 +39,7 @@ export const Form = <TFields extends FormFields>({
   }, [values]);
 
   return (
-    <form className="form" autoComplete="off">
+    <form className="form" onSubmit={onSubmit} autoComplete="off">
       {children}
     </form>
   );

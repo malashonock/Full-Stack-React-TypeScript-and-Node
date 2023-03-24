@@ -1,54 +1,20 @@
-import { Field, Form, FormState, useForm } from 'common/forms';
+import { Field, Form, useForm } from 'common/forms';
 import {
-  containsDigits,
-  containsLowercaseLetters,
-  containsSpecialChars,
-  containsUppercaseLetters,
-  doPasswordsMatch,
-  isLongEnough,
-  isRequired,
-  isValidEmail,
-} from 'common/validation/validators';
-
-type RegistrationFormFields = {
-  userName: string;
-  password: string;
-  passwordConfirm: string;
-  email: string;
-};
-
-type RegistrationFormState = FormState<RegistrationFormFields>;
-
-const initialValues: RegistrationFormFields = {
-  userName: '',
-  email: '',
-  password: '',
-  passwordConfirm: '',
-};
-
-const validationSchema: RegistrationFormState['validationSchema'] = {
-  userName: [isRequired],
-  email: [isRequired, isValidEmail],
-  password: [
-    isRequired,
-    isLongEnough,
-    containsUppercaseLetters,
-    containsLowercaseLetters,
-    containsDigits,
-    containsSpecialChars,
-  ],
-  form: [doPasswordsMatch('password', 'passwordConfirm')],
-};
+  initialValues,
+  onSubmit,
+  validationSchema,
+} from './RegistrationFormConfig';
 
 export const RegistrationForm = () => {
   const {
-    state: { values, errors },
-    dispatch,
+    state: { errors },
     registerField,
     registerForm,
+    canSubmit,
   } = useForm({
     initialValues,
     validationSchema,
+    onSubmit,
   });
 
   return (
@@ -81,6 +47,7 @@ export const RegistrationForm = () => {
         <div className="form__buttons">
           <button
             type="submit"
+            disabled={!canSubmit}
             className="form__button form__button--registerField"
           >
             Register

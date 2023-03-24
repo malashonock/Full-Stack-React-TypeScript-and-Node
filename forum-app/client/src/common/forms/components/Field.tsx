@@ -94,6 +94,13 @@ export const Field = <TFields extends FormFields>({
     validateField(value);
   };
 
+  const handleFocus = (): void => {
+    dispatch({
+      type: FormActionType.Focus,
+      field: name,
+    });
+  };
+
   return (
     <div className="form__field field">
       <label htmlFor={name} className="field__label">
@@ -106,6 +113,7 @@ export const Field = <TFields extends FormFields>({
         className="field__input"
         value={stringifyInputValue(value)}
         onChange={handleChange}
+        onFocus={handleFocus}
         autoComplete="off"
       />
       {error ? <p className="field__helper-text">{error}</p> : null}

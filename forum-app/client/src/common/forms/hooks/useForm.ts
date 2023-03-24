@@ -3,6 +3,7 @@ import { useReducer } from 'react';
 import {
   ControlledFormProps,
   ControlledInputProps,
+  FormActionType,
   FormContext,
   FormDispatch,
   FormFields,
@@ -13,6 +14,7 @@ import { formReducer } from '../reducers';
 interface UseFormParams<TFields extends FormFields> {
   initialValues: TFields;
   validationSchema?: FormState<TFields>['validationSchema'];
+  onSubmit: (values: TFields) => void;
 }
 
 interface UseFormResult<TFields extends FormFields> {
@@ -20,23 +22,29 @@ interface UseFormResult<TFields extends FormFields> {
   dispatch: FormDispatch<TFields>;
   registerField: (name: keyof TFields) => ControlledInputProps<TFields>;
   registerForm: () => ControlledFormProps<TFields>;
+  canSubmit: boolean;
+  resetForm: () => void;
 }
 
 export const useForm = <TFields extends FormFields>({
   initialValues,
   validationSchema,
+  onSubmit,
 }: UseFormParams<TFields>): UseFormResult<TFields> => {
   const initialState: FormState<TFields> = {
     values: initialValues,
     validationSchema,
     errors: {},
+    touched: {},
+    dirty: {},
   };
 
   const [state, dispatch] = useReducer(
     formReducer,
-    initialState as any,
+    null,
+    () => initialState as any,
   ) as FormContext<TFields>;
-  const { values, errors } = state;
+  const { values, errors, dirty } = state;
 
   const registerField = (
     name: keyof TFields,
@@ -49,18 +57,34 @@ export const useForm = <TFields extends FormFields>({
     } as ControlledInputProps<TFields>;
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit(values);
+    resetForm();
+  };
+
   const registerForm = (): ControlledFormProps<TFields> => {
     return {
       values,
       validators: validationSchema ? validationSchema.form : undefined,
       dispatch,
+      onSubmit: handleSubmit,
     };
   };
+
+  const canSubmit = !!dirty.form && Object.entries(errors).length === 0;
+
+  const resetForm = () =>
+    dispatch({
+      type: FormActionType.Reset,
+    });
 
   return {
     state,
     dispatch,
     registerField,
     registerForm,
+    canSubmit,
+    resetForm,
   };
 };

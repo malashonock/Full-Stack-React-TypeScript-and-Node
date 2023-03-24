@@ -6,6 +6,12 @@ export interface FormState<TFields extends FormFields> {
   errors: {
     [FieldName in keyof TFields | 'form']?: string;
   };
+  touched: {
+    [FieldName in keyof TFields | 'form']?: boolean;
+  };
+  dirty: {
+    [FieldName in keyof TFields | 'form']?: boolean;
+  };
   validationSchema?: {
     [FieldName in keyof TFields]?: Array<FieldValidator<TFields[FieldName]>>;
   } & {
