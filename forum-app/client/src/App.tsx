@@ -1,16 +1,19 @@
-import { LeftMenu, Main, Nav, RightMenu, Sidebar } from 'features/layout';
+import { Home } from 'features/routes';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './App.scss';
 
 export const App = () => {
   return (
-    <div className="App">
-      <Nav />
-      <Sidebar />
-      <LeftMenu />
-      <Main />
-      <RightMenu />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route path="categorythreads">
+            <Route path=":categoryId" element={<Home />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
