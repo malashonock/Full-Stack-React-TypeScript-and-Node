@@ -1,11 +1,9 @@
-export interface IForumPost {
+export interface ForumPost {
   id: string;
   userId: string;
   userName: string;
   viewsCount: number;
   likesCount: number;
   createdOn: Date;
-  lastModifiedOn?: Date;
-  title?: string;
   body: string;
 }

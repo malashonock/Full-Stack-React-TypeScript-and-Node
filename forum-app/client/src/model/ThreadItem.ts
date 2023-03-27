@@ -1,14 +1,5 @@
-import { IForumPost } from '.';
+import { ForumPost } from '.';
 
-export class ThreadItem implements IForumPost {
-  constructor(
-    public id: string,
-    public viewsCount: number,
-    public likesCount: number,
-    public body: string,
-    public userName: string,
-    public userId: string,
-    public createdOn: Date,
-    public threadId: string,
-  ) {}
+export interface ThreadItem extends ForumPost {
+  threadId: string;
 }
