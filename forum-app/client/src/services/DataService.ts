@@ -1,15 +1,22 @@
-import { Category } from 'model';
+import { Category, Thread } from 'model';
+import { mockCategories, mockCategory1, mockCategory1Threads } from './mocks';
 
 export const getCategories = async (): Promise<Category[]> => {
-  const categories = [
-    { id: 'cat-aaa', title: 'Programming' },
-    { id: 'cat-bbb', title: 'Cooking' },
-    { id: 'cat-ccc', title: 'Sports' },
-    { id: 'cat-ddd', title: 'Entertainmenmt' },
-    { id: 'cat-eee', title: 'Travel' },
-  ];
-
   return new Promise((resolve) => {
-    setTimeout(() => resolve(categories), 2_000);
+    setTimeout(() => resolve(mockCategories), 1_000);
   });
 };
+
+export const getCategoryById = async (id: string): Promise<Category> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(mockCategory1), 1_000);
+  });
+};
+
+export async function getThreadsByCategoryId(
+  categoryId: string,
+): Promise<Thread[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(mockCategory1Threads), 1_000);
+  });
+}
