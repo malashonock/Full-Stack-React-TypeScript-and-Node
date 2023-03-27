@@ -28,9 +28,9 @@ export const LeftMenu = () => {
   return (
     <div className="leftmenu">
       <ul className="categories">
-        {categories?.map(({ id, title }: Category) => (
+        {categories?.map(({ id, name }: Category) => (
           <li key={id} className="category">
-            {title}
+            {name}
           </li>
         )) ?? 'Left Menu'}
       </ul>
