@@ -10,27 +10,33 @@ import './Main.scss';
 export const Main = () => {
   const { categoryId } = useParams();
 
-  const [category, setCategory] = useState<Category | undefined>();
-  const [threads, setThreads] = useState<Thread[] | undefined>();
+  const [activeCategory, setActiveCategory] = useState<Category | undefined>();
+  const [categoryThreads, setCategoryThreads] = useState<
+    Thread[] | undefined
+  >();
 
   useEffect(() => {
     if (categoryId) {
       (async () => {
         const fetchedCategory = await getCategoryById(categoryId);
-        setCategory(fetchedCategory);
+        setActiveCategory(fetchedCategory);
 
         const fetchedThreads = await getThreadsByCategoryId(categoryId);
-        setThreads(fetchedThreads);
+        setCategoryThreads(fetchedThreads);
       })();
     } else {
-      setCategory(undefined);
-      setThreads(undefined);
+      setActiveCategory(undefined);
+      setCategoryThreads(undefined);
     }
   }, [categoryId]);
 
   return (
     <main className="content">
-      {threads?.map(
+      <div className="active-category">
+        <h2>{activeCategory?.name || 'Loading category threads...'}</h2>
+        <hr />
+      </div>
+      {categoryThreads?.map(
         (thread: Thread): JSX.Element => (
           <ThreadCard key={thread.id} thread={thread} />
         ),
