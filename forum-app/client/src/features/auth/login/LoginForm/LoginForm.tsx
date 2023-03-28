@@ -2,7 +2,7 @@ import { Field, Form, useForm } from 'common/forms';
 import { initialValues, onSubmit, validationSchema } from './LoginFormConfig';
 
 import './LoginForm.scss';
-import { Modal, ModalProps } from 'common/components';
+import { Modal, ModalProps } from 'common/components/Modal';
 
 export const LoginForm = ({ isOpen, onClose }: ModalProps) => {
   const {

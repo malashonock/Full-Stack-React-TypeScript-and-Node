@@ -1,14 +1,14 @@
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './Counter.scss';
+import './CounterBase.scss';
 
 interface CounterProps {
   count: number;
   icon: IconDefinition;
 }
 
-export const Counter = ({ count, icon }: CounterProps) => {
+export const CounterBase = ({ count, icon }: CounterProps) => {
   return (
     <div className="counter">
       <span className="counter__count">{count}</span>

@@ -4,7 +4,7 @@ import {
   onSubmit,
   validationSchema,
 } from './RegistrationFormConfig';
-import { Modal, ModalProps } from 'common/components';
+import { Modal, ModalProps } from 'common/components/Modal';
 
 import './RegistrationForm.scss';
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { faRegistered } from '@fortawesome/free-solid-svg-icons';
 
-import { MenuItem } from '../MenuItem';
+import { MenuItem } from './MenuItem';
 import { RegistrationForm } from 'features/auth';
 
 export const RegisterMenuItem = () => {

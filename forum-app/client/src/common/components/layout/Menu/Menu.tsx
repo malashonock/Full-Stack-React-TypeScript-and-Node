@@ -2,7 +2,7 @@ import {
   UserProfileMenuItem,
   RegisterMenuItem,
   LoginMenuItem,
-} from './menu-items';
+} from './components';
 
 import './Menu.scss';
 

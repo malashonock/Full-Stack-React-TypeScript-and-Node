@@ -3,7 +3,7 @@ import { groupBy } from 'lodash';
 
 import { forDesktop } from 'common/hocs';
 import { getTopCategories } from 'services';
-import { TopCategory } from 'common/components';
+import { TopCategory } from '..';
 
 import './RightMenu.scss';
 

@@ -1,4 +1,3 @@
-export * from './Modal';
 export * from './counters';
-export * from './ThreadCard';
-export * from './TopCategory';
+export * from './Modal';
+export * from './layout';

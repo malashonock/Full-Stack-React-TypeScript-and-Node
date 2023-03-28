@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ThreadCard } from 'common/components';
+import { ThreadCard } from '..';
 import { Category, Thread } from 'model';
 import { getCategoryById, getThreadsByCategoryId } from 'services';
 

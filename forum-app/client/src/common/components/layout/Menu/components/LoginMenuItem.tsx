@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { MenuItem } from '../MenuItem';
+import { MenuItem } from './MenuItem';
 import { LoginForm } from 'features/auth';
 
 export const LoginMenuItem = () => {

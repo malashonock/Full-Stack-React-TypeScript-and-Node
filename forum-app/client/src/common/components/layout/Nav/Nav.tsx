@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { MobileMenu, BurgerButton } from 'features/layout';
+import { BurgerButton, MobileMenu } from '..';
 import { forMobile } from 'common/hocs';
 
 import './Nav.scss';
