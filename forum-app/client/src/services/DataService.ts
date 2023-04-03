@@ -3,6 +3,7 @@ import {
   mockCategories,
   mockCategory1,
   mockCategory1Threads,
+  mockThread1,
   mockTopCategoryThreads,
 } from './mocks';
 
@@ -29,5 +30,11 @@ export const getThreadsByCategoryId = async (
 export const getTopCategories = async (): Promise<CategoryThread[]> => {
   return new Promise((resolve) => {
     setTimeout(() => resolve(mockTopCategoryThreads), 1_000);
+  });
+};
+
+export const getThreadById = async (id: string): Promise<Thread> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(mockThread1), 1_000);
   });
 };

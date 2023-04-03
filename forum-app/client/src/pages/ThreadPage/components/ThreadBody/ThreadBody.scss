@@ -1,0 +1,9 @@
+.thread-body {
+  margin-top: 1rem;
+
+  &__editor {
+    margin-top: 0.5rem;
+    border: solid 1px var(--proceed-color);
+    padding: 0.5rem 1em 0.5rem 1rem;
+  }
+}

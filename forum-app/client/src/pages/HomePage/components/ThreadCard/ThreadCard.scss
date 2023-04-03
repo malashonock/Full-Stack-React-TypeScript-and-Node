@@ -30,14 +30,4 @@
     gap: 0.75rem;
     color: var(--proceed-color);
   }
-
-  &__sidebar-right {
-    padding: 0.5rem;
-    width: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    border-left: solid 1px var(--border-color);
-  }
 }

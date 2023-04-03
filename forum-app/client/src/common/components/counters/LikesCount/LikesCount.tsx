@@ -1,12 +1,11 @@
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-import { ForumPost } from 'model';
 import { CounterBase } from '../CounterBase';
 
 interface LikesCountProps {
-  post: ForumPost;
+  count: number;
 }
 
-export const LikesCount = ({ post }: LikesCountProps) => {
-  return <CounterBase count={post.likesCount} icon={faHeart} />;
+export const LikesCount = ({ count }: LikesCountProps) => {
+  return <CounterBase count={count} icon={faHeart} />;
 };

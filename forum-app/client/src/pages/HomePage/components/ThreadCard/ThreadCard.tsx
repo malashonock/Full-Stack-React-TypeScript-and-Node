@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 
 import { Thread } from 'model';
 import { LikesCount, CommentsCount, ViewsCount } from 'common/components';
-import { forDesktop, forMobile } from 'common/hocs';
+import { forMobile } from 'common/hocs';
+import { ThreadMetricsBar } from 'common/components';
 
 import './ThreadCard.scss';
 
@@ -12,13 +13,6 @@ interface ThreadCardProps {
 
 const LikesCountMobile = forMobile(LikesCount);
 const CommentsCountMobile = forMobile(CommentsCount);
-
-const SidebarDesktop = forDesktop(({ thread }: ThreadCardProps) => (
-  <aside className="thread-card__sidebar-right">
-    <LikesCount post={thread} />
-    <CommentsCount thread={thread} />
-  </aside>
-));
 
 export const ThreadCard = ({ thread }: ThreadCardProps) => {
   return (
@@ -35,12 +29,15 @@ export const ThreadCard = ({ thread }: ThreadCardProps) => {
           <p>{thread.body}</p>
         </Link>
         <footer className="thread-card__footer">
-          <ViewsCount post={thread} />
-          <LikesCountMobile post={thread} />
-          <CommentsCountMobile thread={thread} />
+          <ViewsCount count={thread.viewsCount} />
+          <LikesCountMobile count={thread.likesCount} />
+          <CommentsCountMobile count={thread.threadItems.length} />
         </footer>
       </div>
-      <SidebarDesktop thread={thread} />
+      <ThreadMetricsBar
+        likesCount={thread.likesCount}
+        commentsCount={thread.threadItems.length}
+      />
     </section>
   );
 };

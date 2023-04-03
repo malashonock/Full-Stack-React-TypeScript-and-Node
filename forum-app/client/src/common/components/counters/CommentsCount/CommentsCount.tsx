@@ -1,12 +1,11 @@
 import { faReplyAll } from '@fortawesome/free-solid-svg-icons';
 
-import { Thread } from 'model';
 import { CounterBase } from '../CounterBase';
 
 interface CommentsCountProps {
-  thread: Thread;
+  count: number;
 }
 
-export const CommentsCount = ({ thread }: CommentsCountProps) => {
-  return <CounterBase count={thread.threadItems.length} icon={faReplyAll} />;
+export const CommentsCount = ({ count }: CommentsCountProps) => {
+  return <CounterBase count={count} icon={faReplyAll} />;
 };
