@@ -1,3 +1,4 @@
+import { RichTextEditor } from 'features/editor';
 import './ThreadBody.scss';
 
 interface ThreadBodyProps {
@@ -9,7 +10,7 @@ export const ThreadBody = ({ body }: ThreadBodyProps) => {
     <div className="thread-body">
       <strong className="thread-body__label">Body</strong>
       <div className="thread-body__editor">
-        Thread body editor will go here...
+        <RichTextEditor existingBody={body} />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { LikesCount } from 'common/components';
 import { UserNameAndTime } from '..';
 
 import './ThreadComment.scss';
+import { RichTextEditor } from 'features/editor';
 
 interface ThreadCommentProps {
   body?: string;
@@ -23,7 +24,7 @@ export const ThreadComment = ({
         <LikesCount count={likesCount || 0} />
       </div>
       <div className="thread-comment__editor">
-        Thread comment editor will go here...
+        <RichTextEditor existingBody={body} />
       </div>
     </div>
   );
