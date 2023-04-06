@@ -25,3 +25,8 @@ export const mockThreadItem2: ThreadItem = {
 export const mockThread1Items: ThreadItem[] = [mockThreadItem1];
 
 export const mockThread2Items: ThreadItem[] = [mockThreadItem2];
+
+export const mockUser2ThreadComments: ThreadItem[] = [
+  mockThreadItem1,
+  mockThreadItem2,
+];
