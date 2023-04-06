@@ -15,6 +15,8 @@ import { ElementType, TextFormatType } from './types';
 import { CustomEditor, Serializer } from './utils';
 import { HOTKEYS } from './constants';
 
+import './RichTextEditor.scss';
+
 interface RichEditorProps {
   existingBody?: string;
 }
