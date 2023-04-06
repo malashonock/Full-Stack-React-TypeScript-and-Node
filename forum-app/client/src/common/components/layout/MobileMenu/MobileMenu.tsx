@@ -1,4 +1,5 @@
 import { Modal } from 'common/components/Modal';
+import { MobileMenuContext } from '.';
 import { Menu } from '..';
 
 interface MobileMenuProps {
@@ -9,7 +10,9 @@ interface MobileMenuProps {
 export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <Menu />
+      <MobileMenuContext.Provider value={onClose}>
+        <Menu />
+      </MobileMenuContext.Provider>
     </Modal>
   );
 };
