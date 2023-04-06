@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Nav, ThreadMetricsBar } from 'common/components';
+import { SectionDivider, ThreadMetricsBar } from 'common/components';
 import { Thread as ThreadModel } from 'model';
 import {
   ThreadBody,
@@ -50,7 +50,7 @@ export const ThreadPage = () => {
         </div>
       </div>
       <div className="thread__comments">
-        <hr className="thread__section-divider" />
+        <SectionDivider />
         <ThreadCommentsBuilder threadItems={thread?.threadItems} />
       </div>
     </div>
