@@ -1,0 +1,16 @@
+.user-profile {
+  margin: 1rem 0.75rem;
+
+  &__change-password {
+    width: 50%;
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (orientation: portrait) and (max-width: 768px) {
+  .user-profile {
+    &__change-password {
+      width: 100%;
+    }
+  }
+}
