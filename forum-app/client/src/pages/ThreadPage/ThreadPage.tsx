@@ -28,10 +28,7 @@ export const ThreadPage = () => {
   }, [threadId]);
 
   return (
-    <div className="screen-root-container thread">
-      <div className="thread__nav">
-        <Nav />
-      </div>
+    <div className="thread">
       <div className="thread__content">
         <div className="thread__post">
           <ThreadHeader

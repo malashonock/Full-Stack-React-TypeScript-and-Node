@@ -5,8 +5,7 @@ import './HomePage.scss';
 
 export const HomePage = () => {
   return (
-    <div className="screen-root-container home-container">
-      <Nav />
+    <div className="home-container">
       <DesktopSidebar />
       <LeftMenu />
       <Main />
