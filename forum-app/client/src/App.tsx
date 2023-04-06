@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { HomePage, ThreadPage } from 'pages';
 import { Nav } from 'common/components/layout';
+import { HomePage, ThreadPage, UserProfilePage } from 'pages';
 
 import './App.scss';
 
@@ -18,6 +18,9 @@ export const App = () => {
             </Route>
             <Route path="thread">
               <Route path=":threadId" element={<ThreadPage />} />
+            </Route>
+            <Route path="userprofile">
+              <Route path=":userId" element={<UserProfilePage />} />
             </Route>
           </Route>
         </Routes>

@@ -3,5 +3,10 @@
     display: flex;
     column-gap: 0.5rem;
     cursor: pointer;
+
+    a {
+      text-decoration: inherit;
+      color: inherit;
+    }
   }
 }

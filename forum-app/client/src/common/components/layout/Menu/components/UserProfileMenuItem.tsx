@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 import { useAppDispatch, useAppSelector } from 'hooks';
@@ -20,7 +21,7 @@ export const UserProfileMenuItem = () => {
 
   return (
     <MenuItem icon={faUser} name="menu-user-profile">
-      {loggedUser?.name}
+      <Link to={`/userprofile/${loggedUser?.id}`}>{loggedUser?.name}</Link>
     </MenuItem>
   );
 };
