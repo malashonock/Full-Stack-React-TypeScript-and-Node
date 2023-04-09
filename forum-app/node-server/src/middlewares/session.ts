@@ -2,11 +2,13 @@ import Redis from 'ioredis';
 import RedisStore from 'connect-redis';
 import session from 'express-session';
 
+const { env } = process;
+
 // Setup Redis client
 const redisClient = new Redis({
-  port: Number(process.env.REDIS_PORT),
-  host: process.env.REDIS_HOST,
-  password: process.env.REDIS_PASSWORD,
+  port: Number(env.REDIS_PORT),
+  host: env.REDIS_HOST,
+  password: env.REDIS_PASSWORD,
 });
 
 // Setup Redis store
@@ -16,8 +18,8 @@ const redisStore = new RedisStore({
 
 const sessionMiddleware = session({
   store: redisStore,
-  name: process.env.COOKIE_NAME,
-  secret: process.env.SESSION_SECRET || '',
+  name: env.COOKIE_NAME,
+  secret: env.SESSION_SECRET || '',
   resave: false,
   saveUninitialized: false,
   cookie: {
