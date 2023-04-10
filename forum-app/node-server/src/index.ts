@@ -9,9 +9,12 @@ console.log(process.env.NODE_ENV);
 
 import express from 'express';
 import { createServer } from 'http';
+import bodyParser from 'body-parser';
+
 import sessionMiddleware from './middlewares/session';
-import router from './routes/index';
 import dataSource from './persistence/dataSource';
+import indexRouter from './routes/index.route';
+import userRouter from './routes/user.route';
 
 (async () => {
   // Establish connection with the database
@@ -28,9 +31,11 @@ import dataSource from './persistence/dataSource';
   
   // Set up middlewares
   app.use(sessionMiddleware);
+  app.use(bodyParser.json());
   
   // Set up routes
-  app.use(router);
+  app.use('/', indexRouter);
+  app.use('/users', userRouter);
   
   server.listen({ port: process.env.SERVER_PORT }, () => {
     console.log('Server is running!');
