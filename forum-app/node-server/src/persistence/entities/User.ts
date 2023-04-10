@@ -1,0 +1,61 @@
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Thread } from './Thread';
+import { ThreadPoint } from './ThreadPoint';
+import { ThreadItemPoint } from './ThreadItemPoint';
+import { Auditable } from './Auditable';
+
+@Entity({ name: 'Users' })
+export class User extends Auditable {
+  @PrimaryGeneratedColumn({
+    type: 'bigint',
+  })
+  id: string;
+
+  @Column('varchar', {
+    length: 60,
+    unique: true,
+    nullable: false,
+  })
+  userName: string;
+
+  @Column('varchar', {
+    length: 120,
+    unique: true,
+    nullable: false,
+  })
+  email: string;
+
+  @Column('varchar', {
+    length: 100,
+    nullable: false,
+  })
+  password: string;
+
+  @Column('boolean', {
+    default: false,
+    nullable: false,
+  })
+  isConfirmed: boolean;
+
+  @Column('boolean', {
+    default: false,
+    nullable: false,
+  })
+  isDisabled: boolean;
+
+  @OneToMany(() => Thread, (thread: Thread) => thread.user)
+  threads: Thread[];
+
+  @OneToMany(() => ThreadPoint, (threadPoint: ThreadPoint) => threadPoint.user)
+  threadPoints: ThreadPoint[];
+
+  @OneToMany(() => ThreadItemPoint, (threadItemPoint: ThreadItemPoint) => threadItemPoint.user)
+  threadItemPoints: ThreadItemPoint[];
+}
+
+export interface UserDto {
+  id: string;
+  userName: string;
+  email: string;
+}
