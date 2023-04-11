@@ -11,7 +11,7 @@ import express from 'express';
 import { createServer } from 'http';
 import bodyParser from 'body-parser';
 
-import sessionMiddleware from './middlewares/session';
+import sessionMiddleware from './middleware/session';
 import dataSource from './persistence/dataSource';
 import indexRouter from './routes/index.route';
 import userRouter from './routes/user.route';
