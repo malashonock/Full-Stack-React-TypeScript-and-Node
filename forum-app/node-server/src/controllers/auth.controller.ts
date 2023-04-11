@@ -16,11 +16,14 @@ const login: RequestHandler = async (req, res, next) => {
         res.status(403).send('Password is invalid');
         return next('route');
       }
-      
+
+      req.session.userId = user.id;
+
       if (!user.isConfirmed) {
         res.status(200).send('User has not confirmed their registration email yet');
         return next('route');
       }
+
       const { id, email } = user;
       res.send({
         id,
@@ -33,6 +36,20 @@ const login: RequestHandler = async (req, res, next) => {
   }
 };
 
+const logout: RequestHandler = async (req, res, next) => {
+  try {
+    if (!req.session.userId) {
+      res.sendStatus(401);
+    } else {
+      req.session.destroy(() => next('route'));
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
 export default {
   login,
+  logout,
 };
