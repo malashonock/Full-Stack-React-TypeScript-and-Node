@@ -4,6 +4,6 @@ import { validateNewUser } from '../middleware/validation';
 
 const router = express.Router();
 
-router.post('/', validateNewUser, userController.createUser);
+router.post('/', validateNewUser, userController.registerUser);
 
 export default router;

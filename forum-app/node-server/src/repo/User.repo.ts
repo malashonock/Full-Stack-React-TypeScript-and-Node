@@ -2,7 +2,7 @@ import { User } from '../persistence/entities';
 import { UserDto } from '../shared/dto/User.dto';
 import PasswordService from '../services/password.service';
 
-const registerUser = async (
+const createUser = async (
   userName: string,
   email: string,
   password: string,
@@ -23,5 +23,5 @@ const registerUser = async (
 };
 
 export default {
-  registerUser,
+  createUser,
 };
