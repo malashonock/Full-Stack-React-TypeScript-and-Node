@@ -6,7 +6,7 @@ const createUser = async (
   userName: string,
   email: string,
   password: string,
-): Promise<UserDto> => {
+): Promise<User> => {
   const hashedPassword: string = await PasswordService.hashPassword(password);
   
   const createdUser: User = await User.create({
@@ -15,13 +15,20 @@ const createUser = async (
     password: hashedPassword,
   }).save();
 
-  return {
-    id: createdUser.id,
-    userName: createdUser.userName,
-    email: createdUser.email,
-  };
+  return createdUser;
+};
+
+const findUserByName = async (
+  userName: string,
+): Promise<User | null> => {
+  const user = await User.findOne({
+    where: { userName },
+  });
+
+  return user;
 };
 
 export default {
   createUser,
+  findUserByName,
 };

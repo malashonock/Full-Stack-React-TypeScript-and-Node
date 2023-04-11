@@ -15,6 +15,7 @@ import sessionMiddleware from './middleware/session';
 import dataSource from './persistence/dataSource';
 import indexRouter from './routes/index.route';
 import userRouter from './routes/user.route';
+import authRouter from './routes/auth.route';
 
 (async () => {
   // Establish connection with the database
@@ -36,6 +37,7 @@ import userRouter from './routes/user.route';
   // Set up routes
   app.use('/', indexRouter);
   app.use('/users', userRouter);
+  app.use('/auth', authRouter);
   
   server.listen({ port: process.env.SERVER_PORT }, () => {
     console.log('Server is running!');
