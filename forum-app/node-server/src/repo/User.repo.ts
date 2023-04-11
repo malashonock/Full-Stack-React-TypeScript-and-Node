@@ -1,12 +1,12 @@
-import { User, UserDto } from '../persistence/entities';
-import { QueryResult } from './QueryResult';
+import { User } from '../persistence/entities';
+import { UserDto } from '../shared/dto/User.dto';
 import PasswordService from '../services/password.service';
 
 const registerUser = async (
   userName: string,
   email: string,
   password: string,
-): Promise<QueryResult<UserDto>> => {
+): Promise<UserDto> => {
   const hashedPassword: string = await PasswordService.hashPassword(password);
   
   const createdUser: User = await User.create({
@@ -16,11 +16,9 @@ const registerUser = async (
   }).save();
 
   return {
-    data: {
-      id: createdUser.id,
-      userName: createdUser.userName,
-      email: createdUser.email,
-    }
+    id: createdUser.id,
+    userName: createdUser.userName,
+    email: createdUser.email,
   };
 };
 

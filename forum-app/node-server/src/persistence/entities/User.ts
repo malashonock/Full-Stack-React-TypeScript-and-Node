@@ -53,9 +53,3 @@ export class User extends Auditable {
   @OneToMany(() => ThreadItemPoint, (threadItemPoint: ThreadItemPoint) => threadItemPoint.user)
   threadItemPoints: ThreadItemPoint[];
 }
-
-export interface UserDto {
-  id: string;
-  userName: string;
-  email: string;
-}
