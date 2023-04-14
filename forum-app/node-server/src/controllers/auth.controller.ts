@@ -3,34 +3,32 @@ import { RequestHandler } from 'express';
 import UserRepo from '../repo/User.repo';
 import PasswordService from '../services/password.service';
 
-const login: RequestHandler = async (req, res, next) => {
+const login: RequestHandler = async (req, res) => {
   try {
     const { userName, password } = req.body;
-    const user = await UserRepo.findUserByName(userName);
+    const user = await UserRepo.getUserByName(userName);
 
     if (!user) {
-      res.status(404).send('User not found');
-    } else {
-      const isPasswordCorrect = await PasswordService.comparePasswords(password, user.password);
-      if (!isPasswordCorrect) {
-        res.status(403).send('Password is invalid');
-        return next('route');
-      }
-
-      req.session.userId = user.id;
-
-      if (!user.isConfirmed) {
-        res.status(200).send('User has not confirmed their registration email yet');
-        return next('route');
-      }
-
-      const { id, email } = user;
-      res.send({
-        id,
-        userName,
-        email,
-      });
+      return res.status(404).send('User not found');
     }
+
+    const isPasswordCorrect = await PasswordService.comparePasswords(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(403).send('Password is invalid');
+    }
+
+    req.session.userId = user.id;
+
+    if (!user.isConfirmed) {
+      return res.status(200).send('User has not confirmed their registration email yet');
+    }
+
+    const { id, email } = user;
+    res.send({
+      id,
+      userName,
+      email,
+    });
   } catch (error) {
     res.status(500).send((error as Error).message);
   }
@@ -38,12 +36,8 @@ const login: RequestHandler = async (req, res, next) => {
 
 const logout: RequestHandler = async (req, res, next) => {
   try {
-    if (!req.session.userId) {
-      res.sendStatus(401);
-    } else {
-      req.session.destroy(() => next('route'));
-      res.sendStatus(200);
-    }
+    req.session.destroy(() => next('route'));
+    res.status(200).send('Logged out successfully');
   } catch (error) {
     res.status(500).send((error as Error).message);
   }
