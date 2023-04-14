@@ -14,7 +14,7 @@ export const isRequired: FieldValidator<string> = (fieldLabel, text) => {
       };
 };
 
-export const isLongerThan = (minLength: number): FieldValidator<string> => {
+export const isNotShorterThan = (minLength: number): FieldValidator<string> => {
   return (fieldLabel: string, text: string): ValidationResult<string> => {
     const isLongEnough = text?.length >= minLength;
 
@@ -30,7 +30,7 @@ export const isLongerThan = (minLength: number): FieldValidator<string> => {
   };
 };
 
-export const isShorterThan = (maxLength: number): FieldValidator<string> => {
+export const isNotLongerThan = (maxLength: number): FieldValidator<string> => {
   return (fieldLabel: string, text: string): ValidationResult<string> => {
     const isShortEnough = text?.length <= maxLength;
 

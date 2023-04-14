@@ -1,85 +1,49 @@
 import { FieldValidator, FormValidator, ValidationResult, FormFields } from '../types';
 
-export const isLongEnough: FieldValidator<string> = (fieldLabel, password) => {
-  const PWD_MIN_LENGTH = 8;
+export enum CharacterClass {
+  UpperCaseLetters,
+  LowerCaseLetters,
+  Digits,
+  SpecialCharacters,
+}
 
-  return password.length >= PWD_MIN_LENGTH
+export const containsCharClass = (charClass: CharacterClass): FieldValidator<string> => {
+  return (fieldLabel: string, password: string): ValidationResult<string> => {
+    let pattern: RegExp;
+    let errorMessage: string;
+
+    switch (charClass) {
+      case CharacterClass.UpperCaseLetters:
+        pattern = /[A-Z]+/;
+        errorMessage = 'Password must contain at least 1 uppercase letter';
+        break;
+
+      case CharacterClass.LowerCaseLetters:
+        pattern = /[a-z]+/;
+        errorMessage = 'Password must contain at least 1 lowercase letter';
+        break;
+
+      case CharacterClass.Digits:
+        pattern = /[0-9]+/;
+        errorMessage = 'Password must contain at least 1 numerical digit';
+        break;
+
+      case CharacterClass.SpecialCharacters:
+        pattern = /[`~!@#$%^&*()_=+[{\]}\\|;:'",./?№-]+/;
+        errorMessage = 'Password must contain at least 1 special character';
+        break;
+    }
+
+    return pattern?.test(password)
     ? {
         isValid: true,
         value: password,
       }
     : {
         isValid: false,
-        errorMessage: 'Password must be no shorter than 8 characters',
+        errorMessage,
       };
-};
-
-export const containsUppercaseLetters: FieldValidator<string> = (
-  fieldLabel,
-  password,
-) => {
-  const strongPassword = /[A-Z]+/;
-
-  return strongPassword.test(password)
-    ? {
-        isValid: true,
-        value: password,
-      }
-    : {
-        isValid: false,
-        errorMessage: 'Password must contain at least 1 uppercase letter',
-      };
-};
-
-export const containsLowercaseLetters: FieldValidator<string> = (
-  fieldLabel,
-  password,
-) => {
-  const strongPassword = /[a-z]+/;
-
-  return strongPassword.test(password)
-    ? {
-        isValid: true,
-        value: password,
-      }
-    : {
-        isValid: false,
-        errorMessage: 'Password must contain at least 1 lowercase letter',
-      };
-};
-
-export const containsDigits: FieldValidator<string> = (
-  fieldLabel,
-  password,
-) => {
-  const strongPassword = /[0-9]+/;
-
-  return strongPassword.test(password)
-    ? {
-        isValid: true,
-        value: password,
-      }
-    : {
-        isValid: false,
-        errorMessage: 'Password must contain at least 1 digit',
-      };
-};
-
-export const containsSpecialChars: FieldValidator<string> = (
-  fieldLabel,
-  password,
-) => {
-  const strongPassword = /[`~!@#$%^&*()_=+[{\]}\\|;:'",./?№-]+/;
-
-  return strongPassword.test(password)
-    ? {
-        isValid: true,
-        value: password,
-      }
-    : {
-        isValid: false,
-        errorMessage: 'Password must contain at least 1 special character',
-      };
+  };
 };
 
 export const doPasswordsMatch = <TFields extends FormFields>(
