@@ -1,13 +1,10 @@
+import { Id } from '../../types/Id';
 import { FormFields } from '../validation/types';
 
-export interface NewUserFields extends FormFields {
+export interface UserFields extends FormFields {
   userName: string;
   email: string;
   password: string;
 }
 
-export interface UserDto {
-  id: string;
-  userName: string;
-  email: string;
-}
+export type UserFullDto = Id & Omit<UserFields, 'password'>;

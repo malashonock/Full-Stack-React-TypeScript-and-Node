@@ -1,34 +1,69 @@
 import { User } from '../persistence/entities';
-import { UserDto } from '../shared/dto/User.dto';
+import { UserFields } from '../shared/dto/User.dto';
 import PasswordService from '../services/password.service';
+import dataSource from '../persistence/dataSource';
 
-const createUser = async (
-  userName: string,
-  email: string,
-  password: string,
-): Promise<User> => {
-  const hashedPassword: string = await PasswordService.hashPassword(password);
-  
-  const createdUser: User = await User.create({
+const UserRepository = dataSource.getRepository(User).extend({
+
+  async createUser({
     userName,
     email,
-    password: hashedPassword,
-  }).save();
+    password,
+  }: UserFields): Promise<User> {
+    const hashedPassword: string = await PasswordService.hashPassword(password);
+    
+    const createdUser: User = this.create({
+      userName,
+      email,
+      password: hashedPassword,
+    });
 
-  return createdUser;
-};
+    await this.save(createdUser);
+  
+    return createdUser;
+  },
 
-const findUserByName = async (
-  userName: string,
-): Promise<User | null> => {
-  const user = await User.findOne({
-    where: { userName },
-  });
+  async updateUser(id: string, {
+    userName,
+    email,
+    password,
+  }: UserFields): Promise<User | null> {
+    const updatedUser = await this.getUserById(id);
 
-  return user;
-};
+    if (!updatedUser) {
+      return null;
+    }
 
-export default {
-  createUser,
-  findUserByName,
-};
+    if (userName) updatedUser.userName = userName;
+    if (email) updatedUser.email = email;
+    if (password) updatedUser.password = await PasswordService.hashPassword(password);
+
+    await this.save(updatedUser);
+
+    return updatedUser;
+  },
+
+  async getUserById(
+    id: string,
+  ): Promise<User | null> {
+    const user = await User.findOne({
+      where: { id },
+    });
+  
+    return user;
+  },
+
+  async getUserByName(
+    userName: string,
+  ): Promise<User | null> {
+    const user = await User.findOne({
+      where: { userName },
+    });
+  
+    return user;
+  },
+
+});
+
+
+export default UserRepository;

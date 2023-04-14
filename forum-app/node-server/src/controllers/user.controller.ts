@@ -4,15 +4,36 @@ import UserRepo from '../repo/User.repo';
 
 const registerUser: RequestHandler = async (req, res) => {
   try {
+    const createdUser = await UserRepo.createUser(req.body);
+    const { password, ...publicUserFields } = createdUser;
+    res.json({ ...publicUserFields });
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
+const updateUser: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = req.session;
+
+    if (!userId) {
+      return res.status(404).send('User not found');
+    }
+
     const { userName, email, password } = req.body;
-    const createdUser = await UserRepo.createUser(userName, email, password);
-    const { id } = createdUser;
-    
-    res.send({
-      id,
-      userName,
-      email,
-    });
+
+    if (!userName && !email && !password) {
+      return res.status(304).send('No updatable fields were provided in the request');
+    }
+
+    const updatedUser = await UserRepo.updateUser(userId, req.body);
+
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+
+    const { password: _, ...publicUserFields } = updatedUser;
+    res.json({ ...publicUserFields });
   } catch (error) {
     res.status(500).send((error as Error).message);
   }
@@ -20,4 +41,5 @@ const registerUser: RequestHandler = async (req, res) => {
 
 export default {
   registerUser,
+  updateUser,
 };
