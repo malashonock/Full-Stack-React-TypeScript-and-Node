@@ -51,9 +51,19 @@ const UserRepository = dataSource.getRepository(User).extend({
   async getUserById(
     id: string,
   ): Promise<User | null> {
-    const user = await this.findOne({
-      where: { id },
-    });
+    if (!id) {
+      throw new Error('User id is not defined');
+    }
+
+    const user = await this.findOneBy({ id });
+  
+    return user;
+  },
+
+  async getUserByName(
+    userName: string,
+  ): Promise<User | null> {
+    const user = await this.findOneBy({ userName });
   
     return user;
   },
