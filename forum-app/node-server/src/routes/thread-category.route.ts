@@ -6,7 +6,9 @@ import { validateThreadCategoryFields } from '../middleware/validation/thread-ca
 const router = express.Router();
 
 router.get('/', ThreadCategoryController.getAllCategories);
+router.get('/top-threads', ThreadCategoryController.getTopCategoryThreads);
 router.get('/:categoryId', ThreadCategoryController.getCategory);
+router.get('/:categoryId/threads', ThreadCategoryController.getCategoryThreads);
 router.post('/', isAuthenticated, validateThreadCategoryFields, ThreadCategoryController.createCategory);
 router.put('/:categoryId', isAuthenticated, validateThreadCategoryFields, ThreadCategoryController.updateCategory);
 

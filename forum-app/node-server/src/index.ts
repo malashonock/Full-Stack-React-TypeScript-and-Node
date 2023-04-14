@@ -17,6 +17,7 @@ import indexRouter from './routes/index.route';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
 import threadCategoryRouter from './routes/thread-category.route';
+import threadRouter from './routes/thread.route';
 
 (async () => {
   // Establish connection with the database
@@ -39,7 +40,8 @@ import threadCategoryRouter from './routes/thread-category.route';
   app.use('/', indexRouter);
   app.use('/user', userRouter);
   app.use('/auth', authRouter);
-  app.use('/thread-categories', threadCategoryRouter);
+  app.use('/categories', threadCategoryRouter);
+  app.use('/threads', threadRouter);
   
   server.listen({ port: process.env.SERVER_PORT }, () => {
     console.log('Server is running!');

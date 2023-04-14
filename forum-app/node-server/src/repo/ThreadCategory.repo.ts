@@ -44,9 +44,11 @@ const ThreadCategoryRepository = dataSource.getRepository(ThreadCategory).extend
   async getCategoryById(
     id: string,
   ): Promise<ThreadCategory | null> {
-    const category = await this.findOne({
-      where: { id },
-    });
+    if (!id) {
+      throw new Error('Thread category id is not defined');
+    }
+
+    const category = await this.findOneBy({ id });
   
     return category;
   },
