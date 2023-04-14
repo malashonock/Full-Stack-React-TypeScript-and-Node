@@ -44,14 +44,14 @@ const UserRepository = dataSource.getRepository(User).extend({
   },
 
   async getAllUsers(): Promise<User[]> {
-    const categories = await User.find();
+    const categories = await this.find();
     return categories;
   },
 
   async getUserById(
     id: string,
   ): Promise<User | null> {
-    const user = await User.findOne({
+    const user = await this.findOne({
       where: { id },
     });
   

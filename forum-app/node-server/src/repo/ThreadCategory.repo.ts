@@ -37,14 +37,14 @@ const ThreadCategoryRepository = dataSource.getRepository(ThreadCategory).extend
   },
 
   async getAllCategories(): Promise<ThreadCategory[]> {
-    const categories = await ThreadCategory.find();
+    const categories = await this.find();
     return categories;
   },
 
   async getCategoryById(
     id: string,
   ): Promise<ThreadCategory | null> {
-    const category = await ThreadCategory.findOne({
+    const category = await this.findOne({
       where: { id },
     });
   
