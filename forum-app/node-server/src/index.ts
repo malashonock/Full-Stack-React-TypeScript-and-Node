@@ -36,7 +36,7 @@ import authRouter from './routes/auth.route';
   
   // Set up routes
   app.use('/', indexRouter);
-  app.use('/users', userRouter);
+  app.use('/user', userRouter);
   app.use('/auth', authRouter);
   
   server.listen({ port: process.env.SERVER_PORT }, () => {
