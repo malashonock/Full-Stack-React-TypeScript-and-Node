@@ -16,6 +16,7 @@ import dataSource from './persistence/dataSource';
 import indexRouter from './routes/index.route';
 import userRouter from './routes/user.route';
 import authRouter from './routes/auth.route';
+import threadCategoryRouter from './routes/thread-category.route';
 
 (async () => {
   // Establish connection with the database
@@ -38,6 +39,7 @@ import authRouter from './routes/auth.route';
   app.use('/', indexRouter);
   app.use('/user', userRouter);
   app.use('/auth', authRouter);
+  app.use('/thread-categories', threadCategoryRouter);
   
   server.listen({ port: process.env.SERVER_PORT }, () => {
     console.log('Server is running!');
