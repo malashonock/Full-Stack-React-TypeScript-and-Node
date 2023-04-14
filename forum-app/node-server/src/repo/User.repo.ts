@@ -43,6 +43,11 @@ const UserRepository = dataSource.getRepository(User).extend({
     return updatedUser;
   },
 
+  async getAllUsers(): Promise<User[]> {
+    const categories = await User.find();
+    return categories;
+  },
+
   async getUserById(
     id: string,
   ): Promise<User | null> {
@@ -53,17 +58,6 @@ const UserRepository = dataSource.getRepository(User).extend({
     return user;
   },
 
-  async getUserByName(
-    userName: string,
-  ): Promise<User | null> {
-    const user = await User.findOne({
-      where: { userName },
-    });
-  
-    return user;
-  },
-
 });
-
 
 export default UserRepository;

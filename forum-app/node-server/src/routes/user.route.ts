@@ -1,11 +1,11 @@
 import express from 'express';
-import userController from '../controllers/user.controller';
+import UserController from '../controllers/user.controller';
 import { isAuthenticated } from '../middleware/auth';
-import { validateNewUser, validateUpdatedUser } from '../middleware/validation';
+import { validateUserFields } from '../middleware/validation/user.validation';
 
 const router = express.Router();
 
-router.post('/', validateNewUser, userController.registerUser);
-router.put('/', isAuthenticated, validateUpdatedUser, userController.updateUser);
+router.post('/', validateUserFields, UserController.registerUser);
+router.put('/', isAuthenticated, validateUserFields, UserController.updateUser);
 
 export default router;

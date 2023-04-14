@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 
-import UserRepo from '../repo/User.repo';
+import UserRepository from '../repo/User.repo';
 
 const registerUser: RequestHandler = async (req, res) => {
   try {
-    const createdUser = await UserRepo.createUser(req.body);
+    const createdUser = await UserRepository.createUser(req.body);
     const { password, ...publicUserFields } = createdUser;
     res.json({ ...publicUserFields });
   } catch (error) {
@@ -26,7 +26,7 @@ const updateUser: RequestHandler = async (req, res) => {
       return res.status(304).send('No updatable fields were provided in the request');
     }
 
-    const updatedUser = await UserRepo.updateUser(userId, req.body);
+    const updatedUser = await UserRepository.updateUser(userId, req.body);
 
     if (!updatedUser) {
       return res.status(404).send('User not found');
