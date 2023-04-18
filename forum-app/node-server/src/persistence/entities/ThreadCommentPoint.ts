@@ -1,21 +1,21 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { ThreadItem } from './ThreadItem';
+import { ThreadComment } from './ThreadComment';
 import { User } from './User';
 import { Auditable } from './Auditable';
 
-@Entity({ name: 'ThreadItemPoints' })
-export class ThreadItemPoint extends Auditable {
+@Entity({ name: 'ThreadCommentPoints' })
+export class ThreadCommentPoint extends Auditable {
   @PrimaryGeneratedColumn({
     type: 'bigint',
   })
   id: string;
 
-  @ManyToOne(() => User, (user: User) => user.threadItemPoints)
+  @ManyToOne(() => User, (user: User) => user.commentPoints)
   user: User;
 
-  @ManyToOne(() => ThreadItem, (threadItem: ThreadItem) => threadItem.threadItemPoints)
-  threadItem: ThreadItem;
+  @ManyToOne(() => ThreadComment, (comment: ThreadComment) => comment.points)
+  comment: ThreadComment;
 
   @Column('boolean', {
     default: false,

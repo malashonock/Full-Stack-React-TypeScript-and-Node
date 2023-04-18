@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Thread } from './Thread';
 import { ThreadPoint } from './ThreadPoint';
-import { ThreadItemPoint } from './ThreadItemPoint';
+import { ThreadCommentPoint } from './ThreadCommentPoint';
 import { Auditable } from './Auditable';
 
 @Entity({ name: 'Users' })
@@ -50,6 +50,6 @@ export class User extends Auditable {
   @OneToMany(() => ThreadPoint, (threadPoint: ThreadPoint) => threadPoint.user)
   threadPoints: ThreadPoint[];
 
-  @OneToMany(() => ThreadItemPoint, (threadItemPoint: ThreadItemPoint) => threadItemPoint.user)
-  threadItemPoints: ThreadItemPoint[];
+  @OneToMany(() => ThreadCommentPoint, (commentPoint: ThreadCommentPoint) => commentPoint.user)
+  commentPoints: ThreadCommentPoint[];
 }

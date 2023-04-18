@@ -2,11 +2,11 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Length } from 'class-validator';
 
 import { Thread } from './Thread';
-import { ThreadItemPoint } from './ThreadItemPoint';
+import { ThreadCommentPoint } from './ThreadCommentPoint';
 import { Auditable } from './Auditable';
 
-@Entity({ name: 'ThreadItems'})
-export class ThreadItem extends Auditable {
+@Entity({ name: 'ThreadComments'})
+export class ThreadComment extends Auditable {
   @PrimaryGeneratedColumn({
     type: 'bigint',
   })
@@ -31,9 +31,9 @@ export class ThreadItem extends Auditable {
   })
   isDisabled: boolean;
 
-  @ManyToOne(() => Thread, (thread: Thread) => thread.threadItems)
+  @ManyToOne(() => Thread, (thread: Thread) => thread.comments)
   thread: Thread;
 
-  @ManyToOne(() => ThreadItemPoint, (threadItemPoint: ThreadItemPoint) => threadItemPoint.threadItem)
-  threadItemPoints: ThreadItemPoint[];
+  @ManyToOne(() => ThreadCommentPoint, (point: ThreadCommentPoint) => point.comment)
+  points: ThreadCommentPoint[];
 }

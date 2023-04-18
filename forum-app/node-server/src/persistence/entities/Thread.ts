@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'ty
 import { Length } from 'class-validator';
 
 import { User } from './User';
-import { ThreadItem } from './ThreadItem';
+import { ThreadComment } from './ThreadComment';
 import { ThreadPoint } from './ThreadPoint';
 import { ThreadCategory } from './ThreadCategory';
 import { Auditable } from './Auditable';
@@ -43,11 +43,11 @@ export class Thread extends Auditable {
   @ManyToOne(() => User, (user: User) => user.threads)
   user: User;
 
-  @OneToMany(() => ThreadItem, (threadItem: ThreadItem) => threadItem.thread)
-  threadItems: ThreadItem[];
+  @OneToMany(() => ThreadComment, (comment: ThreadComment) => comment.thread)
+  comments: ThreadComment[];
 
   @OneToMany(() => ThreadPoint, (threadPoint: ThreadPoint) => threadPoint.thread)
-  threadPoints: ThreadPoint[];
+  points: ThreadPoint[];
 
   @ManyToOne(() => ThreadCategory, (category: ThreadCategory) => category.threads)
   category: ThreadCategory;

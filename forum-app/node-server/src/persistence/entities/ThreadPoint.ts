@@ -14,7 +14,7 @@ export class ThreadPoint extends Auditable {
   @ManyToOne(() => User, (user: User) => user.threadPoints)
   user: User;
 
-  @ManyToOne(() => Thread, (thread: Thread) => thread.threadPoints)
+  @ManyToOne(() => Thread, (thread: Thread) => thread.points)
   thread: Thread;
 
   @Column('boolean', {
