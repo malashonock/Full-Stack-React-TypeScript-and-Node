@@ -16,12 +16,12 @@ const getThread: RequestHandler = async (req, res) => {
     const { threadId } = req.params;
 
     if (!threadId) {
-      return res.send(404).send('Thread tread not found');
+      return res.send(404).send('Thread not found');
     }
 
-    const tread = await ThreadRepository.getThreadById(threadId);
+    const thread = await ThreadRepository.getThreadById(threadId);
     
-    res.json(tread);
+    res.json(thread);
   } catch (error) {
     res.status(500).send((error as Error).message);
   }
@@ -47,7 +47,7 @@ const updateThread: RequestHandler = async (req, res) => {
     const { threadId } = req.params;
 
     if (!threadId) {
-      return res.status(404).send('Thread tread not found');
+      return res.status(404).send('Thread not found');
     }
 
     const { name, description } = req.body;
@@ -59,7 +59,7 @@ const updateThread: RequestHandler = async (req, res) => {
     const updatedThread = await ThreadRepository.updateThread(threadId, req.body);
 
     if (!updatedThread) {
-      return res.status(404).send('Thread tread not found');
+      return res.status(404).send('Thread not found');
     }
 
     res.json(updatedThread);

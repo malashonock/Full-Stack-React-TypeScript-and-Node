@@ -7,4 +7,4 @@ export interface ThreadFields extends FormFields {
   body: string;
 }
 
-export type ThreadCategoryDto = Id & ThreadFields;
+export type ThreadDto = Id & ThreadFields;
