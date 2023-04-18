@@ -6,8 +6,9 @@ import { validateThreadFields } from '../middleware/validation/thread.validation
 const router = express.Router();
 
 router.get('/', ThreadController.getAllThreads);
-router.get('/:threadId', ThreadController.getThread);
 router.post('/', isAuthenticated, validateThreadFields, ThreadController.createThread);
+
+router.get('/:threadId', ThreadController.getThread);
 router.put('/:threadId', isAuthenticated, validateThreadFields, ThreadController.updateThread);
 
 export default router;
