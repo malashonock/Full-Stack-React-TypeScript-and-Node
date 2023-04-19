@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 
 import { ThreadComment } from './ThreadComment';
 import { User } from './User';
@@ -14,8 +14,14 @@ export class ThreadCommentPoint extends Auditable {
   @ManyToOne(() => User, (user: User) => user.commentPoints)
   user: User;
 
+  @RelationId((point: ThreadCommentPoint) => point.user)
+  userId: string;
+
   @ManyToOne(() => ThreadComment, (comment: ThreadComment) => comment.points)
   comment: ThreadComment;
+
+  @RelationId((point: ThreadCommentPoint) => point.comment)
+  commentId: string;
 
   @Column('boolean', {
     default: false,

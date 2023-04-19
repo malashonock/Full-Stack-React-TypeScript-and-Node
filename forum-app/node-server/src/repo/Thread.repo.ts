@@ -10,7 +10,7 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
     categoryId,
     title,
     body,
-  }: ThreadFields): Promise<Thread> {
+  }: ThreadFields): Promise<Thread | null> {
     const category = await ThreadCategoryRepository.getCategoryById(categoryId);
     if (!category) {
       throw new Error('Category not found');
@@ -26,11 +26,12 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
       user,
       title,
       body,
-    });
-
+    })
+    
     await this.save(createdThread);
-  
-    return createdThread;
+
+    // Re-query again to avoid returning full user & category
+    return await this.getThreadById(createdThread.id);
   },
 
   async updateThread(id: string, {
@@ -89,7 +90,9 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
         t."viewsCount", 
         t."isDisabled", 
         t."createdOn", 
-        t."lastModifiedOn"
+        t."lastModifiedOn",
+        t."userId",
+        t."categoryId"
       FROM (
         SELECT *, row_number() OVER (
           PARTITION BY "categoryId"

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId } from 'typeorm';
 import { Length } from 'class-validator';
 
 import { User } from './User';
@@ -43,6 +43,9 @@ export class Thread extends Auditable {
   @ManyToOne(() => User, (user: User) => user.threads)
   user: User;
 
+  @RelationId((thread: Thread) => thread.user)
+  userId: string;
+
   @OneToMany(() => ThreadComment, (comment: ThreadComment) => comment.thread)
   comments: ThreadComment[];
 
@@ -51,4 +54,7 @@ export class Thread extends Auditable {
 
   @ManyToOne(() => ThreadCategory, (category: ThreadCategory) => category.threads)
   category: ThreadCategory;
+
+  @RelationId((thread: Thread) => thread.category)
+  categoryId: string;
 }

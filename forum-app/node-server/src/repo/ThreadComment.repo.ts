@@ -7,7 +7,7 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
 
   async createComment(threadId: string, {
     body,
-  }: ThreadCommentFields): Promise<ThreadComment> {
+  }: ThreadCommentFields): Promise<ThreadComment | null> {
     const thread = await ThreadRepository.getThreadById(threadId);
     if (!thread) {
       throw new Error('Thread not found');
@@ -19,8 +19,9 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
     });
 
     await this.save(createdComment);
-  
-    return createdComment;
+
+    // Re-query again to avoid returning full user & category
+    return await this.getCommentById(createdComment.id);
   },
 
   async updateComment(id: string, {
