@@ -50,9 +50,9 @@ const updateThread: RequestHandler = async (req, res) => {
       return res.status(404).send('Thread not found');
     }
 
-    const { name, description } = req.body;
+    const { title, body } = req.body;
 
-    if (!name && !description) {
+    if (!title && !body) {
       return res.status(304).send('No updatable fields were provided in the request');
     }
 
