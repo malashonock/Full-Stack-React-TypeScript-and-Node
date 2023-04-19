@@ -68,9 +68,53 @@ const updateThread: RequestHandler = async (req, res) => {
   }
 };
 
+const getCategoryThreads: RequestHandler = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    if (!categoryId) {
+      return res.send(404).send('Thread category not found');
+    }
+
+    const categoryThreads = await ThreadRepository.getAllThreadsByCategoryId(categoryId);
+    res.json(categoryThreads);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
+const getUserThreads: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = req.session;
+
+    if (!userId) {
+      return res.send(404).send('User not found');
+    }
+
+    const userThreads = await ThreadRepository.getAllThreadsByUserId(userId);
+    res.json(userThreads);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
+const getTopCategoryThreads: RequestHandler = async (req, res) => {
+  try {
+    const topN = Number(req.query.take) || 3;
+
+    const topCategoryThreads = await ThreadRepository.getTopCategoryThreads(topN);
+    res.json(topCategoryThreads);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
 export default {
   getAllThreads,
   getThread,
   createThread,
   updateThread,
+  getCategoryThreads,
+  getUserThreads,
+  getTopCategoryThreads,
 };
