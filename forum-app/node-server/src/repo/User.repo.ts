@@ -1,5 +1,5 @@
 import { User } from '../persistence/entities';
-import { UserFields } from '../shared/dto/User.dto';
+import { UserFields } from '../shared/types';
 import PasswordService from '../services/password.service';
 import dataSource from '../persistence/dataSource';
 

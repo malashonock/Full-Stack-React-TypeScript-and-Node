@@ -1,6 +1,6 @@
 import dataSource from '../persistence/dataSource';
 import { Thread } from '../persistence/entities';
-import { ThreadFields } from '../shared/dto/Thread.dto';
+import { ThreadFields } from '../shared/types';
 import ThreadCategoryRepository from './ThreadCategory.repo';
 import UserRepository from './User.repo';
 
@@ -61,6 +61,17 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
   ): Promise<Thread[]> {
     const categoryThreads = await this.createQueryBuilder('thread')
       .where('thread.categoryId = :categoryId', { categoryId })
+      .orderBy('thread.createdOn', 'DESC')
+      .getMany();
+
+    return categoryThreads;
+  },
+
+  async getAllThreadsByUserId(
+    userId: string,
+  ): Promise<Thread[]> {
+    const categoryThreads = await this.createQueryBuilder('thread')
+      .where('thread.userId = :userId', { userId })
       .orderBy('thread.createdOn', 'DESC')
       .getMany();
 

@@ -1,6 +1,6 @@
 import dataSource from '../persistence/dataSource';
 import { ThreadCategory } from '../persistence/entities';
-import { ThreadCategoryFields } from '../shared/dto/ThreadCategory.dto';
+import { ThreadCategoryFields } from '../shared/types';
 
 const ThreadCategoryRepository = dataSource.getRepository(ThreadCategory).extend({
 

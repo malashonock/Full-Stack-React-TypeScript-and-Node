@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { ThreadFields } from '../../shared/dto/Thread.dto';
+import { ThreadFields } from '../../shared/types';
 import ValidationService from '../../services/validation.service';
 import { isRequired, isNotLongerThan, isNotShorterThan } from '../../shared/validation/validators';
 import { FormValidationSchema } from '../../shared/validation/types';

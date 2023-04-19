@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { UserFields } from '../../shared/dto/User.dto';
+import { UserFields } from '../../shared/types';
 import ValidationService from '../../services/validation.service';
 import { CharacterClass, containsCharClass, isNotShorterThan, isRequired, isValidEmail } from '../../shared/validation/validators';
 import { FormValidationSchema } from '../../shared/validation/types';

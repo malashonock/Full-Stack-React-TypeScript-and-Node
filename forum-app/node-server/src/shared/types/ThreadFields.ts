@@ -1,4 +1,3 @@
-import { Id } from '../../types/Id';
 import { FormFields } from '../validation/types';
 
 export interface ThreadFields extends FormFields {
@@ -6,5 +5,3 @@ export interface ThreadFields extends FormFields {
   title: string;
   body: string;
 }
-
-export type ThreadDto = Id & ThreadFields;
