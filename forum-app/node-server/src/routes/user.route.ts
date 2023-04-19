@@ -1,4 +1,5 @@
 import express from 'express';
+
 import UserController from '../controllers/user.controller';
 import { isAuthenticated } from '../middleware/auth';
 import { validateUserFields } from '../middleware/validation/user.validation';
