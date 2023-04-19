@@ -88,10 +88,27 @@ const getUserComments: RequestHandler = async (req, res) => {
   }
 };
 
+const viewComment: RequestHandler = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    const viewedComment = await ThreadCommentRepository.viewComment(commentId);
+
+    if (!viewedComment) {
+      return res.status(404).send('Thread comment not found');
+    }
+
+    res.json(viewedComment);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
 export default {
   getComment,
   createComment,
   updateComment,
   getThreadComments,
   getUserComments,
+  viewComment,
 };

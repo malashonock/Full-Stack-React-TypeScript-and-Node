@@ -109,6 +109,26 @@ const getTopCategoryThreads: RequestHandler = async (req, res) => {
   }
 };
 
+const viewThread: RequestHandler = async (req, res) => {
+  try {
+    const { threadId } = req.params;
+
+    if (!threadId) {
+      return res.status(404).send('Thread not found');
+    }
+
+    const viewedThread = await ThreadRepository.viewThread(threadId);
+
+    if (!viewedThread) {
+      return res.status(404).send('Thread not found');
+    }
+
+    res.json(viewedThread);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
 export default {
   getAllThreads,
   getThread,
@@ -117,4 +137,5 @@ export default {
   getCategoryThreads,
   getUserThreads,
   getTopCategoryThreads,
+  viewThread,
 };

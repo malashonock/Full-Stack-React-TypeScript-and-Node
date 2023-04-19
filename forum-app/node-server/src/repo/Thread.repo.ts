@@ -118,6 +118,20 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
     return thread;
   },
 
+  async viewThread(id: string): Promise<Thread | null> {
+    const viewedThread = await this.getThreadById(id);
+
+    if (!viewedThread) {
+      return null;
+    }
+
+    viewedThread.viewsCount++;
+
+    await this.save(viewedThread);
+
+    return viewedThread;
+  },
+
 });
 
 export default ThreadRepository;

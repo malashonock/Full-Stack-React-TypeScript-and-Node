@@ -13,11 +13,13 @@ router.post('/', isAuthenticated, validateThreadFields, ThreadController.createT
 
 router.get('/:threadId', ThreadController.getThread);
 router.put('/:threadId', isAuthenticated, validateThreadFields, ThreadController.updateThread);
+router.post('/:threadId/view', ThreadController.viewThread);
 
 router.get('/:threadId/comments', ThreadCommentController.getThreadComments);
 router.post('/:threadId/comments', isAuthenticated, validateThreadCommentFields, ThreadCommentController.createComment);
 
 router.get('/:threadId/comments/:commentId', ThreadCommentController.getComment);
 router.put('/:threadId/comments/:commentId', isAuthenticated, validateThreadCommentFields, ThreadCommentController.updateComment);
+router.post('/:threadId/comments/:commentId/view', ThreadCommentController.viewComment);
 
 export default router;

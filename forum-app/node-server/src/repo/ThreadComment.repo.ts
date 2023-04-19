@@ -75,6 +75,20 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
     return comment;
   },
 
+  async viewComment(id: string): Promise<ThreadComment | null> {
+    const viewedComment = await this.getCommentById(id);
+
+    if (!viewedComment) {
+      return null;
+    }
+
+    viewedComment.viewsCount++;
+
+    await this.save(viewedComment);
+
+    return viewedComment;
+  },
+
 });
 
 export default ThreadCommentRepository;
