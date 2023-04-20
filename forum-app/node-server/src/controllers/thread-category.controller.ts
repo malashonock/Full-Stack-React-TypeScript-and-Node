@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 
 import ThreadCategoryRepository from '../repo/ThreadCategory.repo';
-import ThreadRepository from '../repo/Thread.repo';
 
 const getAllCategories: RequestHandler = async (req, res) => {
   try {
@@ -15,7 +14,6 @@ const getAllCategories: RequestHandler = async (req, res) => {
 const getCategory: RequestHandler = async (req, res) => {
   try {
     const { categoryId } = req.params;
-
     if (!categoryId) {
       return res.send(404).send('Thread category not found');
     }
@@ -39,7 +37,6 @@ const createCategory: RequestHandler = async (req, res) => {
 const updateCategory: RequestHandler = async (req, res) => {
   try {
     const { categoryId } = req.params;
-
     if (!categoryId) {
       return res.status(404).send('Thread category not found');
     }

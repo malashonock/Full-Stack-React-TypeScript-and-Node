@@ -15,7 +15,6 @@ const registerUser: RequestHandler = async (req, res) => {
 const updateUser: RequestHandler = async (req, res) => {
   try {
     const { userId } = req.session;
-
     if (!userId) {
       return res.status(404).send('User not found');
     }

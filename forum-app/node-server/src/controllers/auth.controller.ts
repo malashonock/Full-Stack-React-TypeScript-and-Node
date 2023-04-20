@@ -6,8 +6,8 @@ import PasswordService from '../services/password.service';
 const login: RequestHandler = async (req, res) => {
   try {
     const { userName, password } = req.body;
-    const user = await UserRepo.getUserByName(userName);
 
+    const user = await UserRepo.getUserByName(userName);
     if (!user) {
       return res.status(404).send('User not found');
     }
