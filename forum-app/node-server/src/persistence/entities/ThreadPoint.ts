@@ -3,6 +3,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, RelationId } from 't
 import { Thread } from './Thread';
 import { User } from './User';
 import { Auditable } from './Auditable';
+import { VoteType } from './VoteType';
 
 @Entity({ name: 'ThreadPoints' })
 export class ThreadPoint extends Auditable {
@@ -23,9 +24,9 @@ export class ThreadPoint extends Auditable {
   @RelationId((point: ThreadPoint) => point.thread)
   threadId: string;
 
-  @Column('boolean', {
-    default: false,
+  @Column('integer', {
+    default: VoteType.Upvote,
     nullable: false,
   })
-  isDecrement: boolean;
+  type: VoteType;
 }

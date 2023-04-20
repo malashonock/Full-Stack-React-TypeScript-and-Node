@@ -5,3 +5,4 @@ export * from './ThreadPoint';
 export * from './ThreadCommentPoint';
 export * from './ThreadCategory';
 export * from './Auditable';
+export * from './VoteType';

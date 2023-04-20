@@ -1,11 +1,12 @@
 import { RequestHandler } from 'express';
 
 import ThreadCommentRepository from '../repo/ThreadComment.repo';
+import { VoteType } from '../persistence/entities';
+import ThreadCommentPointRepository from '../repo/ThreadCommentPoint.repo';
 
 const getComment: RequestHandler = async (req, res) => {
   try {
     const { commentId } = req.params;
-
     if (!commentId) {
       return res.send(404).send('Thread comment not found');
     }
@@ -20,13 +21,17 @@ const getComment: RequestHandler = async (req, res) => {
 
 const createComment: RequestHandler = async (req, res) => {
   try {
-    const { threadId } = req.params;
+    const { userId } = req.session;
+    if (!userId) {
+      return res.status(404).send('User not found');
+    }
 
+    const { threadId } = req.params;
     if (!threadId) {
       return res.send(404).send('Thread not found');
     }
 
-    const createdComment = await ThreadCommentRepository.createComment(threadId, req.body);
+    const createdComment = await ThreadCommentRepository.createComment(userId, threadId, req.body);
 
     res.json(createdComment);
   } catch (error) {
@@ -37,9 +42,11 @@ const createComment: RequestHandler = async (req, res) => {
 const updateComment: RequestHandler = async (req, res) => {
   try {
     const { commentId } = req.params;
+    if (!commentId) {
+      return res.send(404).send('Thread comment not found');
+    }
 
     const { body } = req.body;
-
     if (!body) {
       return res.status(304).send('No updatable fields were provided in the request');
     }
@@ -58,13 +65,12 @@ const updateComment: RequestHandler = async (req, res) => {
 
 const getThreadComments: RequestHandler = async (req, res) => {
   try {
-    const { threadId } = req.params;
-
-    if (!threadId) {
-      return res.send(404).send('Thread not found');
+    const { commentId } = req.params;
+    if (!commentId) {
+      return res.send(404).send('Thread comment not found');
     }
 
-    const threadComments = await ThreadCommentRepository.getAllCommentsByThreadId(threadId);
+    const threadComments = await ThreadCommentRepository.getAllCommentsByThreadId(commentId);
     
     res.json(threadComments);
   } catch (error) {
@@ -75,7 +81,6 @@ const getThreadComments: RequestHandler = async (req, res) => {
 const getUserComments: RequestHandler = async (req, res) => {
   try {
     const { userId } = req.session;
-
     if (!userId) {
       return res.send(404).send('User not found');
     }
@@ -91,6 +96,9 @@ const getUserComments: RequestHandler = async (req, res) => {
 const viewComment: RequestHandler = async (req, res) => {
   try {
     const { commentId } = req.params;
+    if (!commentId) {
+      return res.send(404).send('Thread comment not found');
+    }
 
     const viewedComment = await ThreadCommentRepository.viewComment(commentId);
 
@@ -103,6 +111,53 @@ const viewComment: RequestHandler = async (req, res) => {
     res.status(500).send((error as Error).message);
   }
 };
+const toggleUpvoteComment: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = req.session;
+    if (!userId) {
+      return res.status(404).send('User not found');
+    }
+
+    const { commentId } = req.params;
+    if (!commentId) {
+      return res.status(404).send('Thread comment not found');
+    }
+
+    const createdUpvote = await ThreadCommentPointRepository.togglePoint(userId, commentId, VoteType.Upvote);
+
+    if (createdUpvote) {
+      return res.status(201).json(createdUpvote);
+    } else {
+      return res.status(204).send('Upvote removed');
+    }
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
+const toggleDownvoteComment: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = req.session;
+    if (!userId) {
+      return res.status(404).send('User not found');
+    }
+
+    const { commentId } = req.params;
+    if (!commentId) {
+      return res.status(404).send('Thread comment not found');
+    }
+
+    const createdDownvote = await ThreadCommentPointRepository.togglePoint(userId, commentId, VoteType.Downvote);
+
+    if (createdDownvote) {
+      return res.status(201).json(createdDownvote);
+    } else {
+      return res.status(204).send('Downvote removed');
+    }
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
 
 export default {
   getComment,
@@ -111,4 +166,6 @@ export default {
   getThreadComments,
   getUserComments,
   viewComment,
+  toggleUpvoteComment,
+  toggleDownvoteComment,
 };

@@ -4,6 +4,7 @@ import { Length } from 'class-validator';
 import { Thread } from './Thread';
 import { ThreadCommentPoint } from './ThreadCommentPoint';
 import { Auditable } from './Auditable';
+import { User } from './User';
 
 @Entity({ name: 'ThreadComments'})
 export class ThreadComment extends Auditable {
@@ -30,6 +31,12 @@ export class ThreadComment extends Auditable {
     nullable: false,
   })
   isDisabled: boolean;
+  
+  @ManyToOne(() => User, (user: User) => user.comments)
+  user: User;
+
+  @RelationId((comment: ThreadComment) => comment.user)
+  userId: string;
 
   @ManyToOne(() => Thread, (thread: Thread) => thread.comments)
   thread: Thread;
@@ -39,4 +46,10 @@ export class ThreadComment extends Auditable {
 
   @OneToMany(() => ThreadCommentPoint, (point: ThreadCommentPoint) => point.comment)
   points: ThreadCommentPoint[];
+
+  @Column('int', {
+    default: 0,
+    nullable: false,
+  })
+  pointsSum: number;
 }

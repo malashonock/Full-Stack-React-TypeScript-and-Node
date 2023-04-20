@@ -52,6 +52,12 @@ export class Thread extends Auditable {
   @OneToMany(() => ThreadPoint, (threadPoint: ThreadPoint) => threadPoint.thread)
   points: ThreadPoint[];
 
+  @Column('int', {
+    default: 0,
+    nullable: false,
+  })
+  pointsSum: number;
+
   @ManyToOne(() => ThreadCategory, (category: ThreadCategory) => category.threads)
   category: ThreadCategory;
 

@@ -2,25 +2,32 @@ import dataSource from '../persistence/dataSource';
 import { ThreadComment } from '../persistence/entities';
 import { ThreadCommentFields } from '../shared/types';
 import ThreadRepository from './Thread.repo';
+import UserRepository from './User.repo';
 
 const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
 
-  async createComment(threadId: string, {
+  async createComment(userId: string, threadId: string, {
     body,
   }: ThreadCommentFields): Promise<ThreadComment | null> {
+    const user = await UserRepository.getUserById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
     const thread = await ThreadRepository.getThreadById(threadId);
     if (!thread) {
       throw new Error('Thread not found');
     }
 
     const createdComment: ThreadComment = this.create({
+      user,
       thread,
       body,
     });
 
     await this.save(createdComment);
 
-    // Re-query again to avoid returning full user & category
+    // Re-query again to avoid returning full user & thread
     return await this.getCommentById(createdComment.id);
   },
 
@@ -55,8 +62,7 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
     userId: string,
   ): Promise<ThreadComment[]> {
     const userComments = await this.createQueryBuilder('comment')
-      .leftJoin('comment.thread', 'thread')
-      .where('thread.userId = :userId', { userId })
+      .where('comment.userId = :userId', { userId })
       .orderBy('comment.createdOn', 'DESC')
       .getMany();
 
@@ -67,7 +73,7 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
     id: string,
   ): Promise<ThreadComment | null> {
     if (!id) {
-      throw new Error('ThreadComment id is not defined');
+      throw new Error('Thread comment id is not defined');
     }
 
     const comment = await this.findOneBy({ id });
