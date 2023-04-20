@@ -34,6 +34,28 @@ const login: RequestHandler = async (req, res) => {
   }
 };
 
+const checkLogin: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = req.session;
+    if (!userId) {
+      return res.status(401).send('Unauthenticated');
+    }
+
+    const user = await UserRepo.getUserById(userId);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const { id, userName } = user;
+    res.send({
+      id,
+      userName,
+    });
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
 const logout: RequestHandler = async (req, res, next) => {
   try {
     req.session.destroy(() => next('route'));
@@ -45,5 +67,6 @@ const logout: RequestHandler = async (req, res, next) => {
 
 export default {
   login,
+  checkLogin,
   logout,
 };
