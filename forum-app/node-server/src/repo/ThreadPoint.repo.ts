@@ -22,7 +22,7 @@ const ThreadPointRepository = dataSource.getRepository(ThreadPoint).extend({
         id: threadId,
       },
       relations: {
-        user: true,
+        author: true,
       },
     });
 
@@ -30,7 +30,7 @@ const ThreadPointRepository = dataSource.getRepository(ThreadPoint).extend({
       throw new Error('Thread not found');
     }
 
-    if (thread.user.id === userId) {
+    if (userId === thread.author.id) {
       throw new Error('Thread author cannot vote for own threads');
     }
 

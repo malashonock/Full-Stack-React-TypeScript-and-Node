@@ -85,7 +85,7 @@ const getUserComments: RequestHandler = async (req, res) => {
       return res.send(404).send('User not found');
     }
 
-    const userComments = await ThreadCommentRepository.getAllCommentsByUserId(userId);
+    const userComments = await ThreadCommentRepository.getAllCommentsByAuthorId(userId);
 
     res.json(userComments);
   } catch (error) {

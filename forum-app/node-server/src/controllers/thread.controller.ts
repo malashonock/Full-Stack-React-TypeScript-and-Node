@@ -89,7 +89,7 @@ const getUserThreads: RequestHandler = async (req, res) => {
       return res.send(404).send('User not found');
     }
 
-    const userThreads = await ThreadRepository.getAllThreadsByUserId(userId);
+    const userThreads = await ThreadRepository.getAllThreadsByAuthorId(userId);
     res.json(userThreads);
   } catch (error) {
     res.status(500).send((error as Error).message);

@@ -22,7 +22,7 @@ const ThreadCommentPointRepository = dataSource.getRepository(ThreadCommentPoint
         id: commentId,
       },
       relations: {
-        user: true,
+        author: true,
       },
     });
 
@@ -30,7 +30,7 @@ const ThreadCommentPointRepository = dataSource.getRepository(ThreadCommentPoint
       throw new Error('Thread comment not found');
     }
 
-    if (comment.user.id === userId) {
+    if (userId === comment.author.id) {
       throw new Error('Thread comment author cannot like/dislike own threads');
     }
 

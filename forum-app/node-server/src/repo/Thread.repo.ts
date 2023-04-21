@@ -6,7 +6,7 @@ import UserRepository from './User.repo';
 
 const ThreadRepository = dataSource.getRepository(Thread).extend({
 
-  async createThread(userId: string, {
+  async createThread(authorId: string, {
     categoryId,
     title,
     body,
@@ -16,21 +16,21 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
       throw new Error('Category not found');
     }
     
-    const user = await UserRepository.getUserById(userId);
-    if (!user) {
-      throw new Error('User not found');
+    const author = await UserRepository.getUserById(authorId);
+    if (!author) {
+      throw new Error('Author not found');
     }
 
     const createdThread: Thread = this.create({
       category,
-      user,
+      author,
       title,
       body,
     })
     
     await this.save(createdThread);
 
-    // Re-query again to avoid returning full user & category
+    // Re-query again to avoid returning full author & category
     return await this.getThreadById(createdThread.id);
   },
 
@@ -68,11 +68,11 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
     return categoryThreads;
   },
 
-  async getAllThreadsByUserId(
-    userId: string,
+  async getAllThreadsByAuthorId(
+    authorId: string,
   ): Promise<Thread[]> {
     const categoryThreads = await this.createQueryBuilder('thread')
-      .where('thread.userId = :userId', { userId })
+      .where('thread.authorId = :authorId', { authorId })
       .orderBy('thread.createdOn', 'DESC')
       .getMany();
 
@@ -91,7 +91,7 @@ const ThreadRepository = dataSource.getRepository(Thread).extend({
         t."isDisabled", 
         t."createdOn", 
         t."lastModifiedOn",
-        t."userId",
+        t."authorId",
         t."categoryId"
       FROM (
         SELECT *, row_number() OVER (

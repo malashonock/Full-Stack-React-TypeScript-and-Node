@@ -6,12 +6,12 @@ import UserRepository from './User.repo';
 
 const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
 
-  async createComment(userId: string, threadId: string, {
+  async createComment(authorId: string, threadId: string, {
     body,
   }: ThreadCommentFields): Promise<ThreadComment | null> {
-    const user = await UserRepository.getUserById(userId);
-    if (!user) {
-      throw new Error('User not found');
+    const author = await UserRepository.getUserById(authorId);
+    if (!author) {
+      throw new Error('Author not found');
     }
 
     const thread = await ThreadRepository.getThreadById(threadId);
@@ -20,14 +20,14 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
     }
 
     const createdComment: ThreadComment = this.create({
-      user,
+      author,
       thread,
       body,
     });
 
     await this.save(createdComment);
 
-    // Re-query again to avoid returning full user & thread
+    // Re-query again to avoid returning full author & thread
     return await this.getCommentById(createdComment.id);
   },
 
@@ -58,11 +58,11 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
     return threadComments;
   },
 
-  async getAllCommentsByUserId(
-    userId: string,
+  async getAllCommentsByAuthorId(
+    authorId: string,
   ): Promise<ThreadComment[]> {
     const userComments = await this.createQueryBuilder('comment')
-      .where('comment.userId = :userId', { userId })
+      .where('comment.authorId = :authorId', { authorId })
       .orderBy('comment.createdOn', 'DESC')
       .getMany();
 

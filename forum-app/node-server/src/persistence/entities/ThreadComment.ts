@@ -33,10 +33,10 @@ export class ThreadComment extends Auditable {
   isDisabled: boolean;
   
   @ManyToOne(() => User, (user: User) => user.comments)
-  user: User;
+  author: User;
 
-  @RelationId((comment: ThreadComment) => comment.user)
-  userId: string;
+  @RelationId((comment: ThreadComment) => comment.author)
+  authorId: string;
 
   @ManyToOne(() => Thread, (thread: Thread) => thread.comments)
   thread: Thread;
