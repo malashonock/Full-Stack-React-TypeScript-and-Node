@@ -1,0 +1,19 @@
+{
+  "name": "@shared/validation",
+  "private": true,
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@shared/types": "^1.0.0"
+  }
+}
