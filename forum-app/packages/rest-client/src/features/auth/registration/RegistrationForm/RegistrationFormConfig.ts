@@ -1,14 +1,13 @@
-import { FormState } from 'common/forms';
 import {
-  containsDigits,
-  containsLowercaseLetters,
-  containsSpecialChars,
-  containsUppercaseLetters,
+  CharacterClass,
+  containsCharClass,
   doPasswordsMatch,
-  isLongEnough,
+  isNotShorterThan,
   isRequired,
   isValidEmail,
-} from 'common/validation/validators';
+} from '@shared/validation';
+
+import { FormState } from 'common/forms';
 
 export type RegistrationFormFields = {
   userName: string;
@@ -31,11 +30,11 @@ export const validationSchema: RegistrationFormState['validationSchema'] = {
   email: [isRequired, isValidEmail],
   password: [
     isRequired,
-    isLongEnough,
-    containsUppercaseLetters,
-    containsLowercaseLetters,
-    containsDigits,
-    containsSpecialChars,
+    isNotShorterThan(8),
+    containsCharClass(CharacterClass.UpperCaseLetters),
+    containsCharClass(CharacterClass.LowerCaseLetters),
+    containsCharClass(CharacterClass.Digits),
+    containsCharClass(CharacterClass.SpecialCharacters),
   ],
   form: [doPasswordsMatch('password', 'passwordConfirm')],
 };

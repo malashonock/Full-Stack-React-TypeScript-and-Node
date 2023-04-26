@@ -1,6 +1,5 @@
 import { FormFields } from '@shared/types';
-
-import { FieldValidator, FormValidator } from 'common/validation/types';
+import { FieldValidator, FormValidator } from '@shared/validation';
 
 export interface FormState<TFields extends FormFields> {
   values: TFields;

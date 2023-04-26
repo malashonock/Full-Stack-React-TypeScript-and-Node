@@ -2,13 +2,18 @@ import { PropsWithChildren, useEffect } from 'react';
 import cn from 'classnames';
 
 import { FormFields } from '@shared/types';
+import {
+  ValidationService,
+  ValidationResult,
+  FormValidationState,
+  FormValidationSchema,
+} from '@shared/validation';
 
 import {
   ControlledFormProps,
   FormActionType,
   FormState,
 } from 'common/forms/types';
-import { ValidationResult } from 'common/validation/types';
 
 import './Form.scss';
 
@@ -29,22 +34,24 @@ export const Form = <TFields extends FormFields>({
     const hasValidators = !!validators && validators.length > 0;
 
     if (hasValidators) {
-      let validationResult: ValidationResult<FormState<TFields>> = {
-        isValid: true,
-        value: state,
-      };
+      const validationState = {
+        values: state.values,
+      } as FormValidationState<TFields>;
 
-      let i = 0;
+      const validationSchema = {
+        form: validators,
+      } as FormValidationSchema<TFields>;
 
-      while (i < validators.length && validationResult.isValid) {
-        const validator = validators[i++];
-        validationResult = validator(validationResult.value);
-      }
+      ValidationService.runFormValidators(validationSchema, validationState);
+
+      const errors: string = validationState.errors
+        ? validationState.errors.form?.join('\n') || ''
+        : '';
 
       dispatch({
         type: FormActionType.Validation,
         field: 'form',
-        message: validationResult.isValid ? '' : validationResult.errorMessage,
+        message: errors,
       });
     }
   };

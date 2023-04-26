@@ -1,9 +1,13 @@
 import cn from 'classnames';
 
 import { FormFields } from '@shared/types';
+import {
+  ValidationService,
+  FormValidationSchema,
+  FormValidationState,
+} from '@shared/validation';
 
 import { ControlledInputProps, FormAction, FormActionType } from '../../types';
-import { ValidationResult } from 'common/validation/types';
 
 import './Field.scss';
 
@@ -69,22 +73,26 @@ export const Field = <TFields extends FormFields>({
     const hasValidators = !!validators && validators.length > 0;
 
     if (hasValidators) {
-      let validationResult: ValidationResult<TValue> = {
-        isValid: true,
-        value,
-      };
+      const validationState = {
+        values: {
+          [name]: value,
+        },
+      } as FormValidationState<TFields>;
 
-      let i = 0;
+      const validationSchema = {
+        [name]: validators,
+      } as FormValidationSchema<TFields>;
 
-      while (i < validators.length && validationResult.isValid) {
-        const validator = validators[i++];
-        validationResult = validator(label, validationResult.value);
-      }
+      ValidationService.runFieldValidators(validationSchema, validationState);
+
+      const errors: string = validationState.errors
+        ? validationState.errors[name]?.join('\n') || ''
+        : '';
 
       dispatch({
         type: FormActionType.Validation,
         field: name,
-        message: validationResult.isValid ? '' : validationResult.errorMessage,
+        message: errors,
       });
     }
   };

@@ -1,5 +1,6 @@
+import { isRequired } from '@shared/validation';
+
 import { FormState } from 'common/forms';
-import { isRequired } from 'common/validation/validators';
 
 export type LoginFormFields = {
   userName: string;

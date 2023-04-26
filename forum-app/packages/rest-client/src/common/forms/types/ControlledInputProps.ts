@@ -1,7 +1,7 @@
 import { FormFields } from '@shared/types';
+import { FieldValidator } from '@shared/validation';
 
 import { FormDispatch } from '.';
-import { FieldValidator } from 'common/validation/types';
 
 export type ControlledInputProps<TFields extends FormFields> = {
   [FieldName in keyof TFields]: {
