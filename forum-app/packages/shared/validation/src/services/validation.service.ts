@@ -146,5 +146,7 @@ const runValidators = <TFields extends FormFields>(
 };
 
 export const ValidationService = {
+  runFieldValidators,
+  runFormValidators,
   runValidators,
 };
