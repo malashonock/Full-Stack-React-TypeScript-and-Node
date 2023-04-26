@@ -2,6 +2,10 @@
   "name": "rest-client",
   "private": true,
   "version": "0.1.0",
+  "devDependencies": {
+    "@types/react-modal": "^3.13.1",
+    "sass": "^1.59.3"
+  },
   "dependencies": {
     "@emotion/css": "^11.10.6",
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
@@ -40,12 +44,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -57,16 +55,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-modal": "^3.13.1",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
-    "@typescript-eslint/parser": "^5.56.0",
-    "lint-staged": "^13.2.0",
-    "sass": "^1.59.3"
-  },
-  "lint-staged": {
-    "**/*": "npm run format:fix",
-    "*.{ts,tsx}": "npm run lint:fix"
   }
 }

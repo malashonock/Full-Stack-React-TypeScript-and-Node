@@ -2,6 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd ./forum-app
-npm run format:fix
-npm run lint:fix
-git add .
+npx lint-staged

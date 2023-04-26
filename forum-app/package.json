@@ -14,8 +14,8 @@
     "start:rest-server": "cd ./packages/rest-server && npm start",
     "start:rest-client": "cd ./packages/rest-client && npm start",
     "husky:prepare": "cd .. && husky install ./forum-app/.husky",
-    "format:check": "prettier --check .",
-    "format:fix": "prettier --write .",
+    "format:check": "prettier --ignore-unknown --check .",
+    "format:fix": "prettier --ignore-unknown --write .",
     "lint:check": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -26,6 +26,11 @@
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
-    "@typescript-eslint/parser": "^5.55.0"
+    "@typescript-eslint/parser": "^5.55.0",
+    "lint-staged": "^13.2.0"
+  },
+  "lint-staged": {
+    "**/*": "npm run format:fix --",
+    "*.{js,ts,jsx,tsx}": "npm run lint:fix --"
   }
 }
