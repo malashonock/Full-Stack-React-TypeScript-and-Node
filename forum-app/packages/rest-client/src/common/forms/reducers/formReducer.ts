@@ -1,5 +1,7 @@
 /* eslint-disable no-case-declarations */
-import { FormAction, FormActionType, FormFields, FormState } from '../types';
+import { FormFields } from '@shared/types';
+
+import { FormAction, FormActionType, FormState } from '../types';
 
 let initialState: unknown = undefined;
 

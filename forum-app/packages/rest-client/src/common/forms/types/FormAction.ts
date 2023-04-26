@@ -1,4 +1,6 @@
-import { FormActionType, FormFields } from '.';
+import { FormFields } from '@shared/types';
+
+import { FormActionType } from '.';
 
 export type FormAction<TFields extends FormFields> =
   | {

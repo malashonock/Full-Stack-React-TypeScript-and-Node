@@ -1,11 +1,8 @@
 import cn from 'classnames';
 
-import {
-  ControlledInputProps,
-  FormAction,
-  FormActionType,
-  FormFields,
-} from '../../types';
+import { FormFields } from '@shared/types';
+
+import { ControlledInputProps, FormAction, FormActionType } from '../../types';
 import { ValidationResult } from 'common/validation/types';
 
 import './Field.scss';

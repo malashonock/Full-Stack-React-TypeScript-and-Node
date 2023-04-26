@@ -1,5 +1,6 @@
-import { FormFields, FormState } from 'common/forms';
+import { FormState } from 'common/forms';
 import { FieldValidator, FormValidator, ValidationResult } from '../types';
+import { FormFields } from '@shared/types';
 
 export const isLongEnough: FieldValidator<string> = (fieldLabel, password) => {
   const PWD_MIN_LENGTH = 8;

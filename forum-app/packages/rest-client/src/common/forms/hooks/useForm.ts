@@ -1,12 +1,13 @@
 import { useReducer } from 'react';
 
+import { FormFields } from '@shared/types';
+
 import {
   ControlledFormProps,
   ControlledInputProps,
   FormActionType,
   FormContext,
   FormDispatch,
-  FormFields,
   FormState,
 } from '../types';
 import { formReducer } from '../reducers';

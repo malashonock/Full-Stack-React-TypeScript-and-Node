@@ -1,10 +1,11 @@
 import { PropsWithChildren, useEffect } from 'react';
 import cn from 'classnames';
 
+import { FormFields } from '@shared/types';
+
 import {
   ControlledFormProps,
   FormActionType,
-  FormFields,
   FormState,
 } from 'common/forms/types';
 import { ValidationResult } from 'common/validation/types';
