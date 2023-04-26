@@ -7,10 +7,10 @@
   "files": [
     "lib/"
   ],
+  "scripts": {
+    "build": "rm -rf ./lib && tsc"
+  },
   "devDependencies": {
     "typescript": "^5.0.4"
-  },
-  "scripts": {
-    "build": "tsc"
   }
 }

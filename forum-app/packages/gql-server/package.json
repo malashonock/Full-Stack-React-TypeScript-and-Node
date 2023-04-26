@@ -5,7 +5,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "rm -rf ./dist && npx tsc",
+    "build": "rm -rf ./dist && tsc",
     "serve": "node ./dist/server.js",
     "test": "jest",
     "dev": "ts-node-dev --respawn ./src/server.ts",
