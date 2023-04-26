@@ -1,3 +1,6 @@
+import lowerCase from 'lodash.lowercase';
+import upperFirst from 'lodash.upperfirst';
+
 import { FieldValidator, ValidationResult } from '../types';
 
 export const isRequired: FieldValidator<string> = (fieldLabel, text) => {
@@ -10,7 +13,7 @@ export const isRequired: FieldValidator<string> = (fieldLabel, text) => {
       }
     : {
         isValid: false,
-        errorMessage: `${fieldLabel} is required`,
+        errorMessage: `${upperFirst(lowerCase(fieldLabel))} is required`,
       };
 };
 
@@ -25,7 +28,9 @@ export const isNotShorterThan = (minLength: number): FieldValidator<string> => {
         }
       : {
           isValid: false,
-          errorMessage: `${fieldLabel} must contain at least ${minLength} characters`,
+          errorMessage: `${upperFirst(
+            lowerCase(fieldLabel),
+          )} must contain at least ${minLength} characters`,
         };
   };
 };
@@ -41,7 +46,9 @@ export const isNotLongerThan = (maxLength: number): FieldValidator<string> => {
         }
       : {
           isValid: false,
-          errorMessage: `${fieldLabel} must contain at most ${maxLength} characters`,
+          errorMessage: `${upperFirst(
+            lowerCase(fieldLabel),
+          )} must contain at most ${maxLength} characters`,
         };
   };
 };

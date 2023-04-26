@@ -1,4 +1,6 @@
 /* eslint-disable no-control-regex */
+import lowerCase from 'lodash.lowercase';
+import upperFirst from 'lodash.upperfirst';
 
 import { FieldValidator } from '../types';
 
@@ -14,6 +16,8 @@ export const isValidEmail: FieldValidator<string> = (fieldLabel, email) => {
       }
     : {
         isValid: false,
-        errorMessage: `${fieldLabel} is not a valid email address`,
+        errorMessage: `${upperFirst(
+          lowerCase(fieldLabel),
+        )} is not a valid email address`,
       };
 };

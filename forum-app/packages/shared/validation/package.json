@@ -11,9 +11,13 @@
     "build": "rm -rf ./lib && tsc"
   },
   "devDependencies": {
+    "@types/lodash.lowercase": "^4.3.7",
+    "@types/lodash.upperfirst": "^4.3.7",
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@shared/types": "^1.0.0"
+    "@shared/types": "^1.0.0",
+    "lodash.lowercase": "^4.3.0",
+    "lodash.upperfirst": "^4.3.1"
   }
 }
