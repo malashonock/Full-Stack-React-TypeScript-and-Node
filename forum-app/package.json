@@ -11,8 +11,8 @@
     "./packages/shared/validation"
   ],
   "scripts": {
-    "start:rest-server": "cd ./packages/rest-server && npm start",
-    "start:rest-client": "cd ./packages/rest-client && npm start",
+    "start:rest-server": "npm run start -w ./packages/rest-server",
+    "start:rest-client": "npm run start -w ./packages/rest-client",
     "husky:prepare": "cd .. && husky install ./forum-app/.husky",
     "format:check": "prettier --ignore-unknown --check .",
     "format:fix": "prettier --ignore-unknown --write .",
