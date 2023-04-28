@@ -1,15 +1,11 @@
-import { NewUserFields, UpdateUserFields } from '@shared/types';
+import { UserFields } from '@shared/types';
 
 import { User } from '../persistence/entities';
 import PasswordService from '../services/password.service';
 import dataSource from '../persistence/dataSource';
 
 const UserRepository = dataSource.getRepository(User).extend({
-  async createUser({
-    userName,
-    email,
-    password,
-  }: NewUserFields): Promise<User> {
+  async createUser({ userName, email, password }: UserFields): Promise<User> {
     const hashedPassword: string = await PasswordService.hashPassword(password);
 
     const createdUser: User = this.create({
@@ -25,7 +21,7 @@ const UserRepository = dataSource.getRepository(User).extend({
 
   async updateUser(
     id: string,
-    { userName, email, password }: UpdateUserFields,
+    { userName, email, password }: Partial<UserFields>,
   ): Promise<User | null> {
     const updatedUser = await this.getUserById(id);
 

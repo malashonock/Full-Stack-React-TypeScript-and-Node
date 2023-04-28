@@ -1,4 +1,4 @@
-import { NewUserFields } from '@shared/types';
+import { UserFields } from '@shared/types';
 import {
   CharacterClass,
   containsCharClass,
@@ -9,7 +9,7 @@ import {
 
 import { FormState } from 'common/forms';
 
-export type ChangePasswordFormFields = Pick<NewUserFields, 'password'> & {
+export type ChangePasswordFormFields = Pick<UserFields, 'password'> & {
   passwordConfirm: string;
 };
 

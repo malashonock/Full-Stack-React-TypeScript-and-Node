@@ -1,13 +1,10 @@
-import { NewUserFields, UpdateUserFields } from '@shared/types';
+import { UserFields } from '@shared/types';
 
 import UserRepository from '../repo/User.repo';
 import { Request, Response } from '../types';
 import { User } from '../persistence/entities';
 
-const registerUser = async (
-  req: Request<NewUserFields>,
-  res: Response<User>,
-) => {
+const registerUser = async (req: Request<UserFields>, res: Response<User>) => {
   try {
     const { userName } = req.body;
 
@@ -24,7 +21,7 @@ const registerUser = async (
 };
 
 const updateUser = async (
-  req: Request<UpdateUserFields>,
+  req: Request<Partial<UserFields>>,
   res: Response<User>,
 ) => {
   try {

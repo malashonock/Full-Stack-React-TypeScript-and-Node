@@ -1,4 +1,4 @@
-import { NewUserFields } from '@shared/types';
+import { UserFields } from '@shared/types';
 import {
   CharacterClass,
   containsCharClass,
@@ -10,7 +10,7 @@ import {
 
 import { FormState } from 'common/forms';
 
-export type RegistrationFormFields = NewUserFields & {
+export type RegistrationFormFields = UserFields & {
   passwordConfirm: string;
 };
 

@@ -1,9 +1,9 @@
-import { NewUserFields, UpdateUserFields, UserDto } from '@shared/types';
+import { UserFields, UserDto } from '@shared/types';
 
 import { FetchService, MutationMethod } from 'common/utils';
 
-const registerUser = async (userData: NewUserFields): Promise<UserDto> => {
-  const createdUser = await FetchService.runMutation<NewUserFields, UserDto>(
+const registerUser = async (userData: UserFields): Promise<UserDto> => {
+  const createdUser = await FetchService.runMutation<UserFields, UserDto>(
     '/user',
     MutationMethod.POST,
     userData,
@@ -13,13 +13,12 @@ const registerUser = async (userData: NewUserFields): Promise<UserDto> => {
 
 const updateUser = async (
   id: string,
-  userData: UpdateUserFields,
+  userData: Partial<UserFields>,
 ): Promise<UserDto> => {
-  const updatedUser = await FetchService.runMutation<UpdateUserFields, UserDto>(
-    `/user/${id}`,
-    MutationMethod.PUT,
-    userData,
-  );
+  const updatedUser = await FetchService.runMutation<
+    Partial<UserFields>,
+    UserDto
+  >(`/user/${id}`, MutationMethod.PUT, userData);
   return updatedUser;
 };
 

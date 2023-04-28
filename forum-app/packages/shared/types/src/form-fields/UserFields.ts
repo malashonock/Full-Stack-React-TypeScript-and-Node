@@ -1,11 +1,9 @@
 import { FormFields } from '.';
 
-export interface NewUserFields extends FormFields {
+export interface UserFields extends FormFields {
   userName: string;
   email: string;
   password: string;
 }
 
-export type UpdateUserFields = Partial<NewUserFields>;
-
-export type LoginFields = Pick<NewUserFields, 'userName' | 'password'>;
+export type LoginFields = Pick<UserFields, 'userName' | 'password'>;
