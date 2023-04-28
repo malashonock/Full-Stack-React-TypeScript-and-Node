@@ -1,5 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
+import { UserDto } from '@shared/types';
+
 import { Thread } from './Thread';
 import { ThreadPoint } from './ThreadPoint';
 import { ThreadCommentPoint } from './ThreadCommentPoint';
@@ -59,4 +61,15 @@ export class User extends Auditable {
     (commentPoint: ThreadCommentPoint) => commentPoint.user,
   )
   commentPoints: ThreadCommentPoint[];
+
+  toJSON(): UserDto {
+    return {
+      id: this.id,
+      userName: this.userName,
+      email: this.email,
+      isConfirmed: this.isConfirmed,
+      isDisabled: this.isDisabled,
+      ...super.toJSON(),
+    };
+  }
 }

@@ -1,10 +1,34 @@
+import { AuthDto } from '@shared/types';
+
 import { Field, Form, useForm } from 'common/forms';
-import { initialValues, onSubmit, validationSchema } from './LoginFormConfig';
+import {
+  LoginFormFields,
+  initialValues,
+  validationSchema,
+} from './LoginFormConfig';
+import { Modal, ModalProps } from 'common/components/Modal';
+import { useAppDispatch } from 'hooks';
+import { logIn } from 'store/slices/auth.slice';
+import { AuthService } from 'services';
 
 import './LoginForm.scss';
-import { Modal, ModalProps } from 'common/components/Modal';
 
 export const LoginForm = ({ isOpen, onClose }: ModalProps) => {
+  const dispatch = useAppDispatch();
+
+  const onSubmit = async ({
+    userName,
+    password,
+  }: LoginFormFields): Promise<void> => {
+    try {
+      const authData: AuthDto = await AuthService.login(userName, password);
+      dispatch(logIn(authData));
+      onClose();
+    } catch (error) {
+      alert((error as Error).message);
+    }
+  };
+
   const {
     state: { errors },
     registerField,

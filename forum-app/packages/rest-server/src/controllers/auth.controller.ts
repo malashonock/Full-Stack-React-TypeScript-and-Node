@@ -1,9 +1,12 @@
-import { RequestHandler } from 'express';
+import { NextFunction } from 'express';
+
+import { AuthDto, LoginFields } from '@shared/types';
 
 import UserRepo from '../repo/User.repo';
 import PasswordService from '../services/password.service';
+import { Request, Response } from '../types';
 
-const login: RequestHandler = async (req, res) => {
+const login = async (req: Request<LoginFields>, res: Response<AuthDto>) => {
   try {
     const { userName, password } = req.body;
 
@@ -22,24 +25,23 @@ const login: RequestHandler = async (req, res) => {
 
     req.session.userId = user.id;
 
-    if (!user.isConfirmed) {
-      return res
-        .status(200)
-        .send('User has not confirmed their registration email yet');
-    }
+    // if (!user.isConfirmed) {
+    //   return res
+    //     .status(200)
+    //     .send('User has not confirmed their registration email yet');
+    // }
 
-    const { id, email } = user;
-    res.send({
+    const { id } = user;
+    res.json({
       id,
       userName,
-      email,
     });
   } catch (error) {
     res.status(500).send((error as Error).message);
   }
 };
 
-const checkLogin: RequestHandler = async (req, res) => {
+const checkLogin = async (req: Request<void>, res: Response<AuthDto>) => {
   try {
     const { userId } = req.session;
     if (!userId) {
@@ -52,7 +54,7 @@ const checkLogin: RequestHandler = async (req, res) => {
     }
 
     const { id, userName } = user;
-    res.send({
+    res.json({
       id,
       userName,
     });
@@ -61,7 +63,11 @@ const checkLogin: RequestHandler = async (req, res) => {
   }
 };
 
-const logout: RequestHandler = async (req, res, next) => {
+const logout = async (
+  req: Request<void>,
+  res: Response<void>,
+  next: NextFunction,
+) => {
   try {
     req.session.destroy(() => next('route'));
     res.status(200).send('Logged out successfully');

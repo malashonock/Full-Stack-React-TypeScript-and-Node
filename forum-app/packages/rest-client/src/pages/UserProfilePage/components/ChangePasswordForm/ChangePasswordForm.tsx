@@ -1,13 +1,34 @@
+import { useNavigate } from 'react-router-dom';
+
 import { Field, Form, useForm } from 'common/forms';
 import {
+  ChangePasswordFormFields,
   initialValues,
-  onSubmit,
   validationSchema,
 } from './ChangePasswordFormConfig';
+import { UserService } from 'services';
+import { useAppSelector } from 'hooks';
+import { selectLoggedUser } from 'store/slices/auth.slice';
 
 import './ChangePasswordForm.scss';
 
 export const ChangePasswordForm = () => {
+  const loggedUser = useAppSelector(selectLoggedUser);
+  const navigate = useNavigate();
+
+  const onSubmit = async ({
+    password,
+  }: ChangePasswordFormFields): Promise<void> => {
+    try {
+      if (loggedUser) {
+        await UserService.updateUser(loggedUser.id, { password });
+        navigate('/');
+      }
+    } catch (error) {
+      alert((error as Error).message);
+    }
+  };
+
   const {
     state: { errors },
     registerField,

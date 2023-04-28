@@ -2,10 +2,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Nav } from 'common/components/layout';
 import { HomePage, ThreadPage, UserProfilePage } from 'pages';
+import { useSyncLogin } from 'hooks';
 
 import './App.scss';
 
 export const App = () => {
+  useSyncLogin();
+
   return (
     <BrowserRouter>
       <div className="screen-root-container">

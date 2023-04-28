@@ -1,3 +1,4 @@
+import { NewUserFields } from '@shared/types';
 import {
   CharacterClass,
   containsCharClass,
@@ -8,8 +9,7 @@ import {
 
 import { FormState } from 'common/forms';
 
-export type ChangePasswordFormFields = {
-  password: string;
+export type ChangePasswordFormFields = Pick<NewUserFields, 'password'> & {
   passwordConfirm: string;
 };
 
@@ -20,7 +20,7 @@ export const initialValues: ChangePasswordFormFields = {
   passwordConfirm: '********',
 };
 
-export const validationSchema: ChangePasswordFormState['validationSchema'] = {
+export const validationSchema = {
   password: [
     isRequired,
     isNotShorterThan(8),
@@ -30,9 +30,4 @@ export const validationSchema: ChangePasswordFormState['validationSchema'] = {
     containsCharClass(CharacterClass.SpecialCharacters),
   ],
   form: [doPasswordsMatch('password', 'passwordConfirm')],
-};
-
-export const onSubmit = (values: ChangePasswordFormFields) => {
-  // TODO: dispatch async thunk action
-  alert(JSON.stringify(values));
-};
+} as ChangePasswordFormState['validationSchema'];

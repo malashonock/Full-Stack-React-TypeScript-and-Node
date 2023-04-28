@@ -11,6 +11,7 @@ import express from 'express';
 import { createServer } from 'http';
 import bodyParser from 'body-parser';
 
+import corsMiddleware from './middleware/cors';
 import sessionMiddleware from './middleware/session';
 import dataSource from './persistence/dataSource';
 import indexRouter from './routes/index.route';
@@ -33,6 +34,7 @@ import threadRouter from './routes/thread.route';
   const server = createServer(app);
 
   // Set up middlewares
+  app.use(corsMiddleware);
   app.use(sessionMiddleware);
   app.use(bodyParser.json());
 

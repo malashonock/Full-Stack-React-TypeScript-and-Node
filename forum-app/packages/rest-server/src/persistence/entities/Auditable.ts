@@ -6,4 +6,11 @@ export class Auditable extends BaseEntity {
 
   @UpdateDateColumn()
   lastModifiedOn: Date;
+
+  toJSON() {
+    return {
+      createdOn: this.createdOn.toISOString(),
+      lastModifiedOn: this.lastModifiedOn.toISOString(),
+    };
+  }
 }

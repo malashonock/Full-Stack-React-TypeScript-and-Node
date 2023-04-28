@@ -1,20 +1,34 @@
-import { RequestHandler } from 'express';
+import { NewUserFields, UpdateUserFields } from '@shared/types';
 
 import UserRepository from '../repo/User.repo';
+import { Request, Response } from '../types';
+import { User } from '../persistence/entities';
 
-const registerUser: RequestHandler = async (req, res) => {
+const registerUser = async (
+  req: Request<NewUserFields>,
+  res: Response<User>,
+) => {
   try {
+    const { userName } = req.body;
+
+    const existingUser = await UserRepository.getUserByName(userName);
+    if (existingUser) {
+      return res.status(400).send('User with specified name already exists');
+    }
+
     const createdUser = await UserRepository.createUser(req.body);
-    const { password, ...publicUserFields } = createdUser;
-    res.json({ ...publicUserFields });
+    res.json(createdUser);
   } catch (error) {
     res.status(500).send((error as Error).message);
   }
 };
 
-const updateUser: RequestHandler = async (req, res) => {
+const updateUser = async (
+  req: Request<UpdateUserFields>,
+  res: Response<User>,
+) => {
   try {
-    const { userId } = req.session;
+    const { userId } = req.params;
     if (!userId) {
       return res.status(404).send('User not found');
     }
@@ -33,8 +47,7 @@ const updateUser: RequestHandler = async (req, res) => {
       return res.status(404).send('User not found');
     }
 
-    const { password: _, ...publicUserFields } = updatedUser;
-    res.json({ ...publicUserFields });
+    res.json(updatedUser);
   } catch (error) {
     res.status(500).send((error as Error).message);
   }

@@ -1,3 +1,4 @@
+import { NewUserFields } from '@shared/types';
 import {
   CharacterClass,
   containsCharClass,
@@ -9,11 +10,8 @@ import {
 
 import { FormState } from 'common/forms';
 
-export type RegistrationFormFields = {
-  userName: string;
-  password: string;
+export type RegistrationFormFields = NewUserFields & {
   passwordConfirm: string;
-  email: string;
 };
 
 export type RegistrationFormState = FormState<RegistrationFormFields>;
@@ -25,7 +23,7 @@ export const initialValues: RegistrationFormFields = {
   passwordConfirm: '',
 };
 
-export const validationSchema: RegistrationFormState['validationSchema'] = {
+export const validationSchema = {
   userName: [isRequired],
   email: [isRequired, isValidEmail],
   password: [
@@ -37,9 +35,4 @@ export const validationSchema: RegistrationFormState['validationSchema'] = {
     containsCharClass(CharacterClass.SpecialCharacters),
   ],
   form: [doPasswordsMatch('password', 'passwordConfirm')],
-};
-
-export const onSubmit = (values: RegistrationFormFields) => {
-  // TODO: dispatch async thunk action
-  alert(JSON.stringify(values));
-};
+} as RegistrationFormState['validationSchema'];
