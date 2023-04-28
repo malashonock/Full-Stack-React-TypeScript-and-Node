@@ -6,7 +6,7 @@ import { useAppDispatch } from './useStore';
 import { AuthService } from 'services';
 import { logIn, logOut } from 'store/slices/auth.slice';
 
-export const useSyncLogin = (dependencies?: any): void => {
+export const useSyncLogin = (...dependencies: any[]): void => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -18,5 +18,5 @@ export const useSyncLogin = (dependencies?: any): void => {
         dispatch(logOut());
       }
     })();
-  }, [dependencies]);
+  }, [...dependencies]);
 };

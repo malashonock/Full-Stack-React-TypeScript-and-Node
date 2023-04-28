@@ -1,8 +1,13 @@
-import { RequestHandler } from 'express';
+import { ThreadCategoryFields } from '@shared/types';
 
 import ThreadCategoryRepository from '../repo/ThreadCategory.repo';
+import { Request, Response } from '../types';
+import { ThreadCategory } from '../persistence/entities';
 
-const getAllCategories: RequestHandler = async (req, res) => {
+const getAllCategories = async (
+  req: Request,
+  res: Response<ThreadCategory[]>,
+) => {
   try {
     const categories = await ThreadCategoryRepository.getAllCategories();
     res.json(categories);
@@ -11,7 +16,10 @@ const getAllCategories: RequestHandler = async (req, res) => {
   }
 };
 
-const getCategory: RequestHandler = async (req, res) => {
+const getCategory = async (
+  req: Request,
+  res: Response<ThreadCategory | null>,
+) => {
   try {
     const { categoryId } = req.params;
     if (!categoryId) {
@@ -25,7 +33,10 @@ const getCategory: RequestHandler = async (req, res) => {
   }
 };
 
-const createCategory: RequestHandler = async (req, res) => {
+const createCategory = async (
+  req: Request<ThreadCategoryFields>,
+  res: Response<ThreadCategory>,
+) => {
   try {
     const createdCategory = await ThreadCategoryRepository.createCategory(
       req.body,
@@ -36,7 +47,10 @@ const createCategory: RequestHandler = async (req, res) => {
   }
 };
 
-const updateCategory: RequestHandler = async (req, res) => {
+const updateCategory = async (
+  req: Request<Partial<ThreadCategoryFields>>,
+  res: Response<ThreadCategory>,
+) => {
   try {
     const { categoryId } = req.params;
     if (!categoryId) {

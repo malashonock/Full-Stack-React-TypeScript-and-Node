@@ -1,5 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
+import { ThreadCategoryDto } from '@shared/types';
+
 import { Thread } from './Thread';
 import { Auditable } from './Auditable';
 
@@ -25,4 +27,13 @@ export class ThreadCategory extends Auditable {
 
   @OneToMany(() => Thread, (thread: Thread) => thread.category)
   threads: Thread[];
+
+  toJSON(): ThreadCategoryDto {
+    return {
+      id: this.id,
+      name: this.name,
+      description: this.description,
+      ...super.toJSON(),
+    };
+  }
 }

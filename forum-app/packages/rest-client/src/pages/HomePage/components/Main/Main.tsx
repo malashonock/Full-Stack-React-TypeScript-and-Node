@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { ThreadCard } from '..';
 import { Category, Thread } from 'model';
-import { getCategoryById, getThreadsByCategoryId } from 'services';
+import { ThreadCategoryService, getThreadsByCategoryId } from 'services';
 
 import './Main.scss';
 
@@ -18,7 +18,9 @@ export const Main = () => {
   useEffect(() => {
     if (categoryId) {
       (async () => {
-        const fetchedCategory = await getCategoryById(categoryId);
+        const fetchedCategory = await ThreadCategoryService.getCategoryById(
+          categoryId,
+        );
         setActiveCategory(fetchedCategory);
 
         const fetchedThreads = await getThreadsByCategoryId(categoryId);

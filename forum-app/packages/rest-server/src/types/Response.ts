@@ -1,5 +1,5 @@
 import express from 'express';
 
-export interface Response<TJson = any> extends express.Response {
-  json(data: TJson): this;
+export interface Response<TSerialized = any> extends express.Response {
+  json(data: TSerialized): this;
 }

@@ -1,25 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import cn from 'classnames';
 
-import { useWindowDimensions } from 'hooks';
-import { Category } from 'model';
-import { getCategories } from 'services';
+import { ThreadCategoryDto } from '@shared/types';
+
+import { useCategories, useWindowDimensions } from 'hooks';
+
+import './LeftMenu.scss';
 
 export const LeftMenu = () => {
-  const [categories, setCategories] = useState<Category[] | null>(null);
+  const [categories, setCategories] = useState<ThreadCategoryDto[] | null>(
+    null,
+  );
   const { width } = useWindowDimensions();
 
-  const fetchCategories = async (): Promise<void> => {
-    const categories = await getCategories();
-    setCategories(categories);
-  };
-
-  useEffect(() => {
-    try {
-      fetchCategories();
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  useCategories((categories: ThreadCategoryDto[]) => setCategories(categories));
 
   if (width <= 768) {
     return null;
@@ -28,11 +23,18 @@ export const LeftMenu = () => {
   return (
     <div className="leftmenu">
       <ul className="categories">
-        {categories?.map(({ id, name }: Category) => (
+        {categories?.map(({ id, name }: ThreadCategoryDto) => (
           <li key={id} className="category">
-            {name}
+            <NavLink
+              to={`/categorythreads/${id}`}
+              className={({ isActive }) =>
+                cn('nav-link', { 'nav-link--active': isActive })
+              }
+            >
+              {name}
+            </NavLink>
           </li>
-        )) ?? 'Left Menu'}
+        )) ?? 'Loading categories...'}
       </ul>
     </div>
   );

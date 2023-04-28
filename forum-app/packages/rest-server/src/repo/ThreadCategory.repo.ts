@@ -22,7 +22,7 @@ const ThreadCategoryRepository = dataSource
 
     async updateCategory(
       id: string,
-      { name, description }: ThreadCategoryFields,
+      { name, description }: Partial<ThreadCategoryFields>,
     ): Promise<ThreadCategory | null> {
       const updatedCategory = await this.getCategoryById(id);
 
