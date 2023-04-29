@@ -1,17 +1,18 @@
 import { Link } from 'react-router-dom';
 
-import { Thread } from 'model';
-import { LikesCount, CommentsCount, ViewsCount } from 'common/components';
+import { ThreadDto } from '@shared/types';
+
+import { PointsCounter, CommentsCount, ViewsCount } from 'common/components';
 import { forMobile } from 'common/hocs';
 import { ThreadMetricsBar } from 'common/components';
 
 import './ThreadCard.scss';
 
 interface ThreadCardProps {
-  thread: Thread;
+  thread: ThreadDto;
 }
 
-const LikesCountMobile = forMobile(LikesCount);
+const PointsSumMobile = forMobile(PointsCounter);
 const CommentsCountMobile = forMobile(CommentsCount);
 
 export const ThreadCard = ({ thread }: ThreadCardProps) => {
@@ -22,7 +23,7 @@ export const ThreadCard = ({ thread }: ThreadCardProps) => {
           <Link to={`/categorythreads/${thread.category.id}`}>
             <strong>{thread.category.name}</strong>
           </Link>
-          <span>{thread.userName}</span>
+          <span>{thread.author.name}</span>
         </header>
         <Link to={`/thread/${thread.id}`} className="thread-card__content">
           <strong>{thread.title}</strong>
@@ -30,13 +31,13 @@ export const ThreadCard = ({ thread }: ThreadCardProps) => {
         </Link>
         <footer className="thread-card__footer">
           <ViewsCount count={thread.viewsCount} />
-          <LikesCountMobile count={thread.likesCount} />
-          <CommentsCountMobile count={thread.threadItems.length} />
+          <PointsSumMobile count={thread.pointsSum} />
+          <CommentsCountMobile count={thread.commentsCount} />
         </footer>
       </div>
       <ThreadMetricsBar
-        likesCount={thread.likesCount}
-        commentsCount={thread.threadItems.length}
+        pointsSum={thread.pointsSum}
+        commentsCount={thread.commentsCount}
       />
     </section>
   );

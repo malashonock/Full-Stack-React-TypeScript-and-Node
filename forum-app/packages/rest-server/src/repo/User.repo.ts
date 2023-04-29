@@ -5,11 +5,11 @@ import PasswordService from '../services/password.service';
 import dataSource from '../persistence/dataSource';
 
 const UserRepository = dataSource.getRepository(User).extend({
-  async createUser({ userName, email, password }: UserFields): Promise<User> {
+  async createUser({ name, email, password }: UserFields): Promise<User> {
     const hashedPassword: string = await PasswordService.hashPassword(password);
 
     const createdUser: User = this.create({
-      userName,
+      name,
       email,
       password: hashedPassword,
     });
@@ -21,7 +21,7 @@ const UserRepository = dataSource.getRepository(User).extend({
 
   async updateUser(
     id: string,
-    { userName, email, password }: Partial<UserFields>,
+    { name, email, password }: Partial<UserFields>,
   ): Promise<User | null> {
     const updatedUser = await this.getUserById(id);
 
@@ -29,7 +29,7 @@ const UserRepository = dataSource.getRepository(User).extend({
       return null;
     }
 
-    if (userName) updatedUser.userName = userName;
+    if (name) updatedUser.name = name;
     if (email) updatedUser.email = email;
     if (password)
       updatedUser.password = await PasswordService.hashPassword(password);
@@ -54,8 +54,8 @@ const UserRepository = dataSource.getRepository(User).extend({
     return user;
   },
 
-  async getUserByName(userName: string): Promise<User | null> {
-    const user = await this.findOneBy({ userName });
+  async getUserByName(name: string): Promise<User | null> {
+    const user = await this.findOneBy({ name });
 
     return user;
   },

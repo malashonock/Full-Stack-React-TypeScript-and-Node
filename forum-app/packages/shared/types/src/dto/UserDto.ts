@@ -1,6 +1,6 @@
 export interface UserDto {
   id: string;
-  userName: string;
+  name: string;
   email: string;
   // password: string; // not included
   isConfirmed: boolean;
@@ -9,4 +9,4 @@ export interface UserDto {
   lastModifiedOn: string; // date string
 }
 
-export type AuthDto = Pick<UserDto, 'id' | 'userName'>;
+export type AuthDto = Pick<UserDto, 'id' | 'name'>;

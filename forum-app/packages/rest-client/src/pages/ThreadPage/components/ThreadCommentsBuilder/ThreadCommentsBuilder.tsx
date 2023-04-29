@@ -25,7 +25,7 @@ export const ThreadCommentsBuilder = ({
               body={threadItem.body}
               userName={threadItem.userName}
               lastModifiedOn={threadItem.createdOn}
-              likesCount={threadItem.likesCount}
+              pointsSum={threadItem.PointsSum}
             />
           </li>
         ),

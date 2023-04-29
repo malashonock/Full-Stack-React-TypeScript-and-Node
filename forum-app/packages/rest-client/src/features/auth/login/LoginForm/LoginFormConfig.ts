@@ -8,11 +8,11 @@ export type LoginFormFields = LoginFields;
 export type LoginFormState = FormState<LoginFormFields>;
 
 export const initialValues: LoginFormFields = {
-  userName: '',
+  name: '',
   password: '',
 };
 
 export const validationSchema: LoginFormState['validationSchema'] = {
-  userName: [isRequired],
+  name: [isRequired],
   password: [isRequired],
 };

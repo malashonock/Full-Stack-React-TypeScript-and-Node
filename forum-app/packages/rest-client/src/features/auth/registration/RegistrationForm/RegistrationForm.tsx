@@ -23,7 +23,7 @@ export const RegistrationForm = ({ isOpen, onClose }: ModalProps) => {
     try {
       await UserService.registerUser(userData);
       const authData: AuthDto = await AuthService.login(
-        userData.userName,
+        userData.name,
         userData.password,
       );
       dispatch(logIn(authData));
@@ -51,8 +51,8 @@ export const RegistrationForm = ({ isOpen, onClose }: ModalProps) => {
           <Field
             type="text"
             label="User name"
-            name="userName"
-            {...registerField('userName')}
+            name="name"
+            {...registerField('name')}
           />
           <Field
             type="email"

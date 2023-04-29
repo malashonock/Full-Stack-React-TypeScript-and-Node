@@ -6,9 +6,9 @@ import { User } from '../persistence/entities';
 
 const registerUser = async (req: Request<UserFields>, res: Response<User>) => {
   try {
-    const { userName } = req.body;
+    const { name } = req.body;
 
-    const existingUser = await UserRepository.getUserByName(userName);
+    const existingUser = await UserRepository.getUserByName(name);
     if (existingUser) {
       return res.status(400).send('User with specified name already exists');
     }
@@ -30,9 +30,9 @@ const updateUser = async (
       return res.status(404).send('User not found');
     }
 
-    const { userName, email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if (!userName && !email && !password) {
+    if (!name && !email && !password) {
       return res
         .status(304)
         .send('No updatable fields were provided in the request');

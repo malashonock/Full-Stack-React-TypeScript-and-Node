@@ -4,7 +4,7 @@ import { FetchService, MutationMethod } from 'common/utils';
 
 const registerUser = async (userData: UserFields): Promise<UserDto> => {
   const createdUser = await FetchService.runMutation<UserFields, UserDto>(
-    '/user',
+    '/users',
     MutationMethod.POST,
     userData,
   );
@@ -18,7 +18,7 @@ const updateUser = async (
   const updatedUser = await FetchService.runMutation<
     Partial<UserFields>,
     UserDto
-  >(`/user/${id}`, MutationMethod.PUT, userData);
+  >(`/users/${id}`, MutationMethod.PUT, userData);
   return updatedUser;
 };
 

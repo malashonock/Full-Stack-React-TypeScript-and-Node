@@ -1,10 +1,11 @@
-import { RequestHandler } from 'express';
+import { ThreadFields } from '@shared/types';
 
 import ThreadRepository from '../repo/Thread.repo';
 import ThreadPointRepository from '../repo/ThreadPoint.repo';
-import { VoteType } from '../persistence/entities';
+import { Thread, ThreadPoint, VoteType } from '../persistence/entities';
+import { Request, Response } from '../types';
 
-const getAllThreads: RequestHandler = async (req, res) => {
+const getAllThreads = async (req: Request, res: Response<Thread[]>) => {
   try {
     const threads = await ThreadRepository.getAllThreads();
     res.json(threads);
@@ -13,7 +14,7 @@ const getAllThreads: RequestHandler = async (req, res) => {
   }
 };
 
-const getThread: RequestHandler = async (req, res) => {
+const getThread = async (req: Request, res: Response<Thread | null>) => {
   try {
     const { threadId } = req.params;
     if (!threadId) {
@@ -28,7 +29,10 @@ const getThread: RequestHandler = async (req, res) => {
   }
 };
 
-const createThread: RequestHandler = async (req, res) => {
+const createThread = async (
+  req: Request<ThreadFields>,
+  res: Response<Thread | null>,
+) => {
   try {
     const { userId } = req.session;
     if (!userId) {
@@ -43,7 +47,10 @@ const createThread: RequestHandler = async (req, res) => {
   }
 };
 
-const updateThread: RequestHandler = async (req, res) => {
+const updateThread = async (
+  req: Request<Partial<ThreadFields>>,
+  res: Response<Thread>,
+) => {
   try {
     const { threadId } = req.params;
     if (!threadId) {
@@ -73,7 +80,7 @@ const updateThread: RequestHandler = async (req, res) => {
   }
 };
 
-const getCategoryThreads: RequestHandler = async (req, res) => {
+const getCategoryThreads = async (req: Request, res: Response<Thread[]>) => {
   try {
     const { categoryId } = req.params;
     if (!categoryId) {
@@ -89,9 +96,9 @@ const getCategoryThreads: RequestHandler = async (req, res) => {
   }
 };
 
-const getUserThreads: RequestHandler = async (req, res) => {
+const getUserThreads = async (req: Request, res: Response<Thread[]>) => {
   try {
-    const { userId } = req.session;
+    const { userId } = req.params;
     if (!userId) {
       return res.send(404).send('User not found');
     }
@@ -103,7 +110,7 @@ const getUserThreads: RequestHandler = async (req, res) => {
   }
 };
 
-const getTopCategoryThreads: RequestHandler = async (req, res) => {
+const getTopCategoryThreads = async (req: Request, res: Response<Thread[]>) => {
   try {
     const topN = Number(req.query.take) || 3;
 
@@ -116,7 +123,7 @@ const getTopCategoryThreads: RequestHandler = async (req, res) => {
   }
 };
 
-const viewThread: RequestHandler = async (req, res) => {
+const viewThread = async (req: Request, res: Response<Thread>) => {
   try {
     const { threadId } = req.params;
     if (!threadId) {
@@ -135,7 +142,7 @@ const viewThread: RequestHandler = async (req, res) => {
   }
 };
 
-const toggleUpvoteThread: RequestHandler = async (req, res) => {
+const toggleUpvoteThread = async (req: Request, res: Response<ThreadPoint>) => {
   try {
     const { userId } = req.session;
     if (!userId) {
@@ -164,7 +171,10 @@ const toggleUpvoteThread: RequestHandler = async (req, res) => {
   }
 };
 
-const toggleDownvoteThread: RequestHandler = async (req, res) => {
+const toggleDownvoteThread = async (
+  req: Request,
+  res: Response<ThreadPoint>,
+) => {
   try {
     const { userId } = req.session;
     if (!userId) {

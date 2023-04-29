@@ -10,7 +10,7 @@ export const UserProfileMenuItem = () => {
 
   return (
     <MenuItem icon={faUser} name="menu-user-profile" closeModalOnClick>
-      <Link to={`/userprofile/${loggedUser?.id}`}>{loggedUser?.userName}</Link>
+      <Link to={`/userprofile/${loggedUser?.id}`}>{loggedUser?.name}</Link>
     </MenuItem>
   );
 };

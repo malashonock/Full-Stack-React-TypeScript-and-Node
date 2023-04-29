@@ -8,7 +8,7 @@ export const mockThreadItem1: ThreadItem = {
   body: 'Thread item 1',
   createdOn: new Date(),
   viewsCount: 22,
-  likesCount: 2,
+  PointsSum: 2,
 };
 
 export const mockThreadItem2: ThreadItem = {
@@ -19,7 +19,7 @@ export const mockThreadItem2: ThreadItem = {
   body: 'Thread item 1',
   createdOn: new Date(),
   viewsCount: 55,
-  likesCount: 5,
+  PointsSum: 5,
 };
 
 export const mockThread1Items: ThreadItem[] = [mockThreadItem1];

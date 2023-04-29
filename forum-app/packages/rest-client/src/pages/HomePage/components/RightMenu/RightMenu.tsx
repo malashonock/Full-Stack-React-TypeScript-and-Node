@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { groupBy } from 'lodash';
+import { Dictionary, groupBy } from 'lodash';
+
+import { ThreadDto } from '@shared/types';
 
 import { forDesktop } from 'common/hocs';
-import { getTopCategories } from 'services';
+import { ThreadService } from 'services';
 import { TopCategory } from '..';
 
 import './RightMenu.scss';
@@ -14,9 +16,13 @@ export const RightMenu = forDesktop(() => {
 
   useEffect(() => {
     (async () => {
-      const fetchedTopCategories = await getTopCategories();
-      const groupedTopCategories = groupBy(fetchedTopCategories, 'category');
-      const topCategoryComponents = [] as JSX.Element[];
+      const fetchedTopCategories: ThreadDto[] =
+        await ThreadService.getTopThreads();
+      const groupedTopCategories: Dictionary<ThreadDto[]> = groupBy(
+        fetchedTopCategories,
+        'category.name',
+      );
+      const topCategoryComponents: JSX.Element[] = [];
 
       for (const category in groupedTopCategories) {
         if (

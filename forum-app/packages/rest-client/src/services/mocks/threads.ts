@@ -12,7 +12,7 @@ export const mockThread1: Thread = {
   createdOn: new Date(),
   lastModifiedOn: new Date(),
   viewsCount: 22,
-  likesCount: 11,
+  PointsSum: 11,
   threadItems: [...mockThread1Items],
 };
 
@@ -26,7 +26,7 @@ export const mockThread2: Thread = {
   createdOn: new Date(),
   lastModifiedOn: new Date(),
   viewsCount: 5,
-  likesCount: 55,
+  PointsSum: 55,
   threadItems: [...mockThread2Items],
 };
 
@@ -40,7 +40,7 @@ export const mockThread3: Thread = {
   createdOn: new Date(),
   lastModifiedOn: new Date(),
   viewsCount: 3,
-  likesCount: 33,
+  PointsSum: 33,
   threadItems: [],
 };
 

@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { ThreadCategoryDto, ThreadDto } from '@shared/types';
+
 import { ThreadCard } from '..';
-import { Category, Thread } from 'model';
-import { ThreadCategoryService, getThreadsByCategoryId } from 'services';
+import { ThreadCategoryService, ThreadService } from 'services';
 
 import './Main.scss';
 
 export const Main = () => {
   const { categoryId } = useParams();
 
-  const [activeCategory, setActiveCategory] = useState<Category | undefined>();
-  const [categoryThreads, setCategoryThreads] = useState<
-    Thread[] | undefined
+  const [activeCategory, setActiveCategory] = useState<
+    ThreadCategoryDto | undefined
   >();
+  const [categoryThreads, setCategoryThreads] = useState<ThreadDto[]>([]);
 
   useEffect(() => {
     if (categoryId) {
@@ -23,12 +24,14 @@ export const Main = () => {
         );
         setActiveCategory(fetchedCategory);
 
-        const fetchedThreads = await getThreadsByCategoryId(categoryId);
+        const fetchedThreads = await ThreadService.getCategoryThreads(
+          categoryId,
+        );
         setCategoryThreads(fetchedThreads);
       })();
     } else {
       setActiveCategory(undefined);
-      setCategoryThreads(undefined);
+      setCategoryThreads([]);
     }
   }, [categoryId]);
 
@@ -38,10 +41,14 @@ export const Main = () => {
         <h2>{activeCategory?.name || 'Loading category threads...'}</h2>
         <hr />
       </div>
-      {categoryThreads?.map(
-        (thread: Thread): JSX.Element => (
-          <ThreadCard key={thread.id} thread={thread} />
-        ),
+      {categoryThreads.length > 0 ? (
+        categoryThreads.map(
+          (thread: ThreadDto): JSX.Element => (
+            <ThreadCard key={thread.id} thread={thread} />
+          ),
+        )
+      ) : (
+        <p>No threads under this category yet</p>
       )}
     </main>
   );

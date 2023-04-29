@@ -1,3 +1,3 @@
 export * from './ViewsCount';
-export * from './LikesCount';
+export * from './PointsCounter';
 export * from './CommentsCount';

@@ -40,7 +40,7 @@ import threadRouter from './routes/thread.route';
 
   // Set up routes
   app.use('/', indexRouter);
-  app.use('/user', userRouter);
+  app.use('/users', userRouter);
   app.use('/auth', authRouter);
   app.use('/categories', threadCategoryRouter);
   app.use('/threads', threadRouter);

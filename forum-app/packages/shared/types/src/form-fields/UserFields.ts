@@ -1,9 +1,9 @@
 import { FormFields } from '.';
 
 export interface UserFields extends FormFields {
-  userName: string;
+  name: string;
   email: string;
   password: string;
 }
 
-export type LoginFields = Pick<UserFields, 'userName' | 'password'>;
+export type LoginFields = Pick<UserFields, 'name' | 'password'>;

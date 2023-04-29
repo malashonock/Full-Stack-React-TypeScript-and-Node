@@ -8,9 +8,9 @@ import { Request, Response } from '../types';
 
 const login = async (req: Request<LoginFields>, res: Response<AuthDto>) => {
   try {
-    const { userName, password } = req.body;
+    const { name, password } = req.body;
 
-    const user = await UserRepo.getUserByName(userName);
+    const user = await UserRepo.getUserByName(name);
     if (!user) {
       return res.status(404).send('User not found');
     }
@@ -34,7 +34,7 @@ const login = async (req: Request<LoginFields>, res: Response<AuthDto>) => {
     const { id } = user;
     res.json({
       id,
-      userName,
+      name,
     });
   } catch (error) {
     res.status(500).send((error as Error).message);
@@ -53,10 +53,10 @@ const checkLogin = async (req: Request<void>, res: Response<AuthDto>) => {
       return res.status(404).send('User not found');
     }
 
-    const { id, userName } = user;
+    const { id, name } = user;
     res.json({
       id,
-      userName,
+      name,
     });
   } catch (error) {
     res.status(500).send((error as Error).message);

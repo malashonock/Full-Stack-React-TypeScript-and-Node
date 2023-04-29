@@ -4,6 +4,7 @@ import dataSource from '../persistence/dataSource';
 import { ThreadComment } from '../persistence/entities';
 import ThreadRepository from './Thread.repo';
 import UserRepository from './User.repo';
+import { EntityManager } from 'typeorm';
 
 const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
   async createComment(
@@ -21,16 +22,26 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
       throw new Error('Thread not found');
     }
 
-    const createdComment: ThreadComment = this.create({
-      author,
-      thread,
-      body,
-    });
+    // Run the rest within a transaction
+    return await this.manager.transaction(
+      async (
+        transactionalEntityManager: EntityManager,
+      ): Promise<ThreadComment | null> => {
+        const createdComment: ThreadComment = this.create({
+          author,
+          thread,
+          body,
+        });
+        await this.save(createdComment);
 
-    await this.save(createdComment);
+        // Update parent thread's comments count
+        thread.commentsCount++;
+        await ThreadRepository.save(thread);
 
-    // Re-query again to avoid returning full author & thread
-    return await this.getCommentById(createdComment.id);
+        // Re-query again to avoid returning full author & thread
+        return await this.getCommentById(createdComment.id);
+      },
+    );
   },
 
   async updateComment(

@@ -2,10 +2,10 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import { CounterBase } from '../CounterBase';
 
-interface LikesCountProps {
+interface PointsCounterProps {
   count: number;
 }
 
-export const LikesCount = ({ count }: LikesCountProps) => {
+export const PointsCounter = ({ count }: PointsCounterProps) => {
   return <CounterBase count={count} icon={faHeart} />;
 };

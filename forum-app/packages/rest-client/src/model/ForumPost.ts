@@ -3,7 +3,7 @@ export interface ForumPost {
   userId: string;
   userName: string;
   viewsCount: number;
-  likesCount: number;
+  PointsSum: number;
   createdOn: Date;
   body: string;
 }

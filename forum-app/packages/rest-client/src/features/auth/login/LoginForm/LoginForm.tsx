@@ -17,11 +17,11 @@ export const LoginForm = ({ isOpen, onClose }: ModalProps) => {
   const dispatch = useAppDispatch();
 
   const onSubmit = async ({
-    userName,
+    name,
     password,
   }: LoginFormFields): Promise<void> => {
     try {
-      const authData: AuthDto = await AuthService.login(userName, password);
+      const authData: AuthDto = await AuthService.login(name, password);
       dispatch(logIn(authData));
       onClose();
     } catch (error) {
@@ -47,8 +47,8 @@ export const LoginForm = ({ isOpen, onClose }: ModalProps) => {
           <Field
             type="text"
             label="User name"
-            name="userName"
-            {...registerField('userName')}
+            name="name"
+            {...registerField('name')}
           />
           <Field
             type="password"

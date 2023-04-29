@@ -17,14 +17,14 @@ export type RegistrationFormFields = UserFields & {
 export type RegistrationFormState = FormState<RegistrationFormFields>;
 
 export const initialValues: RegistrationFormFields = {
-  userName: '',
+  name: '',
   email: '',
   password: '',
   passwordConfirm: '',
 };
 
 export const validationSchema = {
-  userName: [isRequired],
+  name: [isRequired],
   email: [isRequired, isValidEmail],
   password: [
     isRequired,

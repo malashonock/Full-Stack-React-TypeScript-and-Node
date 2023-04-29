@@ -3,20 +3,20 @@ import { UserNameAndTime } from '..';
 import './ThreadHeader.scss';
 
 interface ThreadHeaderProps {
-  userName?: string;
+  authorName?: string;
   lastModifiedOn: Date;
   title?: string;
 }
 
 export const ThreadHeader = ({
-  userName,
+  authorName,
   lastModifiedOn,
   title,
 }: ThreadHeaderProps) => {
   return (
     <div className="thread-header">
       <h3 className="thread-header__title">{title}</h3>
-      <UserNameAndTime userName={userName} lastModifiedOn={lastModifiedOn} />
+      <UserNameAndTime userName={authorName} lastModifiedOn={lastModifiedOn} />
     </div>
   );
 };

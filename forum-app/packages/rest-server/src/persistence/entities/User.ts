@@ -20,7 +20,7 @@ export class User extends Auditable {
     unique: true,
     nullable: false,
   })
-  userName: string;
+  name: string;
 
   @Column('varchar', {
     length: 120,
@@ -65,7 +65,7 @@ export class User extends Auditable {
   toJSON(): UserDto {
     return {
       id: this.id,
-      userName: this.userName,
+      name: this.name,
       email: this.email,
       isConfirmed: this.isConfirmed,
       isDisabled: this.isDisabled,

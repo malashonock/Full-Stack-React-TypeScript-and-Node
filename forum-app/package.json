@@ -11,6 +11,7 @@
     "./packages/shared/validation"
   ],
   "scripts": {
+    "build:shared-types": "npm run build -w ./packages/shared/types",
     "start:rest-server": "npm run start -w ./packages/rest-server",
     "start:rest-client": "npm run start -w ./packages/rest-client",
     "husky:prepare": "cd .. && husky install ./forum-app/.husky",

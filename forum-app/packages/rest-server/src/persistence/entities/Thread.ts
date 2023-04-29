@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { Length } from 'class-validator';
 
+import { ThreadDto } from '@shared/types';
+
 import { User } from './User';
 import { ThreadComment } from './ThreadComment';
 import { ThreadPoint } from './ThreadPoint';
@@ -56,6 +58,12 @@ export class Thread extends Auditable {
   @OneToMany(() => ThreadComment, (comment: ThreadComment) => comment.thread)
   comments: ThreadComment[];
 
+  @Column('int', {
+    default: 0,
+    nullable: false,
+  })
+  commentsCount: number;
+
   @OneToMany(
     () => ThreadPoint,
     (threadPoint: ThreadPoint) => threadPoint.thread,
@@ -76,4 +84,25 @@ export class Thread extends Auditable {
 
   @RelationId((thread: Thread) => thread.category)
   categoryId: string;
+
+  toJSON(): ThreadDto {
+    return {
+      id: this.id,
+      author: {
+        id: this.author.id,
+        name: this.author.name,
+      },
+      category: {
+        id: this.category.id,
+        name: this.category.name,
+      },
+      title: this.title,
+      body: this.body,
+      viewsCount: this.viewsCount,
+      commentsCount: this.commentsCount,
+      pointsSum: this.pointsSum,
+      isDisabled: this.isDisabled,
+      ...super.toJSON(),
+    };
+  }
 }

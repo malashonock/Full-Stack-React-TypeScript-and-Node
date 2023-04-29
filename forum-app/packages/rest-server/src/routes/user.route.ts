@@ -1,6 +1,7 @@
 import express from 'express';
 
 import UserController from '../controllers/user.controller';
+import ThreadController from '../controllers/thread.controller';
 import { isAuthenticated } from '../middleware/auth';
 import { validateUserFields } from '../middleware/validation/user.validation';
 
@@ -13,5 +14,7 @@ router.put(
   validateUserFields,
   UserController.updateUser,
 );
+
+router.get('/:userId/threads', ThreadController.getUserThreads);
 
 export default router;

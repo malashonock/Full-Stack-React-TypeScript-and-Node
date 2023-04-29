@@ -2,11 +2,11 @@ import { AuthDto, LoginFields } from '@shared/types';
 
 import { FetchService, MutationMethod } from 'common/utils';
 
-const login = async (userName: string, password: string): Promise<AuthDto> => {
+const login = async (name: string, password: string): Promise<AuthDto> => {
   const authData = await FetchService.runMutation<LoginFields, AuthDto>(
     '/auth/login',
     MutationMethod.POST,
-    { userName, password },
+    { name, password },
   );
   return authData;
 };

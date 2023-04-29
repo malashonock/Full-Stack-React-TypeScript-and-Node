@@ -1,24 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { ThreadDto } from '@shared/types';
+
 import { SectionDivider } from 'common/components/layout';
 import {
   ChangePasswordForm,
   UserThreadCommentsList,
   UserThreadsList,
 } from './components';
+import { ThreadItem } from 'model';
+import { getUserThreadComments } from 'services';
+import { useUserThreads } from 'hooks';
 
 import './UserProfilePage.scss';
-import { Thread, ThreadItem } from 'model';
-import { getUserThreadComments, getUserThreads } from 'services';
 
 export const UserProfilePage = () => {
   const { userId } = useParams();
 
-  const [userThreads, setUserThreads] = useState<Thread[]>([]);
+  const [userThreads, setUserThreads] = useState<ThreadDto[]>([]);
   const [userThreadComments, setUserThreadComments] = useState<ThreadItem[]>(
     [],
   );
+
+  useUserThreads(userId, (threads: ThreadDto[]) => setUserThreads(threads));
 
   useEffect(() => {
     if (!userId) {
@@ -26,9 +31,6 @@ export const UserProfilePage = () => {
     }
 
     (async () => {
-      const fetchedUserThreads = await getUserThreads(userId);
-      setUserThreads(fetchedUserThreads);
-
       const fetchedUserThreadComments = await getUserThreadComments(userId);
       setUserThreadComments(fetchedUserThreadComments);
     })();
