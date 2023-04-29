@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import DropDown, { Option } from 'react-dropdown';
 import 'react-dropdown/style.css';
 
+import { ThreadCategoryDto } from '@shared/types';
+
 import { Category } from 'model';
-import { mockCategories } from 'services/mocks';
+import { useCategories } from 'hooks';
 
 import './ThreadCategory.scss';
 
@@ -11,7 +14,11 @@ interface ThreadCategoryProps {
 }
 
 export const ThreadCategory = ({ categoryName }: ThreadCategoryProps) => {
-  const options: Option[] = mockCategories.map(
+  const [categories, setCategories] = useState<ThreadCategoryDto[]>([]);
+
+  useCategories((categories: ThreadCategoryDto[]) => setCategories(categories));
+
+  const options: Option[] = categories.map(
     (category: Category): Option => ({
       value: category.id,
       label: category.name,
