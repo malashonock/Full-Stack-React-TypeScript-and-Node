@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ThreadDto } from '@shared/types';
+import { ThreadCommentDto, ThreadDto } from '@shared/types';
 
 import { SectionDivider } from 'common/components/layout';
 import {
   ChangePasswordForm,
-  UserThreadCommentsList,
+  UserCommentsList,
   UserThreadsList,
 } from './components';
-import { ThreadItem } from 'model';
-import { getUserThreadComments } from 'services';
-import { useUserThreads } from 'hooks';
+import { useUserComments, useUserThreads } from 'hooks';
 
 import './UserProfilePage.scss';
 
@@ -19,22 +17,12 @@ export const UserProfilePage = () => {
   const { userId } = useParams();
 
   const [userThreads, setUserThreads] = useState<ThreadDto[]>([]);
-  const [userThreadComments, setUserThreadComments] = useState<ThreadItem[]>(
-    [],
-  );
+  const [userComments, setUserComments] = useState<ThreadCommentDto[]>([]);
 
   useUserThreads(userId, (threads: ThreadDto[]) => setUserThreads(threads));
-
-  useEffect(() => {
-    if (!userId) {
-      return;
-    }
-
-    (async () => {
-      const fetchedUserThreadComments = await getUserThreadComments(userId);
-      setUserThreadComments(fetchedUserThreadComments);
-    })();
-  }, [userId]);
+  useUserComments(userId, (comments: ThreadCommentDto[]) =>
+    setUserComments(comments),
+  );
 
   return (
     <div className="user-profile">
@@ -46,7 +34,7 @@ export const UserProfilePage = () => {
         <UserThreadsList threads={userThreads} />
       </div>
       <div className="user-profile__user-thread-comments">
-        <UserThreadCommentsList threadComments={userThreadComments} />
+        <UserCommentsList comments={userComments} />
       </div>
     </div>
   );

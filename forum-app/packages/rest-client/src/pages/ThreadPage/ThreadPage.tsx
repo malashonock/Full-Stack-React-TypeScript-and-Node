@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ThreadDto } from '@shared/types';
+import { ThreadCommentDto, ThreadDto } from '@shared/types';
 
 import { SectionDivider, ThreadMetricsBar } from 'common/components';
 import {
@@ -11,29 +11,21 @@ import {
   ThreadHeader,
   ThreadTitle,
 } from './components';
-import { ThreadService, getUserThreadComments } from 'services';
-import { ThreadItem } from 'model';
+import { useThread, useThreadComments } from 'hooks';
 
 import './ThreadPage.scss';
 
 export const ThreadPage = () => {
   const [thread, setThread] = useState<ThreadDto | undefined>();
   const [threadComments, setThreadComments] = useState<
-    ThreadItem[] | undefined
+    ThreadCommentDto[] | undefined
   >();
   const { threadId } = useParams();
 
-  useEffect(() => {
-    (async () => {
-      if (threadId) {
-        const fetchedThread = await ThreadService.getThreadById(threadId);
-        setThread(fetchedThread);
-
-        const fetchedThreadComments = await getUserThreadComments('');
-        setThreadComments(fetchedThreadComments);
-      }
-    })();
-  }, [threadId]);
+  useThread(threadId, (thread: ThreadDto) => setThread(thread));
+  useThreadComments(threadId, (comments: ThreadCommentDto[]) =>
+    setThreadComments(comments),
+  );
 
   return (
     <div className="thread">
@@ -61,7 +53,7 @@ export const ThreadPage = () => {
       </div>
       <div className="thread__comments">
         <SectionDivider />
-        <ThreadCommentsBuilder threadItems={threadComments} />
+        <ThreadCommentsBuilder comments={threadComments} />
       </div>
     </div>
   );

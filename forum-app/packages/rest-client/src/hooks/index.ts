@@ -5,3 +5,6 @@ export * from './useCategories';
 export * from './useCategory';
 export * from './useCategoryThreads';
 export * from './useUserThreads';
+export * from './useUserComments';
+export * from './useThreadComments';
+export * from './useThread';

@@ -1,10 +1,15 @@
 import { RequestHandler } from 'express';
 
 import ThreadCommentRepository from '../repo/ThreadComment.repo';
-import { VoteType } from '../persistence/entities';
+import { ThreadComment, VoteType } from '../persistence/entities';
 import ThreadCommentPointRepository from '../repo/ThreadCommentPoint.repo';
+import { Request, Response } from '../types';
+import { ThreadCommentFields } from '@shared/types';
 
-const getComment: RequestHandler = async (req, res) => {
+const getComment = async (
+  req: Request,
+  res: Response<ThreadComment | null>,
+) => {
   try {
     const { commentId } = req.params;
     if (!commentId) {
@@ -19,7 +24,10 @@ const getComment: RequestHandler = async (req, res) => {
   }
 };
 
-const createComment: RequestHandler = async (req, res) => {
+const createComment = async (
+  req: Request<ThreadCommentFields>,
+  res: Response<ThreadComment | null>,
+) => {
   try {
     const { userId } = req.session;
     if (!userId) {
@@ -43,7 +51,10 @@ const createComment: RequestHandler = async (req, res) => {
   }
 };
 
-const updateComment: RequestHandler = async (req, res) => {
+const updateComment = async (
+  req: Request<Partial<ThreadCommentFields>>,
+  res: Response<ThreadComment | null>,
+) => {
   try {
     const { commentId } = req.params;
     if (!commentId) {
@@ -72,15 +83,18 @@ const updateComment: RequestHandler = async (req, res) => {
   }
 };
 
-const getThreadComments: RequestHandler = async (req, res) => {
+const getThreadComments = async (
+  req: Request,
+  res: Response<ThreadComment[]>,
+) => {
   try {
-    const { commentId } = req.params;
-    if (!commentId) {
-      return res.send(404).send('Thread comment not found');
+    const { threadId } = req.params;
+    if (!threadId) {
+      return res.send(404).send('Thread not found');
     }
 
     const threadComments =
-      await ThreadCommentRepository.getAllCommentsByThreadId(commentId);
+      await ThreadCommentRepository.getAllCommentsByThreadId(threadId);
 
     res.json(threadComments);
   } catch (error) {
@@ -88,7 +102,10 @@ const getThreadComments: RequestHandler = async (req, res) => {
   }
 };
 
-const getUserComments: RequestHandler = async (req, res) => {
+const getUserComments = async (
+  req: Request,
+  res: Response<ThreadComment[]>,
+) => {
   try {
     const { userId } = req.session;
     if (!userId) {
@@ -105,7 +122,7 @@ const getUserComments: RequestHandler = async (req, res) => {
   }
 };
 
-const viewComment: RequestHandler = async (req, res) => {
+const viewComment = async (req: Request, res: Response<ThreadComment>) => {
   try {
     const { commentId } = req.params;
     if (!commentId) {

@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { Length } from 'class-validator';
 
+import { ThreadCommentDto } from '@shared/types';
+
 import { Thread } from './Thread';
 import { ThreadCommentPoint } from './ThreadCommentPoint';
 import { Auditable } from './Auditable';
@@ -62,4 +64,20 @@ export class ThreadComment extends Auditable {
     nullable: false,
   })
   pointsSum: number;
+
+  toJSON(): ThreadCommentDto {
+    return {
+      id: this.id,
+      threadId: this.threadId,
+      author: {
+        id: this.author.id,
+        name: this.author.name,
+      },
+      body: this.body,
+      viewsCount: this.viewsCount,
+      pointsSum: this.pointsSum,
+      isDisabled: this.isDisabled,
+      ...super.toJSON(),
+    };
+  }
 }

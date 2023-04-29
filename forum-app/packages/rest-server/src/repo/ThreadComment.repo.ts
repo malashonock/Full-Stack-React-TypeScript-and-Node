@@ -38,7 +38,7 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
         thread.commentsCount++;
         await ThreadRepository.save(thread);
 
-        // Re-query again to avoid returning full author & thread
+        // Re-query again to avoid returning full thread
         return await this.getCommentById(createdComment.id);
       },
     );
@@ -46,7 +46,7 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
 
   async updateComment(
     id: string,
-    { body }: ThreadCommentFields,
+    { body }: Partial<ThreadCommentFields>,
   ): Promise<ThreadComment | null> {
     const updatedComment = await this.getCommentById(id);
 
@@ -58,12 +58,14 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
 
     await this.save(updatedComment);
 
-    return updatedComment;
+    // Re-query again to populate author
+    return await this.getCommentById(updatedComment.id);
   },
 
   async getAllCommentsByThreadId(threadId: string): Promise<ThreadComment[]> {
     const threadComments = await this.createQueryBuilder('comment')
       .where('comment.threadId = :threadId', { threadId })
+      .leftJoinAndSelect('comment.author', 'author')
       .orderBy('comment.createdOn', 'DESC')
       .getMany();
 
@@ -73,6 +75,7 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
   async getAllCommentsByAuthorId(authorId: string): Promise<ThreadComment[]> {
     const userComments = await this.createQueryBuilder('comment')
       .where('comment.authorId = :authorId', { authorId })
+      .leftJoinAndSelect('comment.author', 'author')
       .orderBy('comment.createdOn', 'DESC')
       .getMany();
 
@@ -84,7 +87,14 @@ const ThreadCommentRepository = dataSource.getRepository(ThreadComment).extend({
       throw new Error('Thread comment id is not defined');
     }
 
-    const comment = await this.findOneBy({ id });
+    const comment = await this.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        author: true,
+      },
+    });
 
     return comment;
   },
