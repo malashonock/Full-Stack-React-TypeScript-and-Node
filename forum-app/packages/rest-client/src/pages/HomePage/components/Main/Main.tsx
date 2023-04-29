@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ThreadCategoryDto, ThreadDto } from '@shared/types';
 
 import { ThreadCard } from '..';
-import { ThreadCategoryService, ThreadService } from 'services';
+import { useCategory, useCategoryThreads } from 'hooks';
 
 import './Main.scss';
 
@@ -16,24 +16,12 @@ export const Main = () => {
   >();
   const [categoryThreads, setCategoryThreads] = useState<ThreadDto[]>([]);
 
-  useEffect(() => {
-    if (categoryId) {
-      (async () => {
-        const fetchedCategory = await ThreadCategoryService.getCategoryById(
-          categoryId,
-        );
-        setActiveCategory(fetchedCategory);
-
-        const fetchedThreads = await ThreadService.getCategoryThreads(
-          categoryId,
-        );
-        setCategoryThreads(fetchedThreads);
-      })();
-    } else {
-      setActiveCategory(undefined);
-      setCategoryThreads([]);
-    }
-  }, [categoryId]);
+  useCategory(categoryId, (category: ThreadCategoryDto) =>
+    setActiveCategory(category),
+  );
+  useCategoryThreads(categoryId, (threads: ThreadDto[]) =>
+    setCategoryThreads(threads),
+  );
 
   return (
     <main className="content">

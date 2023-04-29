@@ -5,23 +5,25 @@ import { ThreadDto } from '@shared/types';
 
 import { ThreadService } from 'services';
 
-export const useUserThreads = (
-  userId: string | undefined,
+export const useCategoryThreads = (
+  categoryId: string | undefined,
   effect: (threads: ThreadDto[]) => void,
   ...dependencies: any[]
 ): void => {
   useEffect(() => {
-    if (!userId) {
+    if (!categoryId) {
       return;
     }
 
     try {
       (async () => {
-        const userThreads = await ThreadService.getUserThreads(userId);
-        effect(userThreads);
+        const categoryThreads = await ThreadService.getCategoryThreads(
+          categoryId,
+        );
+        effect(categoryThreads);
       })();
     } catch (error) {
       console.log(error);
     }
-  }, [userId, ...dependencies]);
+  }, [categoryId, ...dependencies]);
 };
