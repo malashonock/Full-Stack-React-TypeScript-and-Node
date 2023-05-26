@@ -8,3 +8,5 @@ export * from './useUserThreads';
 export * from './useUserComments';
 export * from './useThreadComments';
 export * from './useThread';
+export * from './useThreadComment';
+export * from './useForceUpdate';
