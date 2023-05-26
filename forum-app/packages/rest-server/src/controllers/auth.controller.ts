@@ -9,6 +9,12 @@ import { Request, Response } from '../types';
 const login = async (req: Request<LoginFields>, res: Response<AuthDto>) => {
   try {
     const { name, password } = req.body;
+    if (!name) {
+      return res.status(400).send('User name not specified');
+    }
+    if (!password) {
+      return res.status(400).send('User password not specified');
+    }
 
     const user = await UserRepo.getUserByName(name);
     if (!user) {
