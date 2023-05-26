@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ThreadDto } from '@shared/types';
 
@@ -7,9 +7,9 @@ import { ThreadService } from 'services';
 
 export const useUserThreads = (
   userId: string | undefined,
-  effect: (threads: ThreadDto[]) => void,
   ...dependencies: any[]
-): void => {
+): ThreadDto[] => {
+  const [threads, setThreads] = useState<ThreadDto[]>([]);
   useEffect(() => {
     if (!userId) {
       return;
@@ -18,10 +18,12 @@ export const useUserThreads = (
     try {
       (async () => {
         const userThreads = await ThreadService.getUserThreads(userId);
-        effect(userThreads);
+        setThreads(userThreads);
       })();
     } catch (error) {
       console.log(error);
     }
   }, [userId, ...dependencies]);
+
+  return threads;
 };

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ThreadCommentDto } from '@shared/types';
 
@@ -7,9 +7,10 @@ import { ThreadCommentService } from 'services';
 
 export const useUserComments = (
   userId: string | undefined,
-  effect: (comments: ThreadCommentDto[]) => void,
   ...dependencies: any[]
-): void => {
+): ThreadCommentDto[] => {
+  const [comments, setComments] = useState<ThreadCommentDto[]>([]);
+
   useEffect(() => {
     if (!userId) {
       return;
@@ -18,10 +19,12 @@ export const useUserComments = (
     try {
       (async () => {
         const userComments = await ThreadCommentService.getUserComments(userId);
-        effect(userComments);
+        setComments(userComments);
       })();
     } catch (error) {
       console.log(error);
     }
   }, [userId, ...dependencies]);
+
+  return comments;
 };

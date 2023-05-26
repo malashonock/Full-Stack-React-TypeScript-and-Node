@@ -15,14 +15,8 @@ import './UserProfilePage.scss';
 
 export const UserProfilePage = () => {
   const { userId } = useParams();
-
-  const [userThreads, setUserThreads] = useState<ThreadDto[]>([]);
-  const [userComments, setUserComments] = useState<ThreadCommentDto[]>([]);
-
-  useUserThreads(userId, (threads: ThreadDto[]) => setUserThreads(threads));
-  useUserComments(userId, (comments: ThreadCommentDto[]) =>
-    setUserComments(comments),
-  );
+  const userThreads = useUserThreads(userId);
+  const userComments = useUserComments(userId);
 
   return (
     <div className="user-profile">
