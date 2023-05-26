@@ -16,16 +16,9 @@ import { useThread, useThreadComments } from 'hooks';
 import './ThreadPage.scss';
 
 export const ThreadPage = () => {
-  const [thread, setThread] = useState<ThreadDto | undefined>();
-  const [threadComments, setThreadComments] = useState<
-    ThreadCommentDto[] | undefined
-  >();
   const { threadId } = useParams();
-
-  useThread(threadId, (thread: ThreadDto) => setThread(thread));
-  useThreadComments(threadId, (comments: ThreadCommentDto[]) =>
-    setThreadComments(comments),
-  );
+  const thread = useThread(threadId);
+  const threadComments = useThreadComments(threadId);
 
   return (
     <div className="thread">
@@ -45,6 +38,7 @@ export const ThreadPage = () => {
         <div className="thread__metrics">
           {thread ? (
             <ThreadMetricsBar
+              threadId={threadId || ''}
               pointsSum={thread.pointsSum}
               commentsCount={thread.commentsCount}
             />

@@ -2,7 +2,11 @@ import { Link } from 'react-router-dom';
 
 import { ThreadDto } from '@shared/types';
 
-import { PointsCounter, CommentsCount, ViewsCount } from 'common/components';
+import {
+  CommentsCount,
+  ViewsCount,
+  ThreadPointsCounter,
+} from 'common/components';
 import { forMobile } from 'common/hocs';
 import { ThreadMetricsBar } from 'common/components';
 
@@ -12,7 +16,7 @@ interface ThreadCardProps {
   thread: ThreadDto;
 }
 
-const PointsSumMobile = forMobile(PointsCounter);
+const PointsCounterMobile = forMobile(ThreadPointsCounter);
 const CommentsCountMobile = forMobile(CommentsCount);
 
 export const ThreadCard = ({ thread }: ThreadCardProps) => {
@@ -31,11 +35,12 @@ export const ThreadCard = ({ thread }: ThreadCardProps) => {
         </Link>
         <footer className="thread-card__footer">
           <ViewsCount count={thread.viewsCount} />
-          <PointsSumMobile count={thread.pointsSum} />
+          <PointsCounterMobile threadId={thread.id} />
           <CommentsCountMobile count={thread.commentsCount} />
         </footer>
       </div>
       <ThreadMetricsBar
+        threadId={thread.id}
         pointsSum={thread.pointsSum}
         commentsCount={thread.commentsCount}
       />

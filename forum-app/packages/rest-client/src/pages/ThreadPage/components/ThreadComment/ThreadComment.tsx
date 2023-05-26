@@ -1,10 +1,12 @@
-import { PointsCounter } from 'common/components';
+import { ThreadCommentPointsCounter } from 'common/components';
 import { UserNameAndTime } from '..';
 import { RichTextEditor } from 'features/editor';
 
 import './ThreadComment.scss';
 
 interface ThreadCommentProps {
+  threadId: string;
+  commentId: string;
   body?: string;
   userName?: string;
   lastModifiedOn?: Date;
@@ -12,16 +14,17 @@ interface ThreadCommentProps {
 }
 
 export const ThreadComment = ({
+  threadId,
+  commentId,
   body,
   userName,
   lastModifiedOn,
-  pointsSum,
 }: ThreadCommentProps) => {
   return (
     <div className="thread-comment">
       <div className="thread-comment__header">
         <UserNameAndTime userName={userName} lastModifiedOn={lastModifiedOn} />
-        <PointsCounter count={pointsSum || 0} />
+        <ThreadCommentPointsCounter threadId={threadId} commentId={commentId} />
       </div>
       <div className="thread-comment__editor">
         <RichTextEditor existingBody={body} />

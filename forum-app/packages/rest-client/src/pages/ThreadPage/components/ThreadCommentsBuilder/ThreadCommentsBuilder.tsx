@@ -29,6 +29,8 @@ export const ThreadCommentsBuilder = ({
             (comment: ThreadCommentDto): JSX.Element => (
               <li key={comment.id}>
                 <ThreadComment
+                  threadId={comment.threadId}
+                  commentId={comment.id}
                   body={comment.body}
                   userName={comment.author.name}
                   lastModifiedOn={new Date(comment.createdOn)}
