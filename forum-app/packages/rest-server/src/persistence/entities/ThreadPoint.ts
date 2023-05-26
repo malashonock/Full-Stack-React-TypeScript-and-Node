@@ -5,11 +5,11 @@ import {
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
+import { ThreadPointDto, VoteType } from '@shared/types';
 
 import { Thread } from './Thread';
 import { User } from './User';
 import { Auditable } from './Auditable';
-import { VoteType } from './VoteType';
 
 @Entity({ name: 'ThreadPoints' })
 export class ThreadPoint extends Auditable {
@@ -35,4 +35,14 @@ export class ThreadPoint extends Auditable {
     nullable: false,
   })
   type: VoteType;
+
+  toJSON(): ThreadPointDto {
+    return {
+      id: this.id,
+      userId: this.userId,
+      threadId: this.threadId,
+      type: this.type,
+      ...super.toJSON(),
+    };
+  }
 }
