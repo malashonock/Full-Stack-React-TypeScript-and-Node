@@ -10,8 +10,12 @@ const handleResponse = async <TResBody>(
   response: Response,
 ): Promise<TResBody> => {
   if (response.status >= 300) {
+    const errorMessage = response.body
+      ? await response.text()
+      : response.statusText;
     throw new Error(
-      `Server responded with status ${response.status}: ${response.statusText}`,
+      `Server responded with status ${response.status}: ${response.statusText}` +
+        (errorMessage ? '\n' + errorMessage : ''),
     );
   }
 
