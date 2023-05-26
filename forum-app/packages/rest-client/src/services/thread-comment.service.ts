@@ -1,4 +1,8 @@
-import { ThreadCommentDto, ThreadCommentFields } from '@shared/types';
+import {
+  ThreadCommentDto,
+  ThreadCommentFields,
+  ThreadCommentPointDto,
+} from '@shared/types';
 
 import { FetchService, MutationMethod } from 'common/utils';
 
@@ -12,10 +16,10 @@ const getThreadComments = async (
 };
 
 const getUserComments = async (userId: string): Promise<ThreadCommentDto[]> => {
-  const userThreads = await FetchService.runQuery<ThreadCommentDto[]>(
+  const userComments = await FetchService.runQuery<ThreadCommentDto[]>(
     `/users/${userId}/comments`,
   );
-  return userThreads;
+  return userComments;
 };
 
 const getCommentById = async (
@@ -77,6 +81,20 @@ const downvoteComment = async (
   );
 };
 
+const getUserCommentVote = async (
+  userId: string,
+  commentId: string,
+): Promise<ThreadCommentPointDto | null> => {
+  try {
+    const userCommentVote = await FetchService.runQuery<ThreadCommentPointDto>(
+      `/users/${userId}/comments/${commentId}/vote`,
+    );
+    return userCommentVote;
+  } catch (error) {
+    return null;
+  }
+};
+
 export const ThreadCommentService = {
   getThreadComments,
   getUserComments,
@@ -85,4 +103,5 @@ export const ThreadCommentService = {
   updateComment,
   upvoteComment,
   downvoteComment,
+  getUserCommentVote,
 };

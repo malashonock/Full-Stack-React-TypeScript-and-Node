@@ -1,8 +1,14 @@
 import { useCallback } from 'react';
 
-import { useForceUpdate, useThreadComment } from 'hooks';
+import {
+  useAppSelector,
+  useForceUpdate,
+  useThreadComment,
+  useUserCommentVote,
+} from 'hooks';
 import { ThreadCommentService } from 'services';
 import { PointsCounterBase } from '../PointsCounterBase';
+import { selectLoggedUser } from 'store/slices/auth.slice';
 
 interface ThreadCommentPointsCounter {
   threadId: string;
@@ -13,8 +19,17 @@ export const ThreadCommentPointsCounter = ({
   threadId,
   commentId,
 }: ThreadCommentPointsCounter) => {
+  const loggedUser = useAppSelector(selectLoggedUser);
   const { updateCounter, forceUpdate } = useForceUpdate();
   const comment = useThreadComment(threadId, commentId, updateCounter);
+  const userCommentVote = useUserCommentVote(
+    loggedUser?.id,
+    commentId,
+    updateCounter,
+  );
+
+  const isAuthenticated = Boolean(loggedUser);
+  const isOwn = Boolean(loggedUser && comment?.author.id === loggedUser?.id);
 
   const handleUpvote = useCallback(async () => {
     try {
@@ -37,6 +52,9 @@ export const ThreadCommentPointsCounter = ({
   return (
     <PointsCounterBase
       count={comment?.pointsSum || 0}
+      isAuthenticated={isAuthenticated}
+      isOwn={isOwn}
+      currentVote={userCommentVote?.type ?? null}
       onUpvote={handleUpvote}
       onDownvote={handleDownvote}
     />

@@ -1,4 +1,4 @@
-import { ThreadDto, ThreadFields } from '@shared/types';
+import { ThreadDto, ThreadFields, ThreadPointDto } from '@shared/types';
 
 import { FetchService, MutationMethod } from 'common/utils';
 
@@ -67,6 +67,20 @@ const downvoteThread = async (id: string): Promise<void> => {
   );
 };
 
+const getUserThreadVote = async (
+  userId: string,
+  threadId: string,
+): Promise<ThreadPointDto | null> => {
+  try {
+    const userThreadVote = await FetchService.runQuery<ThreadPointDto>(
+      `/users/${userId}/threads/${threadId}/vote`,
+    );
+    return userThreadVote;
+  } catch (error) {
+    return null;
+  }
+};
+
 export const ThreadService = {
   getCategoryThreads,
   getUserThreads,
@@ -76,4 +90,5 @@ export const ThreadService = {
   updateThread,
   upvoteThread,
   downvoteThread,
+  getUserThreadVote,
 };

@@ -9,5 +9,9 @@
   &__btn {
     border: none;
     background-color: transparent;
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
   }
 }

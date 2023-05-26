@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
@@ -6,17 +7,39 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import cn from 'classnames';
 
+import { VoteType } from '@shared/types';
+
 import './PointsCounterBase.scss';
-import { memo } from 'react';
 
 type PointsCounterBaseProps = {
   count: number;
+  isAuthenticated: boolean;
+  isOwn: boolean;
+  currentVote: VoteType | null;
   onUpvote: () => void;
   onDownvote: () => void;
 };
 
 export const PointsCounterBase = memo(
-  ({ count, onUpvote, onDownvote }: PointsCounterBaseProps) => {
+  ({
+    count,
+    isAuthenticated,
+    isOwn,
+    currentVote,
+    onUpvote,
+    onDownvote,
+  }: PointsCounterBaseProps) => {
+    const canUpvote = Boolean(
+      isAuthenticated &&
+        !isOwn &&
+        (!currentVote || currentVote === VoteType.Upvote),
+    );
+    const canDownvote = Boolean(
+      isAuthenticated &&
+        !isOwn &&
+        (!currentVote || currentVote === VoteType.Downvote),
+    );
+
     const handleUpvote = (): void => {
       onUpvote();
     };
@@ -30,6 +53,7 @@ export const PointsCounterBase = memo(
         <button
           className={cn('points-counter__btn', 'points-counter__btn--upvote')}
           onClick={handleUpvote}
+          disabled={!canUpvote}
         >
           <FontAwesomeIcon icon={faChevronUp} />
         </button>
@@ -37,6 +61,7 @@ export const PointsCounterBase = memo(
         <button
           className={cn('points-counter__btn', 'points-counter__btn--downvote')}
           onClick={handleDownvote}
+          disabled={!canDownvote}
         >
           <FontAwesomeIcon icon={faChevronDown} />
         </button>
