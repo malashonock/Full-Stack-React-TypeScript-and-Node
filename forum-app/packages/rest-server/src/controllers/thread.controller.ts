@@ -1,8 +1,8 @@
-import { ThreadFields } from '@shared/types';
+import { ThreadFields, VoteType } from '@shared/types';
 
 import ThreadRepository from '../repo/Thread.repo';
 import ThreadPointRepository from '../repo/ThreadPoint.repo';
-import { Thread, ThreadPoint, VoteType } from '../persistence/entities';
+import { Thread, ThreadPoint } from '../persistence/entities';
 import { Request, Response } from '../types';
 
 const getAllThreads = async (req: Request, res: Response<Thread[]>) => {
@@ -18,7 +18,7 @@ const getThread = async (req: Request, res: Response<Thread | null>) => {
   try {
     const { threadId } = req.params;
     if (!threadId) {
-      return res.send(404).send('Thread not found');
+      return res.status(404).send('Thread not found');
     }
 
     const thread = await ThreadRepository.getThreadById(threadId);
@@ -84,7 +84,7 @@ const getCategoryThreads = async (req: Request, res: Response<Thread[]>) => {
   try {
     const { categoryId } = req.params;
     if (!categoryId) {
-      return res.send(404).send('Thread category not found');
+      return res.status(404).send('Thread category not found');
     }
 
     const categoryThreads = await ThreadRepository.getAllThreadsByCategoryId(
@@ -100,7 +100,7 @@ const getUserThreads = async (req: Request, res: Response<Thread[]>) => {
   try {
     const { userId } = req.params;
     if (!userId) {
-      return res.send(404).send('User not found');
+      return res.status(404).send('User not found');
     }
 
     const userThreads = await ThreadRepository.getAllThreadsByAuthorId(userId);
@@ -203,6 +203,33 @@ const toggleDownvoteThread = async (
   }
 };
 
+const getUserThreadVote = async (
+  req: Request,
+  res: Response<ThreadPoint | null>,
+) => {
+  try {
+    const { userId } = req.session;
+    if (!userId) {
+      return res.status(404).send('User not found');
+    }
+
+    const { threadId } = req.params;
+    if (!threadId) {
+      return res.status(404).send('Thread not found');
+    }
+
+    const userThreadVote =
+      await ThreadPointRepository.getPointByUserAndThreadId(userId, threadId);
+    if (!userThreadVote) {
+      return res.status(404).send("User hasn't voted for this thread yet");
+    }
+
+    res.json(userThreadVote);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
 export default {
   getAllThreads,
   getThread,
@@ -214,4 +241,5 @@ export default {
   viewThread,
   toggleUpvoteThread,
   toggleDownvoteThread,
+  getUserThreadVote,
 };

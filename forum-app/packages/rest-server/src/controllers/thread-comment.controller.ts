@@ -1,10 +1,9 @@
-import { RequestHandler } from 'express';
+import { ThreadCommentFields, VoteType } from '@shared/types';
 
 import ThreadCommentRepository from '../repo/ThreadComment.repo';
-import { ThreadComment, VoteType } from '../persistence/entities';
+import { ThreadComment, ThreadCommentPoint } from '../persistence/entities';
 import ThreadCommentPointRepository from '../repo/ThreadCommentPoint.repo';
 import { Request, Response } from '../types';
-import { ThreadCommentFields } from '@shared/types';
 
 const getComment = async (
   req: Request,
@@ -13,7 +12,7 @@ const getComment = async (
   try {
     const { commentId } = req.params;
     if (!commentId) {
-      return res.send(404).send('Thread comment not found');
+      return res.status(404).send('Thread comment not found');
     }
 
     const comment = await ThreadCommentRepository.getCommentById(commentId);
@@ -36,7 +35,7 @@ const createComment = async (
 
     const { threadId } = req.params;
     if (!threadId) {
-      return res.send(404).send('Thread not found');
+      return res.status(404).send('Thread not found');
     }
 
     const createdComment = await ThreadCommentRepository.createComment(
@@ -58,7 +57,7 @@ const updateComment = async (
   try {
     const { commentId } = req.params;
     if (!commentId) {
-      return res.send(404).send('Thread comment not found');
+      return res.status(404).send('Thread comment not found');
     }
 
     const { body } = req.body;
@@ -90,7 +89,7 @@ const getThreadComments = async (
   try {
     const { threadId } = req.params;
     if (!threadId) {
-      return res.send(404).send('Thread not found');
+      return res.status(404).send('Thread not found');
     }
 
     const threadComments =
@@ -109,7 +108,7 @@ const getUserComments = async (
   try {
     const { userId } = req.session;
     if (!userId) {
-      return res.send(404).send('User not found');
+      return res.status(404).send('User not found');
     }
 
     const userComments = await ThreadCommentRepository.getAllCommentsByAuthorId(
@@ -126,7 +125,7 @@ const viewComment = async (req: Request, res: Response<ThreadComment>) => {
   try {
     const { commentId } = req.params;
     if (!commentId) {
-      return res.send(404).send('Thread comment not found');
+      return res.status(404).send('Thread comment not found');
     }
 
     const viewedComment = await ThreadCommentRepository.viewComment(commentId);
@@ -140,7 +139,11 @@ const viewComment = async (req: Request, res: Response<ThreadComment>) => {
     res.status(500).send((error as Error).message);
   }
 };
-const toggleUpvoteComment: RequestHandler = async (req, res) => {
+
+const toggleUpvoteComment = async (
+  req: Request,
+  res: Response<ThreadCommentPoint>,
+) => {
   try {
     const { userId } = req.session;
     if (!userId) {
@@ -168,7 +171,10 @@ const toggleUpvoteComment: RequestHandler = async (req, res) => {
   }
 };
 
-const toggleDownvoteComment: RequestHandler = async (req, res) => {
+const toggleDownvoteComment = async (
+  req: Request,
+  res: Response<ThreadCommentPoint>,
+) => {
   try {
     const { userId } = req.session;
     if (!userId) {
@@ -196,6 +202,36 @@ const toggleDownvoteComment: RequestHandler = async (req, res) => {
   }
 };
 
+const getUserCommentVote = async (
+  req: Request,
+  res: Response<ThreadCommentPoint | null>,
+) => {
+  try {
+    const { userId } = req.session;
+    if (!userId) {
+      return res.status(404).send('User not found');
+    }
+
+    const { commentId } = req.params;
+    if (!commentId) {
+      return res.status(404).send('Thread not found');
+    }
+
+    const userCommentVote =
+      await ThreadCommentPointRepository.getPointByUserAndThreadId(
+        userId,
+        commentId,
+      );
+    if (!userCommentVote) {
+      return res.status(404).send("User hasn't voted for this comment yet");
+    }
+
+    res.json(userCommentVote);
+  } catch (error) {
+    res.status(500).send((error as Error).message);
+  }
+};
+
 export default {
   getComment,
   createComment,
@@ -205,4 +241,5 @@ export default {
   viewComment,
   toggleUpvoteComment,
   toggleDownvoteComment,
+  getUserCommentVote,
 };
