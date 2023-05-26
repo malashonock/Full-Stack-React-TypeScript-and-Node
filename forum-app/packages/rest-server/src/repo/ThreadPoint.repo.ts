@@ -1,7 +1,8 @@
 import { EntityManager } from 'typeorm';
+import { VoteType } from '@shared/types';
 
 import dataSource from '../persistence/dataSource';
-import { VoteType, ThreadPoint } from '../persistence/entities';
+import { ThreadPoint } from '../persistence/entities';
 import UserRepository from './User.repo';
 import ThreadRepository from './Thread.repo';
 

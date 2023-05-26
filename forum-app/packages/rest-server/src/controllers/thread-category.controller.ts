@@ -23,7 +23,7 @@ const getCategory = async (
   try {
     const { categoryId } = req.params;
     if (!categoryId) {
-      return res.send(404).send('Thread category not found');
+      return res.status(404).send('Thread category not found');
     }
 
     const category = await ThreadCategoryRepository.getCategoryById(categoryId);
