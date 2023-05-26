@@ -51,6 +51,22 @@ const updateThread = async (
   return updatedThread;
 };
 
+const upvoteThread = async (id: string): Promise<void> => {
+  await FetchService.runMutation<{}, void>(
+    `/threads/${id}/upvote`,
+    MutationMethod.POST,
+    {},
+  );
+};
+
+const downvoteThread = async (id: string): Promise<void> => {
+  await FetchService.runMutation<{}, void>(
+    `/threads/${id}/downvote`,
+    MutationMethod.POST,
+    {},
+  );
+};
+
 export const ThreadService = {
   getCategoryThreads,
   getUserThreads,
@@ -58,4 +74,6 @@ export const ThreadService = {
   getThreadById,
   createThread,
   updateThread,
+  upvoteThread,
+  downvoteThread,
 };

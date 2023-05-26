@@ -55,10 +55,34 @@ const updateComment = async (
   return updatedComment;
 };
 
+const upvoteComment = async (
+  threadId: string,
+  commentId: string,
+): Promise<void> => {
+  await FetchService.runMutation<{}, void>(
+    `/threads/${threadId}/comments/${commentId}/upvote`,
+    MutationMethod.POST,
+    {},
+  );
+};
+
+const downvoteComment = async (
+  threadId: string,
+  commentId: string,
+): Promise<void> => {
+  await FetchService.runMutation<{}, void>(
+    `/threads/${threadId}/comments/${commentId}/downvote`,
+    MutationMethod.POST,
+    {},
+  );
+};
+
 export const ThreadCommentService = {
   getThreadComments,
   getUserComments,
   getCommentById,
   createComment,
   updateComment,
+  upvoteComment,
+  downvoteComment,
 };
