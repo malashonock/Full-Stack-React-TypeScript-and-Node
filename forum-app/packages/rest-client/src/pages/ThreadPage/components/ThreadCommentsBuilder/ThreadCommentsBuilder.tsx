@@ -1,3 +1,5 @@
+import { RefObject } from 'react';
+
 import { ThreadCommentDto } from '@shared/types';
 
 import { ThreadComment } from '..';
@@ -6,6 +8,7 @@ import './ThreadCommentsBuilder.scss';
 
 interface ThreadResponsesBuilderProps {
   comments?: ThreadCommentDto[];
+  threadTreeLoadedRef?: RefObject<boolean>;
 }
 
 const sortCommentsByDate = (
@@ -19,6 +22,7 @@ const sortCommentsByDate = (
 
 export const ThreadCommentsBuilder = ({
   comments,
+  threadTreeLoadedRef,
 }: ThreadResponsesBuilderProps) => {
   return (
     <div className="thread-comments">
@@ -35,6 +39,7 @@ export const ThreadCommentsBuilder = ({
                   userName={comment.author.name}
                   lastModifiedOn={new Date(comment.createdOn)}
                   pointsSum={comment.pointsSum}
+                  threadTreeLoadedRef={threadTreeLoadedRef}
                 />
               </li>
             ),
