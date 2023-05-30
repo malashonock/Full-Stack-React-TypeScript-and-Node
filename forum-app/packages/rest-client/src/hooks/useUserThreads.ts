@@ -1,29 +1,32 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 import { ThreadDto } from '@shared/types';
 
 import { ThreadService } from 'services';
+import { useLoader } from 'hooks';
+
+interface UseUserThreadsResult {
+  userThreads: ThreadDto[];
+  areUserThreadsLoading: boolean;
+}
 
 export const useUserThreads = (
   userId: string | undefined,
   ...dependencies: any[]
-): ThreadDto[] => {
-  const [threads, setThreads] = useState<ThreadDto[]>([]);
-  useEffect(() => {
-    if (!userId) {
-      return;
-    }
+): UseUserThreadsResult => {
+  const { data, isLoading } = useLoader({
+    loader: useCallback(
+      async (userId: string): Promise<ThreadDto[]> =>
+        await ThreadService.getUserThreads(userId),
+      [],
+    ),
+    loaderArgs: [userId],
+    initialValue: [],
+    dependencies,
+  });
 
-    try {
-      (async () => {
-        const userThreads = await ThreadService.getUserThreads(userId);
-        setThreads(userThreads);
-      })();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [userId, ...dependencies]);
-
-  return threads;
+  return {
+    userThreads: data,
+    areUserThreadsLoading: isLoading,
+  };
 };

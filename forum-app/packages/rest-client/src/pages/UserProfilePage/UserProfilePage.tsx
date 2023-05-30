@@ -12,7 +12,7 @@ import './UserProfilePage.scss';
 
 export const UserProfilePage = () => {
   const { userId } = useParams();
-  const userThreads = useUserThreads(userId);
+  const { userThreads } = useUserThreads(userId);
   const { userComments } = useUserComments(userId);
 
   return (
