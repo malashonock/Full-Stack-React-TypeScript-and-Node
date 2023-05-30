@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ThreadDto } from '@shared/types';
@@ -10,11 +9,8 @@ import './Main.scss';
 
 export const Main = () => {
   const { categoryId } = useParams();
-  const [categoryThreads, setCategoryThreads] = useState<ThreadDto[]>([]);
   const { category: activeCategory } = useCategory(categoryId);
-  useCategoryThreads(categoryId, (threads: ThreadDto[]) =>
-    setCategoryThreads(threads),
-  );
+  const { categoryThreads } = useCategoryThreads(categoryId);
 
   return (
     <main className="content">
