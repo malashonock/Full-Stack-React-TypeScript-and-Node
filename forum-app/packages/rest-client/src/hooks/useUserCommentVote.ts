@@ -1,34 +1,36 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 import { ThreadCommentPointDto } from '@shared/types';
 
 import { ThreadCommentService } from 'services';
+import { useLoader } from 'hooks';
+
+interface UseUserCommentVoteResult {
+  vote: ThreadCommentPointDto | null;
+  isVoteLoading: boolean;
+}
 
 export const useUserCommentVote = (
   userId: string | undefined,
   commentId: string,
   ...dependencies: any[]
-): ThreadCommentPointDto | null => {
-  const [vote, setVote] = useState<ThreadCommentPointDto | null>(null);
+): UseUserCommentVoteResult => {
+  const { data, isLoading } = useLoader({
+    loader: useCallback(
+      async (
+        userId: string,
+        commentId: string,
+      ): Promise<ThreadCommentPointDto | null> =>
+        await ThreadCommentService.getUserCommentVote(userId, commentId),
+      [],
+    ),
+    loaderArgs: [userId, commentId],
+    initialValue: null,
+    dependencies,
+  });
 
-  useEffect(() => {
-    if (!userId) {
-      return;
-    }
-
-    try {
-      (async () => {
-        const userCommentVote = await ThreadCommentService.getUserCommentVote(
-          userId,
-          commentId,
-        );
-        setVote(userCommentVote);
-      })();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [userId, commentId, ...dependencies]);
-
-  return vote;
+  return {
+    vote: data,
+    isVoteLoading: isLoading,
+  };
 };
