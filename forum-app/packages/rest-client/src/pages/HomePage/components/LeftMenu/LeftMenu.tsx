@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import cn from 'classnames';
 
@@ -9,12 +8,8 @@ import { useCategories, useWindowDimensions } from 'hooks';
 import './LeftMenu.scss';
 
 export const LeftMenu = () => {
-  const [categories, setCategories] = useState<ThreadCategoryDto[] | null>(
-    null,
-  );
+  const { categories } = useCategories();
   const { width } = useWindowDimensions();
-
-  useCategories((categories: ThreadCategoryDto[]) => setCategories(categories));
 
   if (width <= 768) {
     return null;

@@ -1,22 +1,29 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 import { ThreadCategoryDto } from '@shared/types';
 
 import { ThreadCategoryService } from 'services';
+import { useLoader } from 'hooks';
 
-export const useCategories = (
-  effect: (categories: ThreadCategoryDto[]) => void,
-  ...dependencies: any[]
-): void => {
-  useEffect(() => {
-    try {
-      (async () => {
-        const categories = await ThreadCategoryService.getAllCategories();
-        effect(categories);
-      })();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [...dependencies]);
+interface UseCategoriesResult {
+  categories: ThreadCategoryDto[];
+  areCategoriesLoading: boolean;
+}
+
+export const useCategories = (...dependencies: any[]): UseCategoriesResult => {
+  const { data, isLoading } = useLoader({
+    loader: useCallback(
+      async (): Promise<ThreadCategoryDto[]> =>
+        await ThreadCategoryService.getAllCategories(),
+      [],
+    ),
+    loaderArgs: [],
+    initialValue: [],
+    dependencies,
+  });
+
+  return {
+    categories: data,
+    areCategoriesLoading: isLoading,
+  };
 };
