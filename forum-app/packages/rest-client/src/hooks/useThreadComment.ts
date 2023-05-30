@@ -1,36 +1,36 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 import { ThreadCommentDto } from '@shared/types';
 
 import { ThreadCommentService } from 'services';
+import { useLoader } from 'hooks';
+
+interface UseThreadCommentResult {
+  comment: ThreadCommentDto | null;
+  isCommentLoading: boolean;
+}
 
 export const useThreadComment = (
   threadId: string | undefined,
   commentId: string | undefined,
   ...dependencies: any[]
-): ThreadCommentDto | null => {
-  const [comment, setComment] = useState<ThreadCommentDto | null>(null);
+): UseThreadCommentResult => {
+  const { data, isLoading } = useLoader({
+    loader: useCallback(
+      async (
+        threadId: string,
+        commentId: string,
+      ): Promise<ThreadCommentDto | null> =>
+        await ThreadCommentService.getCommentById(threadId, commentId),
+      [],
+    ),
+    loaderArgs: [threadId, commentId],
+    initialValue: null,
+    dependencies,
+  });
 
-  useEffect(() => {
-    try {
-      if (!threadId || !commentId) {
-        return;
-      }
-
-      if (threadId) {
-        (async () => {
-          const fetchedComment = await ThreadCommentService.getCommentById(
-            threadId,
-            commentId,
-          );
-          setComment(fetchedComment);
-        })();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [...dependencies]);
-
-  return comment;
+  return {
+    comment: data,
+    isCommentLoading: isLoading,
+  };
 };

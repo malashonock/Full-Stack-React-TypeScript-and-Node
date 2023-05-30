@@ -21,7 +21,7 @@ export const ThreadCommentPointsCounter = ({
 }: ThreadCommentPointsCounter) => {
   const loggedUser = useAppSelector(selectLoggedUser);
   const { updateCounter, forceUpdate } = useForceUpdate();
-  const comment = useThreadComment(threadId, commentId, updateCounter);
+  const { comment } = useThreadComment(threadId, commentId, updateCounter);
   const userCommentVote = useUserCommentVote(
     loggedUser?.id,
     commentId,
