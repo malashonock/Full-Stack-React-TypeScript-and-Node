@@ -27,13 +27,13 @@ export const useLoader = <TResult, TArgs extends any[]>({
       (async () => {
         const fetchedData = await loader.apply(null, loaderArgs as TArgs);
         setData(fetchedData);
+        setIsLoading(false);
       })();
     } catch (error) {
       console.log(error);
-    } finally {
       setIsLoading(false);
     }
-  }, [...loaderArgs, ...(dependencies ?? [])]);
+  }, [loader, ...loaderArgs, ...(dependencies ?? [])]);
 
   return {
     data,
