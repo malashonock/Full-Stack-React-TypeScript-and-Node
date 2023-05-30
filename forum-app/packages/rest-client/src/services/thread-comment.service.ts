@@ -95,6 +95,11 @@ const getUserCommentVote = async (
   }
 };
 
+const viewComment = async (commentId: string): Promise<void> => {
+  // TODO
+  console.log(`Comment ${commentId} viewed`);
+};
+
 export const ThreadCommentService = {
   getThreadComments,
   getUserComments,
@@ -104,4 +109,5 @@ export const ThreadCommentService = {
   upvoteComment,
   downvoteComment,
   getUserCommentVote,
+  viewComment,
 };

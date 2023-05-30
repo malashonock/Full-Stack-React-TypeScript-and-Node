@@ -81,6 +81,11 @@ const getUserThreadVote = async (
   }
 };
 
+const viewThread = async (threadId: string): Promise<void> => {
+  // TODO
+  console.log(`Thread ${threadId} viewed`);
+};
+
 export const ThreadService = {
   getCategoryThreads,
   getUserThreads,
@@ -91,4 +96,5 @@ export const ThreadService = {
   upvoteThread,
   downvoteThread,
   getUserThreadVote,
+  viewThread,
 };
