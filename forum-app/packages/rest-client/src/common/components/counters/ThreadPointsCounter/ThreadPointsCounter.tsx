@@ -10,14 +10,14 @@ import { ThreadService } from 'services';
 import { PointsCounterBase } from '../PointsCounterBase';
 import { selectLoggedUser } from 'store/slices/auth.slice';
 
-interface ThreadPointsCounter {
+interface ThreadPointsCounterProps {
   threadId: string;
 }
 
-export const ThreadPointsCounter = ({ threadId }: ThreadPointsCounter) => {
+export const ThreadPointsCounter = ({ threadId }: ThreadPointsCounterProps) => {
   const loggedUser = useAppSelector(selectLoggedUser);
   const { updateCounter, forceUpdate } = useForceUpdate();
-  const thread = useThread(threadId, updateCounter);
+  const { thread } = useThread(threadId, updateCounter);
   const userThreadVote = useUserThreadVote(
     loggedUser?.id,
     threadId,

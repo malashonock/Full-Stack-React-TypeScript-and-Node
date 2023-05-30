@@ -1,32 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
-
 import { ThreadDto } from '@shared/types';
 
 import { ThreadService } from 'services';
+import { useLoader } from 'hooks';
+
+interface UseThreadResult {
+  thread: ThreadDto | null;
+  isThreadLoading: boolean;
+}
 
 export const useThread = (
   threadId: string | undefined,
   ...dependencies: any[]
-): ThreadDto | null => {
-  const [thread, setThread] = useState<ThreadDto | null>(null);
+): UseThreadResult => {
+  const { data, isLoading } = useLoader({
+    loader: async (threadId: string): Promise<ThreadDto | null> =>
+      await ThreadService.getThreadById(threadId),
+    loaderArgs: [threadId],
+    initialValue: null,
+    dependencies,
+  });
 
-  useEffect(() => {
-    try {
-      if (!threadId) {
-        return;
-      }
-
-      if (threadId) {
-        (async () => {
-          const fetchedThread = await ThreadService.getThreadById(threadId);
-          setThread(fetchedThread);
-        })();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [...dependencies]);
-
-  return thread;
+  return {
+    thread: data,
+    isThreadLoading: isLoading,
+  };
 };
