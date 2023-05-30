@@ -1,34 +1,36 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 import { ThreadPointDto } from '@shared/types';
 
 import { ThreadService } from 'services';
+import { useLoader } from 'hooks';
+
+interface UseUserThreadVoteResult {
+  vote: ThreadPointDto | null;
+  isVoteLoading: boolean;
+}
 
 export const useUserThreadVote = (
   userId: string | undefined,
   threadId: string,
   ...dependencies: any[]
-): ThreadPointDto | null => {
-  const [vote, setVote] = useState<ThreadPointDto | null>(null);
+): UseUserThreadVoteResult => {
+  const { data, isLoading } = useLoader({
+    loader: useCallback(
+      async (
+        userId: string,
+        threadId: string,
+      ): Promise<ThreadPointDto | null> =>
+        await ThreadService.getUserThreadVote(userId, threadId),
+      [],
+    ),
+    loaderArgs: [userId, threadId],
+    initialValue: null,
+    dependencies,
+  });
 
-  useEffect(() => {
-    if (!userId) {
-      return;
-    }
-
-    try {
-      (async () => {
-        const userThreadVote = await ThreadService.getUserThreadVote(
-          userId,
-          threadId,
-        );
-        setVote(userThreadVote);
-      })();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [userId, threadId, ...dependencies]);
-
-  return vote;
+  return {
+    vote: data,
+    isVoteLoading: isLoading,
+  };
 };
