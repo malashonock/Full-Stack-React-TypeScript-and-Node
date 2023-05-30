@@ -31,8 +31,8 @@ export const ThreadComment = ({
   useOnViewEffect(
     commentRef,
     async () => {
-      if (commentId) {
-        await ThreadCommentService.viewComment(commentId);
+      if (threadId && commentId) {
+        await ThreadCommentService.viewComment(threadId, commentId);
       }
     },
     !threadTreeLoadedRef?.current,

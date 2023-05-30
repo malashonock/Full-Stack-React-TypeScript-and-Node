@@ -82,8 +82,11 @@ const getUserThreadVote = async (
 };
 
 const viewThread = async (threadId: string): Promise<void> => {
-  // TODO
-  console.log(`Thread ${threadId} viewed`);
+  await FetchService.runMutation<{}, void>(
+    `/threads/${threadId}/view`,
+    MutationMethod.POST,
+    {},
+  );
 };
 
 export const ThreadService = {

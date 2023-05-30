@@ -95,9 +95,15 @@ const getUserCommentVote = async (
   }
 };
 
-const viewComment = async (commentId: string): Promise<void> => {
-  // TODO
-  console.log(`Comment ${commentId} viewed`);
+const viewComment = async (
+  threadId: string,
+  commentId: string,
+): Promise<void> => {
+  await FetchService.runMutation<{}, void>(
+    `/threads/${threadId}/comments/${commentId}/view`,
+    MutationMethod.POST,
+    {},
+  );
 };
 
 export const ThreadCommentService = {
