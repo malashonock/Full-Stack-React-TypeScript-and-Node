@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { ThreadCategoryDto, ThreadDto } from '@shared/types';
+import { ThreadDto } from '@shared/types';
 
 import { ThreadCard } from '..';
 import { useCategory, useCategoryThreads } from 'hooks';
@@ -10,15 +10,8 @@ import './Main.scss';
 
 export const Main = () => {
   const { categoryId } = useParams();
-
-  const [activeCategory, setActiveCategory] = useState<
-    ThreadCategoryDto | undefined
-  >();
   const [categoryThreads, setCategoryThreads] = useState<ThreadDto[]>([]);
-
-  useCategory(categoryId, (category: ThreadCategoryDto) =>
-    setActiveCategory(category),
-  );
+  const { category: activeCategory } = useCategory(categoryId);
   useCategoryThreads(categoryId, (threads: ThreadDto[]) =>
     setCategoryThreads(threads),
   );
