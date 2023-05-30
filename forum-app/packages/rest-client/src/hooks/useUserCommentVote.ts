@@ -6,8 +6,8 @@ import { ThreadCommentService } from 'services';
 import { useLoader } from 'hooks';
 
 interface UseUserCommentVoteResult {
-  vote: ThreadCommentPointDto | null;
-  isVoteLoading: boolean;
+  userCommentVote: ThreadCommentPointDto | null;
+  isUserCommentVoteLoading: boolean;
 }
 
 export const useUserCommentVote = (
@@ -30,7 +30,7 @@ export const useUserCommentVote = (
   });
 
   return {
-    vote: data,
-    isVoteLoading: isLoading,
+    userCommentVote: data,
+    isUserCommentVoteLoading: isLoading,
   };
 };

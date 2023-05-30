@@ -18,7 +18,7 @@ export const ThreadPointsCounter = ({ threadId }: ThreadPointsCounterProps) => {
   const loggedUser = useAppSelector(selectLoggedUser);
   const { updateCounter, forceUpdate } = useForceUpdate();
   const { thread } = useThread(threadId, updateCounter);
-  const { vote: userThreadVote } = useUserThreadVote(
+  const { userThreadVote } = useUserThreadVote(
     loggedUser?.id,
     threadId,
     updateCounter,

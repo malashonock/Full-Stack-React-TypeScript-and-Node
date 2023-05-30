@@ -22,7 +22,7 @@ export const ThreadCommentPointsCounter = ({
   const loggedUser = useAppSelector(selectLoggedUser);
   const { updateCounter, forceUpdate } = useForceUpdate();
   const { comment } = useThreadComment(threadId, commentId, updateCounter);
-  const { vote: userCommentVote } = useUserCommentVote(
+  const { userCommentVote } = useUserCommentVote(
     loggedUser?.id,
     commentId,
     updateCounter,

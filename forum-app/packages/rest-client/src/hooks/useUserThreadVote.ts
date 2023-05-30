@@ -6,8 +6,8 @@ import { ThreadService } from 'services';
 import { useLoader } from 'hooks';
 
 interface UseUserThreadVoteResult {
-  vote: ThreadPointDto | null;
-  isVoteLoading: boolean;
+  userThreadVote: ThreadPointDto | null;
+  isUserThreadVoteLoading: boolean;
 }
 
 export const useUserThreadVote = (
@@ -30,7 +30,7 @@ export const useUserThreadVote = (
   });
 
   return {
-    vote: data,
-    isVoteLoading: isLoading,
+    userThreadVote: data,
+    isUserThreadVoteLoading: isLoading,
   };
 };
