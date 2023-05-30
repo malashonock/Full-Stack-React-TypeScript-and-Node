@@ -1,30 +1,32 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 import { ThreadCommentDto } from '@shared/types';
 
 import { ThreadCommentService } from 'services';
+import { useLoader } from 'hooks';
+
+interface UseUserCommentsResult {
+  userComments: ThreadCommentDto[];
+  areUserCommentsLoading: boolean;
+}
 
 export const useUserComments = (
   userId: string | undefined,
   ...dependencies: any[]
-): ThreadCommentDto[] => {
-  const [comments, setComments] = useState<ThreadCommentDto[]>([]);
+): UseUserCommentsResult => {
+  const { data, isLoading } = useLoader({
+    loader: useCallback(
+      async (userId: string): Promise<ThreadCommentDto[]> =>
+        await ThreadCommentService.getUserComments(userId),
+      [],
+    ),
+    loaderArgs: [userId],
+    initialValue: [],
+    dependencies,
+  });
 
-  useEffect(() => {
-    if (!userId) {
-      return;
-    }
-
-    try {
-      (async () => {
-        const userComments = await ThreadCommentService.getUserComments(userId);
-        setComments(userComments);
-      })();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [userId, ...dependencies]);
-
-  return comments;
+  return {
+    userComments: data,
+    areUserCommentsLoading: isLoading,
+  };
 };
