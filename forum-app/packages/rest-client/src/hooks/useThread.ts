@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { ThreadDto } from '@shared/types';
 
 import { ThreadService } from 'services';
@@ -13,8 +15,11 @@ export const useThread = (
   ...dependencies: any[]
 ): UseThreadResult => {
   const { data, isLoading } = useLoader({
-    loader: async (threadId: string): Promise<ThreadDto | null> =>
-      await ThreadService.getThreadById(threadId),
+    loader: useCallback(
+      async (threadId: string): Promise<ThreadDto | null> =>
+        await ThreadService.getThreadById(threadId),
+      [],
+    ),
     loaderArgs: [threadId],
     initialValue: null,
     dependencies,

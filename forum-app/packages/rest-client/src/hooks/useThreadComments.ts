@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { ThreadCommentDto } from '@shared/types';
 
 import { ThreadCommentService } from 'services';
@@ -13,8 +15,11 @@ export const useThreadComments = (
   ...dependencies: any[]
 ): UseThreadCommentsResult => {
   const { data, isLoading } = useLoader({
-    loader: async (threadId: string): Promise<ThreadCommentDto[]> =>
-      await ThreadCommentService.getThreadComments(threadId),
+    loader: useCallback(
+      async (threadId: string): Promise<ThreadCommentDto[]> =>
+        await ThreadCommentService.getThreadComments(threadId),
+      [],
+    ),
     loaderArgs: [threadId],
     initialValue: [],
     dependencies,
